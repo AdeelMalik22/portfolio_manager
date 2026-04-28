@@ -4,77 +4,247 @@
 
 {% block extra_css %}
 <style>
-    .card {
+    /* ============================================
+       DASHBOARD - Modern Card Layout
+       ============================================ */
+    .welcome-card {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: #fff;
+        padding: var(--space-2xl);
+        border-radius: var(--radius-xl);
+        margin-bottom: var(--space-xl);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .welcome-card h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        margin-bottom: var(--space-md);
+        font-weight: 700;
+    }
+
+    .welcome-card p {
+        font-size: 1.05rem;
+        opacity: 0.95;
+    }
+
+    /* ============================================
+       PORTFOLIO CARD - Status & Info
+       ============================================ */
+    .portfolio-card {
         background: #fff;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        margin-bottom: 1.5rem;
+        padding: var(--space-2xl);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--neutral-200);
     }
 
-    .card h2 {
-        margin-bottom: 0.75rem;
+    .portfolio-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-lg);
+        flex-wrap: wrap;
+        gap: var(--space-md);
     }
 
-    .status-pill {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
+    .portfolio-header h2 {
+        font-size: 1.5rem;
+        color: var(--neutral-900);
+        margin: 0;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: var(--space-sm) var(--space-md);
         border-radius: 999px;
-        font-size: 0.85rem;
-        background: #e9ecef;
+        font-size: 0.875rem;
+        font-weight: 600;
+        gap: var(--space-sm);
     }
 
     .status-live {
-        background: #d4edda;
-        color: #155724;
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+    }
+
+    .status-live::before {
+        content: '●';
+        display: inline-block;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
     }
 
     .status-draft {
-        background: #fff3cd;
-        color: #856404;
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
     }
 
-    .meta-grid {
+    /* ============================================
+       INFO GRID - Portfolio Details
+       ============================================ */
+    .info-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--space-xl);
+        margin: var(--space-xl) 0;
+    }
+
+    .info-item {
+        background: var(--neutral-50);
+        padding: var(--space-lg);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--neutral-200);
+    }
+
+    .info-item-label {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--neutral-600);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--space-sm);
+    }
+
+    .info-item-value {
+        color: var(--neutral-900);
+        font-size: 1.1rem;
+        font-weight: 600;
+        word-break: break-all;
+    }
+
+    .info-item-value a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+    }
+
+    .info-item-value a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+    }
+
+    /* ============================================
+       ACTION SECTION
+       ============================================ */
+    .action-section {
+        margin-top: var(--space-xl);
+        padding-top: var(--space-xl);
+        border-top: 1px solid var(--neutral-200);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: var(--space-md);
+        flex-wrap: wrap;
+    }
+
+    /* ============================================
+       EMPTY STATE - No Portfolio
+       ============================================ */
+    .empty-state {
+        text-align: center;
+        padding: var(--space-2xl);
+        color: var(--neutral-600);
+    }
+
+    .empty-state-icon {
+        font-size: 3rem;
+        margin-bottom: var(--space-md);
+    }
+
+    /* ============================================
+       RESPONSIVE DESIGN
+       ============================================ */
+    @media (max-width: 640px) {
+        .welcome-card {
+            padding: var(--space-xl);
+        }
+
+        .portfolio-card {
+            padding: var(--space-lg);
+        }
+
+        .portfolio-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .info-grid {
+            gap: var(--space-md);
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .action-buttons .btn {
+            width: 100%;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="card">
-    <h2>Welcome, {{ request.user.username }}</h2>
-    <p>Manage your public portfolio and keep it updated.</p>
+<!-- Welcome Card -->
+<div class="welcome-card">
+    <h2>Welcome, {{ request.user.username }}! 👋</h2>
+    <p>Manage your public portfolio and keep it updated. Your portfolio is your professional identity online.</p>
 </div>
 
-<div class="card">
-    <h2>Your Portfolio</h2>
-    <p>
-        Status:
+<!-- Portfolio Details Card -->
+<div class="portfolio-card">
+    <div class="portfolio-header">
+        <h2>Your Portfolio</h2>
         {% if portfolio.is_published %}
-            <span class="status-pill status-live">Published</span>
+            <span class="status-badge status-live">Live & Published</span>
         {% else %}
-            <span class="status-pill status-draft">Draft</span>
+            <span class="status-badge status-draft">Draft</span>
         {% endif %}
-    </p>
-    <div class="meta-grid">
-        <div>
-            <strong>Public URL</strong><br>
-            <a href="{{ portfolio.public_url }}" target="_blank">{{ portfolio.public_url }}</a>
+    </div>
+
+    <!-- Portfolio Info Grid -->
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="info-item-label">📱 Public URL</div>
+            <div class="info-item-value">
+                <a href="{{ portfolio.public_url }}" target="_blank" rel="noopener noreferrer">
+                    {{ portfolio.public_url }}
+                </a>
+            </div>
         </div>
-        <div>
-            <strong>Views</strong><br>
-            {{ portfolio.view_count }}
+        <div class="info-item">
+            <div class="info-item-label">👁️ Total Views</div>
+            <div class="info-item-value">{{ portfolio.view_count }}</div>
         </div>
-        <div>
-            <strong>Template</strong><br>
-            {% if portfolio.template %}{{ portfolio.template.name }}{% else %}Not set{% endif %}
+        <div class="info-item">
+            <div class="info-item-label">🎨 Template</div>
+            <div class="info-item-value">
+                {% if portfolio.template %}
+                    {{ portfolio.template.name }}
+                {% else %}
+                    Not set
+                {% endif %}
+            </div>
         </div>
     </div>
-    <div style="margin-top: 1.5rem;">
-        <a class="btn" href="{% url 'portfolio:dashboard_edit' %}">Edit Portfolio</a>
+
+    <!-- Action Section -->
+    <div class="action-section">
+        <div class="action-buttons">
+            <a class="btn btn-lg" href="{% url 'portfolio:dashboard_edit' %}">
+                ✏️ Edit Portfolio
+            </a>
+            {% if portfolio.public_url %}
+                <a class="btn btn-lg btn-outline" href="{{ portfolio.public_url }}" target="_blank">
+                    👁️ View Live
+                </a>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

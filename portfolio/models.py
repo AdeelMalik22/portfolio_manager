@@ -12,6 +12,7 @@ class PortfolioTemplate(models.Model):
         ('developer', 'Developer-Focused'),
         ('creative', 'Creative/Designer'),
         ('corporate', 'Corporate/Professional'),
+        ('latest', 'Latest'),
     ]
 
     name = models.CharField(max_length=100, unique=True)

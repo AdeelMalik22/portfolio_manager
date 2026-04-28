@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ full_name }} - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-dark: #1a1a1a;
+            --gray-light: #f5f5f5;
+            --gray-medium: #808080;
+            --border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: var(--white);
+            color: var(--gray-dark);
+            line-height: 1.8;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Crimson Text', serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--black);
+            text-decoration: underline;
+            transition: opacity 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        /* HEADER */
+        header {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-text h1 {
+            margin: 0;
+        }
+
+        .header-text .title {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray-medium);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        /* MAIN CONTENT */
+        main {
+            padding-bottom: 4rem;
+        }
+
+        /* SECTIONS */
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title::first-letter {
+            font-size: 3rem;
+        }
+
+        /* ABOUT */
+        .about-text {
+            max-width: 700px;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* SKILLS */
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 700px;
+        }
+
+        .skill {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .skill h3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .skill p {
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            margin: 0;
+        }
+
+        /* PROJECTS */
+        .projects-list {
+            max-width: 700px;
+        }
+
+        .project {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project:last-child {
+            border-bottom: none;
+        }
+
+        .project h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .project-meta {
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-description {
+            margin-bottom: 1rem;
+            max-width: 600px;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .project-link {
+            font-size: 0.9rem;
+        }
+
+        /* EXPERIENCE & EDUCATION */
+        .items-list {
+            max-width: 700px;
+        }
+
+        .item {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .item h3 {
+            margin: 0;
+        }
+
+        .item-period {
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            flex-shrink: 0;
+        }
+
+        .item-company {
+            font-size: 0.95rem;
+            color: var(--gray-medium);
+            margin-bottom: 0.75rem;
+        }
+
+        .item-description {
+            max-width: 600px;
+        }
+
+        /* CONTACT SECTION */
+        .contact-section {
+            max-width: 700px;
+            padding: 2rem;
+            background: var(--gray-light);
+            border: 1px solid var(--border);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-item {
+            font-size: 0.95rem;
+        }
+
+        .contact-label {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .contact-item a {
+            color: var(--black);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray-medium);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--black);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            header {
+                padding: 2rem 0;
+                margin-bottom: 2rem;
+            }
+
+            header .container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .header-text h1 {
+                font-size: 2rem;
+            }
+
+            .profile-img {
+                margin-top: 1.5rem;
+            }
+
+            .section {
+                margin-bottom: 2.5rem;
+            }
+
+            .skills-list {
+                grid-template-columns: 1fr;
+            }
+
+            .item-header {
+                flex-direction: column;
+            }
+
+            .item-period {
+                order: -1;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body {
+                font-size: 11pt;
+                line-height: 1.5;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .profile-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            a {
+                text-decoration: none;
+                color: var(--black);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-text">
+                <p class="title">{{ title }}</p>
+                <h1>{{ full_name }}</h1>
+            </div>
+            {% if profile_image_base64 %}
+                <img src="{{ profile_image_base64 }}" alt="{{ full_name }}" class="profile-img">
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- About Section -->
+        {% if bio %}
+        <section class="section">
+            <h2 class="section-title">About</h2>
+            <div class="about-text">
+                <p>{{ bio }}</p>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Contact Section -->
+        {% if email or phone or location or github or linkedin %}
+        <section class="section">
+            <div class="contact-section">
+                <div class="contact-info">
+                    {% if email %}
+                    <div class="contact-item">
+                        <span class="contact-label">Email</span>
+                        <a href="mailto:{{ email }}">{{ email }}</a>
+                    </div>
+                    {% endif %}
+                    {% if phone %}
+                    <div class="contact-item">
+                        <span class="contact-label">Phone</span>
+                        <a href="tel:{{ phone }}">{{ phone }}</a>
+                    </div>
+                    {% endif %}
+                    {% if location %}
+                    <div class="contact-item">
+                        <span class="contact-label">Location</span>
+                        <p style="margin: 0;">{{ location }}</p>
+                    </div>
+                    {% endif %}
+                    {% if github %}
+                    <div class="contact-item">
+                        <span class="contact-label">GitHub</span>
+                        <a href="{{ github }}" target="_blank">Profile</a>
+                    </div>
+                    {% endif %}
+                    {% if linkedin %}
+                    <div class="contact-item">
+                        <span class="contact-label">LinkedIn</span>
+                        <a href="{{ linkedin }}" target="_blank">Profile</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Skills Section -->
+        {% if skills %}
+        <section class="section">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-list">
+                {% for skill in skills %}
+                <div class="skill">
+                    <h3>{{ skill }}</h3>
+                    <p>Proficient in multiple aspects and applications</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Projects Section -->
+        {% if projects %}
+        <section class="section">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-list">
+                {% for project in projects %}
+                <div class="project">
+                    <h3>{{ project.title }}</h3>
+                    <div class="project-meta">
+                        {% if project.tech_stack %}
+                        <strong>Tech:</strong> {{ project.tech_stack }}
+                        {% endif %}
+                    </div>
+                    <p class="project-description">{{ project.description }}</p>
+                    <div class="project-links">
+                        {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> Source Code
+                        </a>
+                        {% endif %}
+                        {% if project.live_link %}
+                        <a href="{{ project.live_link }}" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Experience Section -->
+        {% if experience %}
+        <section class="section">
+            <h2 class="section-title">Experience</h2>
+            <div class="items-list">
+                {% for exp in experience %}
+                <div class="item">
+                    <div class="item-header">
+                        <h3>{{ exp.role }}</h3>
+                        <span class="item-period">{{ exp.duration }}</span>
+                    </div>
+                    <p class="item-company">{{ exp.company }}</p>
+                    <p class="item-description">{{ exp.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Education Section -->
+        {% if education %}
+        <section class="section">
+            <h2 class="section-title">Education</h2>
+            <div class="items-list">
+                {% for edu in education %}
+                <div class="item">
+                    <div class="item-header">
+                        <h3>{{ edu.degree }} in {{ edu.field }}</h3>
+                        <span class="item-period">{{ edu.year }}</span>
+                    </div>
+                    <p class="item-company">{{ edu.school }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="container">
+        <p>&copy; 2026 {{ full_name }}. All rights reserved.</p>
+    </footer>
+</body>
+</html>

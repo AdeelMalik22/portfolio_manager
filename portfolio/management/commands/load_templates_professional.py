@@ -192,6 +192,52 @@ class Command(BaseCommand):
                 'template_file': 'portfolio_templates/template_20_corporate_modern_serif.html',
                 'order': 20,
             },
+            # LATEST (5)
+            {
+                'name': 'Bold Dark Neon',
+                'slug': 'latest-bold-dark-neon',
+                'description': 'High-contrast neon design with cyberpunk energy and bold typography.',
+                'category': 'latest',
+                'color_scheme': 'neon-dark',
+                'template_file': 'portfolio_templates/template_bold_dark_neon.html',
+                'order': 21,
+            },
+            {
+                'name': 'Creative Vibrant',
+                'slug': 'latest-creative-vibrant',
+                'description': 'Vibrant color blocks with playful layout and strong visual hierarchy.',
+                'category': 'latest',
+                'color_scheme': 'vibrant',
+                'template_file': 'portfolio_templates/template_creative_vibrant.html',
+                'order': 22,
+            },
+            {
+                'name': 'Elegant Classic',
+                'slug': 'latest-elegant-classic',
+                'description': 'Timeless editorial layout with refined typography and calm spacing.',
+                'category': 'latest',
+                'color_scheme': 'classic',
+                'template_file': 'portfolio_templates/template_elegant_classic.html',
+                'order': 23,
+            },
+            {
+                'name': 'Minimalist Mono',
+                'slug': 'latest-minimalist-mono',
+                'description': 'Monochrome, minimal design focused on clarity and balance.',
+                'category': 'latest',
+                'color_scheme': 'mono',
+                'template_file': 'portfolio_templates/template_minimalist_mono.html',
+                'order': 24,
+            },
+            {
+                'name': 'Tech Glassmorphism',
+                'slug': 'latest-tech-glassmorphism',
+                'description': 'Frosted glass panels with a modern tech-forward aesthetic.',
+                'category': 'latest',
+                'color_scheme': 'glass',
+                'template_file': 'portfolio_templates/template_tech_glassmorphism.html',
+                'order': 25,
+            },
         ]
 
         for template_data in templates:

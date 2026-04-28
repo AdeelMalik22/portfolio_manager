@@ -1,3 +1,4 @@
+{% load portfolio_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -426,7 +427,7 @@
                         <p>{{ project.description }}</p>
                         {% if project.tech_stack %}
                         <div class="tech-stack">
-                            {% for tech in project.tech_stack.split(',') %}
+                            {% for tech in project.tech_stack|split_csv %}
                             <span class="tech-tag">{{ tech|trim }}</span>
                             {% endfor %}
                         </div>

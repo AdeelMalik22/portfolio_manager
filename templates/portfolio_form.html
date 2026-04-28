@@ -4,41 +4,73 @@
 
 {% block extra_css %}
 <style>
+    /* ============================================
+       FORM CONTAINER - Modern Form Layout
+       ============================================ */
     .form-container {
         background: #fff;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding: var(--space-2xl);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-md);
         max-width: 700px;
         margin: 0 auto;
+        border: 1px solid var(--neutral-200);
     }
 
+    .form-header {
+        margin-bottom: var(--space-xl);
+    }
+
+    .form-header h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        color: var(--neutral-900);
+        margin-bottom: var(--space-md);
+        font-weight: 700;
+    }
+
+    .form-header p {
+        color: var(--neutral-600);
+        font-size: 1rem;
+    }
+
+    /* ============================================
+       FORM SECTIONS - Step-by-Step Structure
+       ============================================ */
     .form-section {
-        margin-bottom: 2rem;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid #eee;
+        margin-bottom: var(--space-xl);
+        padding-bottom: var(--space-xl);
+        border-bottom: 1px solid var(--neutral-200);
     }
 
     .form-section:last-child {
         border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
 
     .section-title {
-        font-size: 1.3em;
-        color: #667eea;
-        margin-bottom: 1.5rem;
-        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--primary);
+        margin-bottom: var(--space-lg);
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
     }
 
+    /* ============================================
+       FORM GROUPS & FIELDS
+       ============================================ */
     .form-group {
-        margin-bottom: 1.5rem;
+        margin-bottom: var(--space-lg);
     }
 
     label {
         display: block;
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--space-sm);
         font-weight: 600;
-        color: #333;
+        color: var(--neutral-800);
+        font-size: 0.95rem;
     }
 
     input[type="text"],
@@ -48,12 +80,13 @@
     textarea,
     select {
         width: 100%;
-        padding: 0.75rem;
-        border: 2px solid #ddd;
-        border-radius: 5px;
+        padding: var(--space-md);
+        border: 2px solid var(--neutral-300);
+        border-radius: var(--radius-lg);
         font-size: 1rem;
         font-family: inherit;
-        transition: border-color 0.3s ease;
+        transition: all var(--transition-base);
+        background-color: var(--neutral-50);
     }
 
     input[type="text"]:focus,
@@ -63,109 +96,188 @@
     textarea:focus,
     select:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: var(--primary);
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
     }
 
     textarea {
         resize: vertical;
-        min-height: 100px;
+        min-height: 120px;
     }
 
     .help-text {
-        font-size: 0.85em;
-        color: #666;
-        margin-top: 0.25rem;
+        font-size: 0.8rem;
+        color: var(--neutral-600);
+        margin-top: var(--space-sm);
+        font-weight: 500;
     }
 
+    /* ============================================
+       FORM ROW - Two Column Layout
+       ============================================ */
     .form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
+        gap: var(--space-lg);
     }
 
+    /* ============================================
+       ARRAY INPUT GROUPS - Dynamic Fields
+       ============================================ */
     .array-input-group {
-        background: #f9f9f9;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+        padding: var(--space-lg);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-lg);
+        border: 1px solid var(--neutral-200);
     }
 
     .array-input-item {
         display: grid;
         grid-template-columns: 1fr auto;
-        gap: 0.5rem;
-        margin-bottom: 0.5rem;
+        gap: var(--space-md);
+        margin-bottom: var(--space-md);
+        align-items: flex-end;
+    }
+
+    .array-input-item:last-child {
+        margin-bottom: 0;
     }
 
     .array-input-item input {
         margin-bottom: 0;
     }
 
+    /* ============================================
+       BUTTONS - Action Buttons
+       ============================================ */
     .btn-remove {
-        padding: 0.5rem 1rem;
-        background: #dc3545;
+        padding: var(--space-md) var(--space-lg);
+        background: var(--error);
         color: #fff;
         border: none;
-        border-radius: 4px;
+        border-radius: var(--radius-lg);
         cursor: pointer;
-        font-size: 0.9em;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all var(--transition-base);
+        white-space: nowrap;
     }
 
     .btn-remove:hover {
-        background: #c82333;
+        background: #dc2626;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
     }
 
     .btn-add {
-        padding: 0.5rem 1rem;
-        background: #28a745;
+        padding: var(--space-sm) var(--space-lg);
+        background: var(--success);
         color: #fff;
         border: none;
-        border-radius: 4px;
+        border-radius: var(--radius-lg);
         cursor: pointer;
-        font-size: 0.9em;
-        margin-top: 0.5rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-top: var(--space-md);
+        transition: all var(--transition-base);
+        width: 100%;
     }
 
     .btn-add:hover {
-        background: #218838;
+        background: #059669;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
     }
 
+    /* ============================================
+       FORM ACTIONS - Submit & Reset
+       ============================================ */
     .form-actions {
         display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
+        gap: var(--space-md);
+        margin-top: var(--space-2xl);
+        padding-top: var(--space-xl);
+        border-top: 1px solid var(--neutral-200);
     }
 
     .form-actions .btn {
         flex: 1;
-        padding: 1rem;
-        font-size: 1.1em;
+        padding: var(--space-md) var(--space-lg);
+        font-size: 1rem;
+        font-weight: 600;
     }
 
+    /* ============================================
+       FILE INPUT - Custom Styling
+       ============================================ */
     input[type="file"] {
-        padding: 0.5rem;
+        padding: var(--space-sm);
+        border: 2px dashed var(--primary);
+        background-color: rgba(99, 102, 241, 0.05);
+        cursor: pointer;
     }
 
-    .template-select {
-        display: none;
+    input[type="file"]:focus {
+        border-color: var(--primary);
     }
 
+    /* ============================================
+       TEMPLATE PREVIEW - Status Message
+       ============================================ */
     .template-preview {
-        background: #f0f0f0;
-        padding: 1rem;
-        border-radius: 5px;
-        margin-top: 0.5rem;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+        padding: var(--space-lg);
+        border-radius: var(--radius-lg);
+        margin-top: var(--space-md);
         text-align: center;
+        border: 1px solid rgba(99, 102, 241, 0.2);
     }
 
+    .template-preview a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color var(--transition-fast);
+    }
+
+    .template-preview a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+    }
+
+    /* ============================================
+       RESPONSIVE DESIGN
+       ============================================ */
     @media (max-width: 768px) {
         .form-row {
             grid-template-columns: 1fr;
         }
 
         .form-container {
-            padding: 1rem;
+            padding: var(--space-lg);
+        }
+
+        .array-input-item {
+            grid-template-columns: 1fr;
+            gap: var(--space-sm);
+        }
+
+        .array-input-item input {
+            margin-bottom: var(--space-sm);
+        }
+
+        .btn-remove {
+            width: 100%;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .form-actions .btn {
+            width: 100%;
         }
     }
 </style>
@@ -173,13 +285,15 @@
 
 {% block content %}
 <div class="form-container">
-    <h2>Build Your Portfolio</h2>
-    <p style="color: #666; margin-bottom: 2rem;">Fill in your information and generate your professional portfolio</p>
+    <div class="form-header">
+        <h2>🚀 Build Your Portfolio</h2>
+        <p>Fill in your information and generate your professional portfolio</p>
+    </div>
 
     <form id="portfolioForm">
         {% csrf_token %}
 
-        <!-- Basic Information -->
+        <!-- Basic Information Section -->
         <div class="form-section">
             <h3 class="section-title">👤 Basic Information</h3>
 
@@ -192,7 +306,7 @@
                     {% endfor %}
                 </select>
                 <div id="templatePreview" class="template-preview" style="display:none;">
-                    <a id="previewLink" href="#" target="_blank">Preview Template</a>
+                    <a id="previewLink" href="#" target="_blank">👁️ Preview This Template</a>
                 </div>
             </div>
 
@@ -209,8 +323,8 @@
 
             <div class="form-group">
                 <label for="bio">Bio / About Me *</label>
-                <textarea id="bio" name="bio" required placeholder="Tell us about yourself..."></textarea>
-                <div class="help-text">Min 20 characters</div>
+                <textarea id="bio" name="bio" required placeholder="Tell us about yourself, your experience, and what makes you unique..."></textarea>
+                <div class="help-text">✓ Minimum 20 characters</div>
             </div>
 
             <div class="form-row">
@@ -237,9 +351,9 @@
             </div>
         </div>
 
-        <!-- Social Links -->
+        <!-- Social Links Section -->
         <div class="form-section">
-            <h3 class="section-title">🔗 Social Links</h3>
+            <h3 class="section-title">🔗 Social & Web Links</h3>
 
             <div class="form-group">
                 <label for="github">GitHub (Optional)</label>
@@ -257,12 +371,12 @@
             </div>
 
             <div class="form-group">
-                <label for="twitter">Twitter (Optional)</label>
+                <label for="twitter">Twitter / X (Optional)</label>
                 <input type="url" id="twitter" name="twitter" placeholder="https://twitter.com/username">
             </div>
         </div>
 
-        <!-- Skills -->
+        <!-- Skills Section -->
         <div class="form-section">
             <h3 class="section-title">💡 Skills</h3>
             <div class="array-input-group" id="skillsContainer">
@@ -279,31 +393,31 @@
             <button type="button" class="btn-add" onclick="addSkill()">+ Add Skill</button>
         </div>
 
-        <!-- Projects -->
+        <!-- Projects Section -->
         <div class="form-section">
             <h3 class="section-title">🚀 Projects (Optional)</h3>
             <div id="projectsContainer"></div>
             <button type="button" class="btn-add" onclick="addProject()">+ Add Project</button>
         </div>
 
-        <!-- Experience -->
+        <!-- Experience Section -->
         <div class="form-section">
             <h3 class="section-title">💼 Experience (Optional)</h3>
             <div id="experienceContainer"></div>
             <button type="button" class="btn-add" onclick="addExperience()">+ Add Experience</button>
         </div>
 
-        <!-- Education -->
+        <!-- Education Section -->
         <div class="form-section">
             <h3 class="section-title">🎓 Education (Optional)</h3>
             <div id="educationContainer"></div>
             <button type="button" class="btn-add" onclick="addEducation()">+ Add Education</button>
         </div>
 
-        <!-- Actions -->
+        <!-- Form Actions -->
         <div class="form-actions">
-            <button type="reset" class="btn btn-secondary">Clear</button>
-            <button type="submit" class="btn">Generate Portfolio</button>
+            <button type="reset" class="btn btn-secondary">✕ Clear</button>
+            <button type="submit" class="btn btn-lg">🎉 Generate Portfolio</button>
         </div>
     </form>
 </div>
@@ -342,11 +456,11 @@
         div.className = 'array-input-group';
         div.innerHTML = `
             <input type="text" class="project-title" placeholder="Project Title" required>
-            <textarea class="project-desc" placeholder="Project Description" style="width:100%; margin-top:0.5rem; margin-bottom:0;"></textarea>
-            <input type="text" class="project-tech" placeholder="Tech Stack (e.g., Django, React)" style="margin-top:0.5rem; margin-bottom:0;">
-            <input type="url" class="project-github" placeholder="GitHub Link (optional)" style="margin-top:0.5rem; margin-bottom:0;">
-            <input type="url" class="project-live" placeholder="Live Demo Link (optional)" style="margin-top:0.5rem; margin-bottom:0;">
-            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:0.5rem;">Remove</button>
+            <textarea class="project-desc" placeholder="Project Description" style="margin-top:var(--space-md); margin-bottom:0; width:100%;"></textarea>
+            <input type="text" class="project-tech" placeholder="Tech Stack (e.g., Django, React)" style="margin-top:var(--space-md); margin-bottom:0;">
+            <input type="url" class="project-github" placeholder="GitHub Link (optional)" style="margin-top:var(--space-md); margin-bottom:0;">
+            <input type="url" class="project-live" placeholder="Live Demo Link (optional)" style="margin-top:var(--space-md); margin-bottom:0;">
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-md);">Remove</button>
         `;
         container.appendChild(div);
     }
@@ -358,10 +472,10 @@
         div.className = 'array-input-group';
         div.innerHTML = `
             <input type="text" class="exp-company" placeholder="Company Name" required>
-            <input type="text" class="exp-role" placeholder="Job Title" style="margin-top:0.5rem; margin-bottom:0;">
-            <input type="text" class="exp-duration" placeholder="Duration (e.g., Jan 2020 - Dec 2021)" style="margin-top:0.5rem; margin-bottom:0;">
-            <textarea class="exp-desc" placeholder="Job Description" style="margin-top:0.5rem; margin-bottom:0;"></textarea>
-            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:0.5rem;">Remove</button>
+            <input type="text" class="exp-role" placeholder="Job Title" style="margin-top:var(--space-md); margin-bottom:0;">
+            <input type="text" class="exp-duration" placeholder="Duration (e.g., Jan 2020 - Dec 2021)" style="margin-top:var(--space-md); margin-bottom:0;">
+            <textarea class="exp-desc" placeholder="Job Description" style="margin-top:var(--space-md); margin-bottom:0;"></textarea>
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-md);">Remove</button>
         `;
         container.appendChild(div);
     }
@@ -373,10 +487,10 @@
         div.className = 'array-input-group';
         div.innerHTML = `
             <input type="text" class="edu-school" placeholder="School/University" required>
-            <input type="text" class="edu-degree" placeholder="Degree" style="margin-top:0.5rem; margin-bottom:0;">
-            <input type="text" class="edu-field" placeholder="Field of Study" style="margin-top:0.5rem; margin-bottom:0;">
-            <input type="text" class="edu-year" placeholder="Graduation Year" style="margin-top:0.5rem; margin-bottom:0;">
-            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:0.5rem;">Remove</button>
+            <input type="text" class="edu-degree" placeholder="Degree" style="margin-top:var(--space-md); margin-bottom:0;">
+            <input type="text" class="edu-field" placeholder="Field of Study" style="margin-top:var(--space-md); margin-bottom:0;">
+            <input type="text" class="edu-year" placeholder="Graduation Year" style="margin-top:var(--space-md); margin-bottom:0;">
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-md);">Remove</button>
         `;
         container.appendChild(div);
     }
@@ -433,7 +547,7 @@
             .filter(val => val.length > 0);
         formData.append('skills', JSON.stringify(skills));
 
-        // Projects - fix selector to only get from projectsContainer
+        // Projects
         const projects = Array.from(document.getElementById('projectsContainer').querySelectorAll('.array-input-group')).map((group, idx) => {
             const titleInput = group.querySelector('.project-title');
             if (!titleInput || !titleInput.value.trim()) return null;

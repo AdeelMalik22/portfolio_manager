@@ -60,6 +60,7 @@ class PortfolioViewSet(viewsets.ModelViewSet):
     search_fields = ['full_name', 'email', 'title']
     ordering_fields = ['created_at', 'full_name']
     ordering = ['-created_at']
+    permission_classes = [AllowAny]  # Allow unauthenticated portfolio creation
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
