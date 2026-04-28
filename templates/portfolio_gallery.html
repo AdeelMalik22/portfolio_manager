@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}Portfolio Templates - Choose Your Design{% endblock %}
+
+{% block extra_css %}
+<style>
+    .templates-intro {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .templates-intro h2 {
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+
+    .category-filter {
+        margin-bottom: 2rem;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .category-btn {
+        padding: 0.5rem 1rem;
+        border: 2px solid #ddd;
+        background: #fff;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+        border-color: #667eea;
+        background-color: #667eea;
+        color: #fff;
+    }
+
+    .templates-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .template-card {
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .template-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+
+    .template-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 2rem;
+        text-align: center;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .template-header h3 {
+        font-size: 1.3em;
+        margin-bottom: 0.5rem;
+    }
+
+    .template-category {
+        font-size: 0.85em;
+        opacity: 0.9;
+        background-color: rgba(255,255,255,0.2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        display: inline-block;
+        margin-top: 0.5rem;
+    }
+
+    .template-body {
+        padding: 1.5rem;
+    }
+
+    .template-body p {
+        color: #666;
+        font-size: 0.95em;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+    }
+
+    .template-actions {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .template-actions a {
+        flex: 1;
+        padding: 0.75rem;
+        text-align: center;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .preview-btn {
+        background-color: #f0f0f0;
+        color: #333;
+        border: 2px solid #667eea;
+    }
+
+    .preview-btn:hover {
+        background-color: #667eea;
+        color: #fff;
+    }
+
+    .select-btn {
+        background-color: #667eea;
+        color: #fff;
+    }
+
+    .select-btn:hover {
+        background-color: #764ba2;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="templates-intro">
+    <h2>Choose Your Portfolio Template</h2>
+    <p>Select from our collection of 20 professionally designed portfolio templates. Each template is fully responsive and comes with modern styling.</p>
+</div>
+
+<div class="category-filter">
+    <button class="category-btn active" data-category="all">All Templates (20)</button>
+    <button class="category-btn" data-category="minimalist">Minimalist (2)</button>
+    <button class="category-btn" data-category="developer">Developer (5)</button>
+    <button class="category-btn" data-category="creative">Creative (7)</button>
+    <button class="category-btn" data-category="corporate">Corporate (6)</button>
+</div>
+
+<div class="templates-grid" id="templates-grid">
+    {% for template in templates %}
+    <div class="template-card" data-category="{{ template.category }}">
+        <div class="template-header">
+            <h3>{{ template.name }}</h3>
+            <span class="template-category">{{ template.get_category_display }}</span>
+        </div>
+        <div class="template-body">
+            <p>{{ template.description }}</p>
+            <div class="template-actions">
+                <a href="{% url 'portfolio:template_preview' template.id %}" class="preview-btn" target="_blank">Preview</a>
+                <a href="/form/?template={{ template.id }}" class="select-btn">Select</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            // Filter cards
+            const category = this.dataset.category;
+            document.querySelectorAll('.template-card').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+

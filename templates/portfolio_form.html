@@ -1,0 +1,505 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Your Portfolio - Portfolio Builder{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .form-section:last-child {
+        border-bottom: none;
+    }
+
+    .section-title {
+        font-size: 1.3em;
+        color: #667eea;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="url"]:focus,
+    textarea:focus,
+    select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .help-text {
+        font-size: 0.85em;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .array-input-group {
+        background: #f9f9f9;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .array-input-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .array-input-item input {
+        margin-bottom: 0;
+    }
+
+    .btn-remove {
+        padding: 0.5rem 1rem;
+        background: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+    }
+
+    .btn-remove:hover {
+        background: #c82333;
+    }
+
+    .btn-add {
+        padding: 0.5rem 1rem;
+        background: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+        margin-top: 0.5rem;
+    }
+
+    .btn-add:hover {
+        background: #218838;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .form-actions .btn {
+        flex: 1;
+        padding: 1rem;
+        font-size: 1.1em;
+    }
+
+    input[type="file"] {
+        padding: 0.5rem;
+    }
+
+    .template-select {
+        display: none;
+    }
+
+    .template-preview {
+        background: #f0f0f0;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-top: 0.5rem;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .form-container {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Build Your Portfolio</h2>
+    <p style="color: #666; margin-bottom: 2rem;">Fill in your information and generate your professional portfolio</p>
+
+    <form id="portfolioForm">
+        {% csrf_token %}
+
+        <!-- Basic Information -->
+        <div class="form-section">
+            <h3 class="section-title">👤 Basic Information</h3>
+
+            <div class="form-group">
+                <label for="template">Select Template *</label>
+                <select id="template" name="template" required>
+                    <option value="">Choose a template...</option>
+                    {% for template in templates %}
+                    <option value="{{ template.id }}">{{ template.name }} ({{ template.get_category_display }})</option>
+                    {% endfor %}
+                </select>
+                <div id="templatePreview" class="template-preview" style="display:none;">
+                    <a id="previewLink" href="#" target="_blank">Preview Template</a>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="full_name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="title">Professional Title *</label>
+                    <input type="text" id="title" name="title" required placeholder="Software Engineer">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio / About Me *</label>
+                <textarea id="bio" name="bio" required placeholder="Tell us about yourself..."></textarea>
+                <div class="help-text">Min 20 characters</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone (Optional)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location">Location (Optional)</label>
+                    <input type="text" id="location" name="location" placeholder="San Francisco, CA">
+                </div>
+                <div class="form-group">
+                    <label for="profileImage">Profile Image (Optional)</label>
+                    <input type="file" id="profileImage" name="profile_image" accept="image/*">
+                    <div class="help-text">JPG, PNG, GIF (max 5MB)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="form-section">
+            <h3 class="section-title">🔗 Social Links</h3>
+
+            <div class="form-group">
+                <label for="github">GitHub (Optional)</label>
+                <input type="url" id="github" name="github" placeholder="https://github.com/username">
+            </div>
+
+            <div class="form-group">
+                <label for="linkedin">LinkedIn (Optional)</label>
+                <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username">
+            </div>
+
+            <div class="form-group">
+                <label for="website">Portfolio Website (Optional)</label>
+                <input type="url" id="website" name="portfolio_website" placeholder="https://yourwebsite.com">
+            </div>
+
+            <div class="form-group">
+                <label for="twitter">Twitter (Optional)</label>
+                <input type="url" id="twitter" name="twitter" placeholder="https://twitter.com/username">
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="form-section">
+            <h3 class="section-title">💡 Skills</h3>
+            <div class="array-input-group" id="skillsContainer">
+                <div class="array-input-item">
+                    <input type="text" class="skill-input" placeholder="e.g., Python">
+                </div>
+                <div class="array-input-item">
+                    <input type="text" class="skill-input" placeholder="e.g., Django">
+                </div>
+                <div class="array-input-item">
+                    <input type="text" class="skill-input" placeholder="e.g., React">
+                </div>
+            </div>
+            <button type="button" class="btn-add" onclick="addSkill()">+ Add Skill</button>
+        </div>
+
+        <!-- Projects -->
+        <div class="form-section">
+            <h3 class="section-title">🚀 Projects (Optional)</h3>
+            <div id="projectsContainer"></div>
+            <button type="button" class="btn-add" onclick="addProject()">+ Add Project</button>
+        </div>
+
+        <!-- Experience -->
+        <div class="form-section">
+            <h3 class="section-title">💼 Experience (Optional)</h3>
+            <div id="experienceContainer"></div>
+            <button type="button" class="btn-add" onclick="addExperience()">+ Add Experience</button>
+        </div>
+
+        <!-- Education -->
+        <div class="form-section">
+            <h3 class="section-title">🎓 Education (Optional)</h3>
+            <div id="educationContainer"></div>
+            <button type="button" class="btn-add" onclick="addEducation()">+ Add Education</button>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+            <button type="reset" class="btn btn-secondary">Clear</button>
+            <button type="submit" class="btn">Generate Portfolio</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    let projectCount = 0;
+    let expCount = 0;
+    let eduCount = 0;
+
+    // Template preview
+    document.getElementById('template').addEventListener('change', function() {
+        if (this.value) {
+            const previewLink = document.getElementById('previewLink');
+            previewLink.href = `/api/template/${this.value}/preview/`;
+            document.getElementById('templatePreview').style.display = 'block';
+        } else {
+            document.getElementById('templatePreview').style.display = 'none';
+        }
+    });
+
+    function addSkill() {
+        const container = document.getElementById('skillsContainer');
+        const div = document.createElement('div');
+        div.className = 'array-input-item';
+        div.innerHTML = `
+            <input type="text" class="skill-input" placeholder="e.g., JavaScript">
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()">Remove</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function addProject() {
+        projectCount++;
+        const container = document.getElementById('projectsContainer');
+        const div = document.createElement('div');
+        div.className = 'array-input-group';
+        div.innerHTML = `
+            <input type="text" class="project-title" placeholder="Project Title" required>
+            <textarea class="project-desc" placeholder="Project Description" style="width:100%; margin-top:0.5rem; margin-bottom:0;"></textarea>
+            <input type="text" class="project-tech" placeholder="Tech Stack (e.g., Django, React)" style="margin-top:0.5rem; margin-bottom:0;">
+            <input type="url" class="project-github" placeholder="GitHub Link (optional)" style="margin-top:0.5rem; margin-bottom:0;">
+            <input type="url" class="project-live" placeholder="Live Demo Link (optional)" style="margin-top:0.5rem; margin-bottom:0;">
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:0.5rem;">Remove</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function addExperience() {
+        expCount++;
+        const container = document.getElementById('experienceContainer');
+        const div = document.createElement('div');
+        div.className = 'array-input-group';
+        div.innerHTML = `
+            <input type="text" class="exp-company" placeholder="Company Name" required>
+            <input type="text" class="exp-role" placeholder="Job Title" style="margin-top:0.5rem; margin-bottom:0;">
+            <input type="text" class="exp-duration" placeholder="Duration (e.g., Jan 2020 - Dec 2021)" style="margin-top:0.5rem; margin-bottom:0;">
+            <textarea class="exp-desc" placeholder="Job Description" style="margin-top:0.5rem; margin-bottom:0;"></textarea>
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:0.5rem;">Remove</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function addEducation() {
+        eduCount++;
+        const container = document.getElementById('educationContainer');
+        const div = document.createElement('div');
+        div.className = 'array-input-group';
+        div.innerHTML = `
+            <input type="text" class="edu-school" placeholder="School/University" required>
+            <input type="text" class="edu-degree" placeholder="Degree" style="margin-top:0.5rem; margin-bottom:0;">
+            <input type="text" class="edu-field" placeholder="Field of Study" style="margin-top:0.5rem; margin-bottom:0;">
+            <input type="text" class="edu-year" placeholder="Graduation Year" style="margin-top:0.5rem; margin-bottom:0;">
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:0.5rem;">Remove</button>
+        `;
+        container.appendChild(div);
+    }
+
+    document.getElementById('portfolioForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Validate required fields
+        if (!document.getElementById('template').value) {
+            alert('Please select a template');
+            return;
+        }
+        if (!document.getElementById('fullName').value) {
+            alert('Please enter your full name');
+            return;
+        }
+        if (!document.getElementById('title').value) {
+            alert('Please enter your professional title');
+            return;
+        }
+        if (!document.getElementById('bio').value) {
+            alert('Please enter your bio');
+            return;
+        }
+        if (!document.getElementById('email').value) {
+            alert('Please enter your email');
+            return;
+        }
+
+        const formData = new FormData();
+
+        // Basic info
+        formData.append('full_name', document.getElementById('fullName').value);
+        formData.append('title', document.getElementById('title').value);
+        formData.append('bio', document.getElementById('bio').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('phone', document.getElementById('phone').value);
+        formData.append('location', document.getElementById('location').value);
+        formData.append('github', document.getElementById('github').value);
+        formData.append('linkedin', document.getElementById('linkedin').value);
+        formData.append('portfolio_website', document.getElementById('website').value);
+        formData.append('twitter', document.getElementById('twitter').value);
+        formData.append('template', document.getElementById('template').value);
+
+        // Profile image
+        const imageInput = document.getElementById('profileImage');
+        if (imageInput.files.length > 0) {
+            formData.append('profile_image', imageInput.files[0]);
+        }
+
+        // Skills
+        const skills = Array.from(document.querySelectorAll('.skill-input'))
+            .map(input => input.value.trim())
+            .filter(val => val.length > 0);
+        formData.append('skills', JSON.stringify(skills));
+
+        // Projects - fix selector to only get from projectsContainer
+        const projects = Array.from(document.getElementById('projectsContainer').querySelectorAll('.array-input-group')).map((group, idx) => {
+            const titleInput = group.querySelector('.project-title');
+            if (!titleInput || !titleInput.value.trim()) return null;
+            return {
+                title: titleInput.value,
+                description: group.querySelector('.project-desc')?.value || '',
+                tech_stack: group.querySelector('.project-tech')?.value || '',
+                github_link: group.querySelector('.project-github')?.value || '',
+                live_link: group.querySelector('.project-live')?.value || ''
+            };
+        }).filter(p => p && p.title);
+        formData.append('projects', JSON.stringify(projects));
+
+        // Experience
+        const experience = Array.from(document.getElementById('experienceContainer').querySelectorAll('.array-input-group')).map(group => ({
+            company: group.querySelector('.exp-company')?.value || '',
+            role: group.querySelector('.exp-role')?.value || '',
+            duration: group.querySelector('.exp-duration')?.value || '',
+            description: group.querySelector('.exp-desc')?.value || ''
+        })).filter(e => e.company && e.company.trim());
+        formData.append('experience', JSON.stringify(experience));
+
+        // Education
+        const education = Array.from(document.getElementById('educationContainer').querySelectorAll('.array-input-group')).map(group => ({
+            school: group.querySelector('.edu-school')?.value || '',
+            degree: group.querySelector('.edu-degree')?.value || '',
+            field: group.querySelector('.edu-field')?.value || '',
+            year: group.querySelector('.edu-year')?.value || ''
+        })).filter(e => e.school && e.school.trim());
+        formData.append('education', JSON.stringify(education));
+
+        try {
+            console.log('Submitting form...');
+            const response = await fetch('/api/portfolios/', {
+                method: 'POST',
+                body: formData
+            });
+
+            console.log('Response status:', response.status);
+            const responseText = await response.text();
+            console.log('Response:', responseText);
+
+            if (response.ok) {
+                try {
+                    const data = JSON.parse(responseText);
+                    console.log('Parsed data:', data);
+                    if (data.id) {
+                        const downloadUrl = `/api/portfolios/${data.id}/download/`;
+                        console.log('Redirecting to:', downloadUrl);
+                        window.location.href = downloadUrl;
+                    } else {
+                        alert('Error: Portfolio created but no ID returned. Please try again.');
+                    }
+                } catch (jsonError) {
+                    console.error('JSON parse error:', jsonError);
+                    alert('Error parsing response. Please try again.');
+                }
+            } else {
+                console.error('API error response:', responseText);
+                alert('Error creating portfolio: ' + responseText);
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            alert('Error: ' + error.message);
+        }
+    });
+</script>
+{% endblock %}
+

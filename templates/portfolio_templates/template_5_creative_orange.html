@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ full_name }} - Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', Arial, sans-serif; background-color: #fafafa; color: #333; line-height: 1.6; }
+        header { background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: #fff; padding: 80px 20px; text-align: center; }
+        .profile-img { width: 180px; height: 180px; border-radius: 50%; margin-bottom: 20px; border: 6px solid #fff; object-fit: cover; }
+        h1 { font-size: 3.2em; margin-bottom: 10px; }
+        .title { font-size: 1.7em; opacity: 0.9; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+        .section { margin-bottom: 60px; }
+        h2 { font-size: 2.2em; color: #ff6b35; margin-bottom: 30px; position: relative; padding-bottom: 15px; }
+        h2:after { content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 4px; background-color: #f7931e; }
+        .about { background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-size: 1.1em; line-height: 1.8; }
+        .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .contact-card { background: #fff; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.08); border-top: 4px solid #ff6b35; }
+        .contact-card label { display: block; color: #ff6b35; font-weight: bold; margin-bottom: 10px; }
+        .contact-card a { color: #333; text-decoration: none; }
+        .skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+        .skill { background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: #fff; padding: 15px; border-radius: 8px; text-align: center; font-weight: 600; box-shadow: 0 3px 10px rgba(255,107,53,0.3); }
+        .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .project { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; border-top: 5px solid #ff6b35; }
+        .project:hover { transform: translateY(-8px); }
+        .project h3 { color: #ff6b35; margin-bottom: 15px; font-size: 1.4em; }
+        .project .tech { color: #f7931e; font-size: 0.9em; margin-bottom: 15px; }
+        .project-links { margin-top: 15px; }
+        .project-links a { display: inline-block; margin-right: 10px; padding: 8px 15px; background-color: #ff6b35; color: #fff; text-decoration: none; border-radius: 4px; transition: all 0.3s ease; }
+        .project-links a:hover { background-color: #f7931e; }
+        .experience, .education { background: #fff; padding: 25px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); border-left: 5px solid #ff6b35; }
+        .experience h3, .education h3 { color: #ff6b35; margin-bottom: 8px; }
+        .meta { color: #f7931e; font-size: 0.95em; margin-bottom: 10px; font-weight: 600; }
+        footer { background: #333; color: #fff; text-align: center; padding: 40px; margin-top: 60px; }
+        @media (max-width: 768px) { h1 { font-size: 2.2em; } h2 { font-size: 1.8em; } .projects { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header>
+        {% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="{{ full_name }}" class="profile-img">{% endif %}
+        <h1>{{ full_name }}</h1>
+        <p class="title">{{ title }}</p>
+    </header>
+    <div class="container">
+        {% if bio %}<section class="section"><div class="about">{{ bio }}</div></section>{% endif %}
+        {% if email or phone or location or github or linkedin %}<section class="section"><div class="contact-cards">
+            {% if email %}<div class="contact-card"><label>📧 Email</label><a href="mailto:{{ email }}">{{ email }}</a></div>{% endif %}
+            {% if phone %}<div class="contact-card"><label>📱 Phone</label><a href="tel:{{ phone }}">{{ phone }}</a></div>{% endif %}
+            {% if location %}<div class="contact-card"><label>📍 Location</label><p>{{ location }}</p></div>{% endif %}
+            {% if github %}<div class="contact-card"><label>💻 GitHub</label><a href="{{ github }}" target="_blank">Visit</a></div>{% endif %}
+            {% if linkedin %}<div class="contact-card"><label>💼 LinkedIn</label><a href="{{ linkedin }}" target="_blank">Visit</a></div>{% endif %}
+        </div></section>{% endif %}
+        {% if skills %}<section class="section"><h2>Skills</h2><div class="skills">{% for skill in skills %}<div class="skill">{{ skill }}</div>{% endfor %}</div></section>{% endif %}
+        {% if projects %}<section class="section"><h2>Projects</h2><div class="projects">{% for project in projects %}<div class="project"><h3>{{ project.title }}</h3><p>{{ project.description }}</p>{% if project.tech_stack %}<p class="tech">{{ project.tech_stack }}</p>{% endif %}<div class="project-links">{% if project.github_link %}<a href="{{ project.github_link }}" target="_blank">GitHub</a>{% endif %}{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank">Live</a>{% endif %}</div></div>{% endfor %}</div></section>{% endif %}
+        {% if experience %}<section class="section"><h2>Experience</h2>{% for exp in experience %}<div class="experience"><h3>{{ exp.role }}</h3><div class="meta">{{ exp.company }} • {{ exp.duration }}</div><p>{{ exp.description }}</p></div>{% endfor %}</section>{% endif %}
+        {% if education %}<section class="section"><h2>Education</h2>{% for edu in education %}<div class="education"><h3>{{ edu.degree }} in {{ edu.field }}</h3><div class="meta">{{ edu.school }} • {{ edu.year }}</div></div>{% endfor %}</section>{% endif %}
+    </div>
+    <footer><p>&copy; 2026 {{ full_name }}. All rights reserved.</p></footer>
+</body>
+</html>
+

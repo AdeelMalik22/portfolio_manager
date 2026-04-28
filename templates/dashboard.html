@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Portfolio Builder{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+        margin-bottom: 0.75rem;
+    }
+
+    .status-pill {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        background: #e9ecef;
+    }
+
+    .status-live {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-draft {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Welcome, {{ request.user.username }}</h2>
+    <p>Manage your public portfolio and keep it updated.</p>
+</div>
+
+<div class="card">
+    <h2>Your Portfolio</h2>
+    <p>
+        Status:
+        {% if portfolio.is_published %}
+            <span class="status-pill status-live">Published</span>
+        {% else %}
+            <span class="status-pill status-draft">Draft</span>
+        {% endif %}
+    </p>
+    <div class="meta-grid">
+        <div>
+            <strong>Public URL</strong><br>
+            <a href="{{ portfolio.public_url }}" target="_blank">{{ portfolio.public_url }}</a>
+        </div>
+        <div>
+            <strong>Views</strong><br>
+            {{ portfolio.view_count }}
+        </div>
+        <div>
+            <strong>Template</strong><br>
+            {% if portfolio.template %}{{ portfolio.template.name }}{% else %}Not set{% endif %}
+        </div>
+    </div>
+    <div style="margin-top: 1.5rem;">
+        <a class="btn" href="{% url 'portfolio:dashboard_edit' %}">Edit Portfolio</a>
+    </div>
+</div>
+{% endblock %}
+

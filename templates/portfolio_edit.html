@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Portfolio - Portfolio Builder{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-card {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .form-card h2 {
+        margin-bottom: 1rem;
+    }
+
+    form label {
+        font-weight: 600;
+        display: block;
+        margin-top: 1rem;
+        margin-bottom: 0.4rem;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 0.7rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+
+    textarea {
+        min-height: 90px;
+    }
+
+    .help-text {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2>Edit Your Portfolio</h2>
+    <p class="help-text">JSON fields accept arrays. Example for skills: ["Python", "Django"].</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button class="btn" type="submit">Save Changes</button>
+            <a class="btn btn-secondary" href="{% url 'portfolio:dashboard' %}">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
