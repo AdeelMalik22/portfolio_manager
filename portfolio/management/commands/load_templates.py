@@ -3,207 +3,274 @@ from portfolio.models import PortfolioTemplate
 
 
 class Command(BaseCommand):
-    help = 'Load 20 portfolio templates into the database'
+    help = 'Load 20 professional portfolio templates into the database'
 
     def handle(self, *args, **options):
         templates = [
             {
-                'name': 'Minimalist Black & White',
-                'slug': 'minimalist-bw',
-                'description': 'Clean, elegant black and white portfolio. Perfect for minimalist design lovers.',
-                'category': 'minimalist',
-                'color_scheme': 'black-white',
-                'template_file': 'portfolio_templates/template_1_minimalist.html',
+                'name': 'Modern Corporate',
+                'slug': 'modern-corporate',
+                'description': 'Clean and professional corporate design with blue accents and smooth transitions.',
+                'category': 'corporate',
+                'color_scheme': 'blue',
+                'template_file': 'portfolio_templates/template_modern_corporate.html',
                 'order': 1,
             },
             {
-                'name': 'Dark Modern Blue',
-                'slug': 'dark-modern-blue',
-                'description': 'Modern dark theme with vibrant blue accents. Great for developers and tech professionals.',
-                'category': 'developer',
-                'color_scheme': 'dark-blue',
-                'template_file': 'portfolio_templates/template_2_dark_modern.html',
+                'name': 'Clean Minimal',
+                'slug': 'clean-minimal',
+                'description': 'Minimalist design with clean typography and perfect spacing for professionals.',
+                'category': 'minimalist',
+                'color_scheme': 'gray-blue',
+                'template_file': 'portfolio_templates/template_clean_minimal.html',
                 'order': 2,
+            },
+            {
+                'name': 'Luxury Elegant',
+                'slug': 'luxury-elegant',
+                'description': 'Sophisticated dark theme with gold accents for premium portfolios.',
+                'category': 'corporate',
+                'color_scheme': 'gold',
+                'template_file': 'portfolio_templates/template_luxury_elegant.html',
+                'order': 3,
+            },
+            {
+                'name': 'Developer Terminal',
+                'slug': 'dev-terminal',
+                'description': 'Dark tech-inspired design with cyan and neon accents for developers.',
+                'category': 'developer',
+                'color_scheme': 'cyan',
+                'template_file': 'portfolio_templates/template_dev_terminal.html',
+                'order': 4,
             },
             {
                 'name': 'Gradient Purple',
                 'slug': 'gradient-purple',
-                'description': 'Stunning purple gradient background with modern layout.',
+                'description': 'Beautiful purple gradient background with smooth animations and hover effects.',
                 'category': 'creative',
                 'color_scheme': 'purple',
-                'template_file': 'portfolio_templates/template_3_gradient_purple.html',
-                'order': 3,
-            },
-            {
-                'name': 'Corporate Blue',
-                'slug': 'corporate-blue',
-                'description': 'Professional corporate style with sidebar layout. Ideal for business professionals.',
-                'category': 'corporate',
-                'color_scheme': 'corporate-blue',
-                'template_file': 'portfolio_templates/template_4_corporate_blue.html',
-                'order': 4,
-            },
-            {
-                'name': 'Creative Orange',
-                'slug': 'creative-orange',
-                'description': 'Bold orange and warm colors. Perfect for creative professionals and designers.',
-                'category': 'creative',
-                'color_scheme': 'orange',
-                'template_file': 'portfolio_templates/template_5_creative_orange.html',
+                'template_file': 'portfolio_templates/template_gradient_purple.html',
                 'order': 5,
             },
             {
-                'name': 'Teal Gradient',
-                'slug': 'teal-gradient',
-                'description': 'Fresh teal gradient design with modern card layout.',
-                'category': 'developer',
-                'color_scheme': 'teal',
-                'template_file': 'portfolio_templates/template_6_teal_gradient.html',
+                'name': 'Nature Green',
+                'slug': 'nature-green',
+                'description': 'Fresh green theme inspired by nature with modern card layouts.',
+                'category': 'creative',
+                'color_scheme': 'green',
+                'template_file': 'portfolio_templates/template_nature_green.html',
                 'order': 6,
             },
             {
-                'name': 'Slate Blue',
-                'slug': 'slate-blue',
-                'description': 'Professional slate blue color scheme with clean typography.',
-                'category': 'corporate',
-                'color_scheme': 'slate-blue',
-                'template_file': 'portfolio_templates/template_7_slate_blue.html',
+                'name': 'Indigo Modern',
+                'slug': 'indigo-modern',
+                'description': 'Modern indigo and violet design with tech-forward aesthetic.',
+                'category': 'developer',
+                'color_scheme': 'indigo',
+                'template_file': 'portfolio_templates/template_indigo_modern.html',
                 'order': 7,
             },
             {
-                'name': 'Terminal Green',
-                'slug': 'terminal-green',
-                'description': 'Retro terminal-style green on black. For hardcore developers and tech enthusiasts.',
-                'category': 'developer',
-                'color_scheme': 'green',
-                'template_file': 'portfolio_templates/template_8_terminal_green.html',
+                'name': 'Navy Business',
+                'slug': 'navy-business',
+                'description': 'Professional navy and gold business portfolio with elegant styling.',
+                'category': 'corporate',
+                'color_scheme': 'navy-gold',
+                'template_file': 'portfolio_templates/template_navy_business.html',
                 'order': 8,
             },
             {
-                'name': 'Red Accent',
-                'slug': 'red-accent',
-                'description': 'Bold red accent color with modern gradient header.',
+                'name': 'Rose Minimal',
+                'slug': 'rose-minimal',
+                'description': 'Soft rose and blush tones with minimalist design for creatives.',
                 'category': 'creative',
-                'color_scheme': 'red',
-                'template_file': 'portfolio_templates/template_9_red_accent.html',
+                'color_scheme': 'rose',
+                'template_file': 'portfolio_templates/template_rose_minimal.html',
                 'order': 9,
             },
             {
-                'name': 'Gold Luxury',
-                'slug': 'gold-luxury',
-                'description': 'Elegant gold and dark background for premium look.',
-                'category': 'corporate',
-                'color_scheme': 'gold',
-                'template_file': 'portfolio_templates/template_10_gold_luxury.html',
+                'name': 'Teal Modern',
+                'slug': 'teal-modern',
+                'description': 'Modern teal and dark grey design with professional appeal.',
+                'category': 'developer',
+                'color_scheme': 'teal',
+                'template_file': 'portfolio_templates/template_teal_modern.html',
                 'order': 10,
             },
             {
-                'name': 'Indigo Professional',
-                'slug': 'indigo-professional',
-                'description': 'Deep indigo color scheme perfect for professionals.',
-                'category': 'corporate',
-                'color_scheme': 'indigo',
-                'template_file': 'portfolio_templates/template_11_indigo_professional.html',
+                'name': 'Sunset Gradient',
+                'slug': 'sunset-gradient',
+                'description': 'Warm orange to pink gradient design perfect for creative professionals.',
+                'category': 'creative',
+                'color_scheme': 'orange-pink',
+                'template_file': 'portfolio_templates/template_sunset_gradient.html',
                 'order': 11,
             },
             {
-                'name': 'Emerald Green',
-                'slug': 'emerald-green',
-                'description': 'Fresh emerald green for nature-inspired designs.',
-                'category': 'creative',
-                'color_scheme': 'emerald',
-                'template_file': 'portfolio_templates/template_12_emerald.html',
+                'name': 'Slate Professional',
+                'slug': 'slate-professional',
+                'description': 'Dark slate gray with blue accents for serious professionals.',
+                'category': 'corporate',
+                'color_scheme': 'slate-blue',
+                'template_file': 'portfolio_templates/template_slate_professional.html',
                 'order': 12,
             },
             {
-                'name': 'Slate Dark',
-                'slug': 'slate-dark',
-                'description': 'Sophisticated dark slate color for tech professionals.',
+                'name': 'Ocean Blue',
+                'slug': 'ocean-blue',
+                'description': 'Deep ocean blue gradient with cyan accents for tech enthusiasts.',
                 'category': 'developer',
-                'color_scheme': 'slate',
-                'template_file': 'portfolio_templates/template_13_slate_dark.html',
+                'color_scheme': 'ocean',
+                'template_file': 'portfolio_templates/template_ocean_blue.html',
                 'order': 13,
             },
             {
-                'name': 'Pink Vibrant',
-                'slug': 'pink-vibrant',
-                'description': 'Vibrant pink theme perfect for designers and creatives.',
+                'name': 'Forest Dark',
+                'slug': 'forest-dark',
+                'description': 'Natural dark green forest theme with earthy tones.',
                 'category': 'creative',
-                'color_scheme': 'pink',
-                'template_file': 'portfolio_templates/template_14_pink_vibrant.html',
+                'color_scheme': 'forest',
+                'template_file': 'portfolio_templates/template_forest_dark.html',
                 'order': 14,
             },
             {
-                'name': 'Amber Warm',
-                'slug': 'amber-warm',
-                'description': 'Warm amber tones for a cozy professional feel.',
-                'category': 'corporate',
-                'color_scheme': 'amber',
-                'template_file': 'portfolio_templates/template_15_amber_warm.html',
+                'name': 'Bold Dark Neon',
+                'slug': 'bold-dark-neon',
+                'description': 'High-contrast dark theme with neon pink and cyan accents.',
+                'category': 'developer',
+                'color_scheme': 'neon',
+                'template_file': 'portfolio_templates/template_bold_dark_neon.html',
                 'order': 15,
             },
             {
-                'name': 'Sky Blue',
-                'slug': 'sky-blue',
-                'description': 'Light sky blue theme, clean and professional.',
-                'category': 'developer',
-                'color_scheme': 'blue',
-                'template_file': 'portfolio_templates/template_16_sky_blue.html',
+                'name': 'Creative Vibrant',
+                'slug': 'creative-vibrant',
+                'description': 'Vibrant and colorful design for creative professionals and artists.',
+                'category': 'creative',
+                'color_scheme': 'vibrant',
+                'template_file': 'portfolio_templates/template_creative_vibrant.html',
                 'order': 16,
             },
             {
-                'name': 'Cyan Tech',
-                'slug': 'cyan-tech',
-                'description': 'Modern cyan color for tech-focused portfolios.',
-                'category': 'developer',
-                'color_scheme': 'cyan',
-                'template_file': 'portfolio_templates/template_17_cyan_tech.html',
+                'name': 'Elegant Classic',
+                'slug': 'elegant-classic',
+                'description': 'Timeless elegant design with classic color schemes.',
+                'category': 'corporate',
+                'color_scheme': 'classic',
+                'template_file': 'portfolio_templates/template_elegant_classic.html',
                 'order': 17,
             },
             {
-                'name': 'Violet Modern',
-                'slug': 'violet-modern',
-                'description': 'Elegant violet theme for modern creative professionals.',
-                'category': 'creative',
-                'color_scheme': 'violet',
-                'template_file': 'portfolio_templates/template_18_violet_modern.html',
+                'name': 'Minimalist Mono',
+                'slug': 'minimalist-mono',
+                'description': 'Pure minimalist monochrome design with focus on content.',
+                'category': 'minimalist',
+                'color_scheme': 'mono',
+                'template_file': 'portfolio_templates/template_minimalist_mono.html',
                 'order': 18,
             },
             {
-                'name': 'Stone Minimal',
-                'slug': 'stone-minimal',
-                'description': 'Minimalist stone gray design, ultra-clean.',
-                'category': 'minimalist',
-                'color_scheme': 'stone',
-                'template_file': 'portfolio_templates/template_19_stone_minimal.html',
+                'name': 'Tech Glassmorphism',
+                'slug': 'tech-glassmorphism',
+                'description': 'Modern glassmorphism design with frosted glass effects.',
+                'category': 'developer',
+                'color_scheme': 'glass',
+                'template_file': 'portfolio_templates/template_tech_glassmorphism.html',
                 'order': 19,
             },
             {
-                'name': 'Rose Elegant',
-                'slug': 'rose-elegant',
-                'description': 'Elegant rose theme for sophisticated portfolios.',
-                'category': 'creative',
-                'color_scheme': 'rose',
-                'template_file': 'portfolio_templates/template_20_rose_elegant.html',
+                'name': 'Sidebar Professional',
+                'slug': 'sidebar-professional',
+                'description': 'Fixed sidebar layout with gradient styling - completely different design.',
+                'category': 'corporate',
+                'color_scheme': 'purple-gradient',
+                'template_file': 'portfolio_templates/template_sidebar_layout.html',
                 'order': 20,
+            },
+            {
+                'name': 'Two Column Showcase',
+                'slug': 'two-column',
+                'description': 'Modern two-column layout with sticky hero section - unique design.',
+                'category': 'developer',
+                'color_scheme': 'blue-purple',
+                'template_file': 'portfolio_templates/template_two_column.html',
+                'order': 21,
             },
         ]
 
-        for template_data in templates:
-            obj, created = PortfolioTemplate.objects.get_or_create(
-                slug=template_data['slug'],
-                defaults=template_data
+        # Deactivate old deprecated templates (don't delete - they may be referenced by portfolios)
+        old_slugs = [
+            'minimalist-bw', 'dark-modern-blue', 'corporate-blue', 'creative-orange',
+            'teal-gradient', 'slate-blue', 'terminal-green', 'red-accent',
+            'gold-luxury', 'indigo-professional', 'emerald-green', 'slate-dark',
+            'pink-vibrant', 'amber-warm', 'sky-blue', 'cyan-tech', 'violet-modern',
+            'stone-minimal', 'rose-elegant'
+        ]
+        deactivated_count = 0
+        for slug in old_slugs:
+            try:
+                old_template = PortfolioTemplate.objects.get(slug=slug)
+                old_template.is_active = False
+                old_template.save(update_fields=['is_active'])
+                deactivated_count += 1
+            except PortfolioTemplate.DoesNotExist:
+                pass
+
+        if deactivated_count > 0:
+            self.stdout.write(
+                self.style.SUCCESS(f"✓ Deactivated {deactivated_count} old deprecated templates")
             )
-            if created:
+
+        # Also deactivate the 5 templates that still have "latest-" prefix
+        latest_slugs = ['latest-bold-dark-neon', 'latest-creative-vibrant', 'latest-elegant-classic', 'latest-minimalist-mono', 'latest-tech-glassmorphism']
+        for slug in latest_slugs:
+            try:
+                old = PortfolioTemplate.objects.get(slug=slug)
+                old.is_active = False
+                old.save()
                 self.stdout.write(
-                    self.style.SUCCESS(f"✓ Created template: {template_data['name']}")
+                    self.style.SUCCESS(f"✓ Deactivated old version: {old.name}")
                 )
-            else:
+            except PortfolioTemplate.DoesNotExist:
+                pass
+
+        for template_data in templates:
+            # Try to get by slug first
+            try:
+                obj = PortfolioTemplate.objects.get(slug=template_data['slug'])
+                # Update if exists
+                for key, value in template_data.items():
+                    if key != 'slug':
+                        setattr(obj, key, value)
+                obj.is_active = True  # Ensure it's active
+                obj.save()
                 self.stdout.write(
-                    self.style.WARNING(f"~ Template already exists: {template_data['name']}")
+                    self.style.WARNING(f"~ Updated template: {template_data['name']}")
                 )
+            except PortfolioTemplate.DoesNotExist:
+                # Check if a template with the same name exists (to handle conflicts)
+                existing_by_name = PortfolioTemplate.objects.filter(name=template_data['name']).first()
+                if existing_by_name:
+                    # Update the existing template with new slug and data
+                    existing_by_name.slug = template_data['slug']
+                    existing_by_name.template_file = template_data['template_file']
+                    existing_by_name.description = template_data['description']
+                    existing_by_name.category = template_data['category']
+                    existing_by_name.color_scheme = template_data['color_scheme']
+                    existing_by_name.order = template_data['order']
+                    existing_by_name.is_active = True
+                    existing_by_name.save()
+                    self.stdout.write(
+                        self.style.SUCCESS(f"✓ Updated and activated template: {template_data['name']}")
+                    )
+                else:
+                    # Create new if doesn't exist at all
+                    obj = PortfolioTemplate.objects.create(**template_data, is_active=True)
+                    self.stdout.write(
+                        self.style.SUCCESS(f"✓ Created template: {template_data['name']}")
+                    )
 
         self.stdout.write(
-            self.style.SUCCESS('\nSuccessfully loaded all 20 portfolio templates!')
+            self.style.SUCCESS('\n✅ Successfully loaded all 19 professional portfolio templates!')
         )
 

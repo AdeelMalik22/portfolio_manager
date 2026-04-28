@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ full_name }} - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2d3748;
+            --secondary: #000000;
+            --accent: #4299e1;
+            --text: #2d3748;
+            --light-text: #718096;
+            --bg: #ffffff;
+            --light-bg: #f7fafc;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--bg);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--light-text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(180deg, var(--light-bg) 0%, var(--bg) 100%);
+            padding: 4rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .title {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--light-text);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.7rem 1.4rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3182ce;
+        }
+
+        .btn-secondary {
+            background: var(--light-bg);
+            color: var(--primary);
+            border: 1px solid #cbd5e0;
+        }
+
+        .btn-secondary:hover {
+            background: #edf2f7;
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .section:nth-child(even) {
+            background: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--bg);
+            padding: 1.8rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(66, 153, 225, 0.1);
+        }
+
+        .skill-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--light-bg);
+            color: var(--accent);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.8rem;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+
+        .project-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-tech {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            color: var(--light-text);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .project-link:hover {
+            color: var(--primary);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: #cbd5e0;
+        }
+
+        .timeline-item {
+            margin-bottom: 2.5rem;
+            width: 50%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+            text-align: right;
+            padding-right: 2.5rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: auto;
+            padding-left: 2.5rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background: var(--accent);
+            border: 3px solid var(--bg);
+            border-radius: 50%;
+            top: 0;
+        }
+
+        .timeline-content {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            border-left: none;
+            border-right: 3px solid var(--accent);
+        }
+
+        .timeline-content h3 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-meta {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: var(--light-text);
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 50px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+
+            .timeline-dot {
+                left: 15px;
+            }
+
+            .timeline-content {
+                border-left: 3px solid var(--accent) !important;
+                border-right: none !important;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">{{ full_name }}</div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="about">
+        <div class="hero-content">
+            {% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="{{ full_name }}" class="profile-img">{% endif %}
+            <h1>{{ full_name }}</h1>
+            <p class="title">{{ title }}</p>
+            {% if bio %}<p>{{ bio }}</p>{% endif %}
+            <div class="cta-buttons">
+                {% if github %}<a href="{{ github }}" target="_blank" class="btn btn-primary"><i class="fab fa-github"></i> GitHub</a>{% endif %}
+                {% if linkedin %}<a href="{{ linkedin }}" target="_blank" class="btn btn-secondary"><i class="fab fa-linkedin"></i> LinkedIn</a>{% endif %}
+                {% if email %}<a href="mailto:{{ email }}" class="btn btn-secondary"><i class="fas fa-envelope"></i> Contact</a>{% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    {% if skills %}
+    <section class="section" id="skills">
+        <div class="container">
+            <h2>Skills & Expertise</h2>
+            <div class="skills-grid">
+                {% for skill in skills %}
+                <div class="skill-card">
+                    <h3>{{ skill }}</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Professional</span>
+                        <span class="skill-tag">Advanced</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Projects -->
+    {% if projects %}
+    <section class="section" id="projects">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                {% for project in projects %}
+                <div class="project-card">
+                    <h3>{{ project.title }}</h3>
+                    {% if project.tech_stack %}<p class="project-tech">{{ project.tech_stack }}</p>{% endif %}
+                    <p class="project-description">{{ project.description }}</p>
+                    <div class="project-links">
+                        {% if project.github_link %}<a href="{{ project.github_link }}" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>{% endif %}
+                        {% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Live</a>{% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Experience -->
+    {% if experience %}
+    <section class="section" id="experience">
+        <div class="container">
+            <h2>Professional Experience</h2>
+            <div class="timeline">
+                {% for exp in experience %}
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>{{ exp.role }}</h3>
+                        <p class="timeline-meta">{{ exp.company }} • {{ exp.duration }}</p>
+                        <p class="timeline-description">{{ exp.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Education -->
+    {% if education %}
+    <section class="section" id="education">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="timeline">
+                {% for edu in education %}
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>{{ edu.degree }} in {{ edu.field }}</h3>
+                        <p class="timeline-meta">{{ edu.school }} • {{ edu.year }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 {{ full_name }}. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

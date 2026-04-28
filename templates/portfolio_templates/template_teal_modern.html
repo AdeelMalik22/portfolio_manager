@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ full_name }} - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            border-bottom: 2px solid #14b8a6;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        nav .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #14b8a6;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            color: #555;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #14b8a6;
+        }
+
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(135deg, #1e3a3a 0%, #2d5a5a 100%);
+            color: white;
+            padding: 5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+        }
+
+        .hero .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 3px solid #14b8a6;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .title {
+            font-size: 1.3rem;
+            color: #14b8a6;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary {
+            background: #14b8a6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0d9488;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid #14b8a6;
+        }
+
+        .btn-secondary:hover {
+            background: #14b8a6;
+            color: white;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .section:nth-child(even) {
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #1e3a3a;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 1.8rem;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            border-color: #14b8a6;
+            background: #f0fffe;
+            box-shadow: 0 8px 20px rgba(20, 184, 166, 0.1);
+        }
+
+        .skill-card h3 {
+            color: #14b8a6;
+            margin-bottom: 1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #e0f8f7;
+            color: #14b8a6;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.8rem;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: #14b8a6;
+            box-shadow: 0 12px 30px rgba(20, 184, 166, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            color: #1e3a3a;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-tech {
+            color: #14b8a6;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            color: #14b8a6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .project-link:hover {
+            color: #0d9488;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: #14b8a6;
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            width: 50%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+            text-align: right;
+            padding-right: 2.5rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: auto;
+            padding-left: 2.5rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background: #14b8a6;
+            border: 3px solid white;
+            border-radius: 50%;
+            top: 0;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid #14b8a6;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            border-left: none;
+            border-right: 3px solid #14b8a6;
+        }
+
+        .timeline-content h3 {
+            color: #1e3a3a;
+        }
+
+        .timeline-meta {
+            color: #14b8a6;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .timeline-description {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: #1e3a3a;
+            color: #aaa;
+            text-align: center;
+            padding: 2rem;
+            border-top: 3px solid #14b8a6;
+        }
+
+        footer a {
+            color: #14b8a6;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 45px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+
+            .timeline-dot {
+                left: 15px;
+            }
+
+            .timeline-content {
+                border-left: 3px solid #14b8a6 !important;
+                border-right: none !important;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="logo">{{ full_name }}</div>
+    <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+    </ul>
+</nav>
+
+<section class="hero" id="about">
+    {% if profile_image_base64 %}
+        <img src="{{ profile_image_base64 }}" alt="{{ full_name }}" class="profile-img">{% endif %}
+    <div>
+        <h1>{{ full_name }}</h1>
+        <p class="title">{{ title }}</p>
+        {% if bio %}<p>{{ bio }}</p>{% endif %}
+        <div class="cta-buttons">
+            {% if github %}<a href="{{ github }}" target="_blank" class="btn btn-primary"><i class="fab fa-github"></i>
+                GitHub</a>{% endif %}
+            {% if linkedin %}
+                <a href="{{ linkedin }}" target="_blank" class="btn btn-secondary"><i class="fab fa-linkedin"></i>
+                    LinkedIn</a>{% endif %}
+            {% if email %}<a href="mailto:{{ email }}" class="btn btn-secondary"><i class="fas fa-envelope"></i> Contact</a>{% endif %}
+        </div>
+    </div>
+</section>
+
+{% if skills %}
+    <section class="section" id="skills">
+        <div class="container"><h2>Skills</h2>
+            <div class="skills-grid">{% for skill in skills %}
+                <div class="skill-card"><h3>{{ skill }}</h3>
+                    <div class="skill-tags"><span class="skill-tag">Professional</span><span
+                            class="skill-tag">Advanced</span></div>
+                </div>{% endfor %}</div>
+        </div>
+    </section>{% endif %}
+
+{% if projects %}
+    <section class="section" id="projects">
+        <div class="container"><h2>Projects</h2>
+            <div class="projects-grid">{% for project in projects %}
+                <div class="project-card"><h3>{{ project.title }}</h3>{% if project.tech_stack %}
+                    <p class="project-tech">{{ project.tech_stack }}</p>{% endif %}<p
+                        class="project-description">{{ project.description }}</p>
+                    <div class="project-links">{% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" class="project-link"><i
+                                class="fab fa-github"></i> Code</a>{% endif %}{% if project.live_link %}
+                        <a href="{{ project.live_link }}" target="_blank" class="project-link"><i
+                                class="fas fa-external-link-alt"></i> Live</a>{% endif %}</div>
+                </div>{% endfor %}</div>
+        </div>
+    </section>{% endif %}
+
+{% if experience %}
+    <section class="section" id="experience">
+        <div class="container"><h2>Experience</h2>
+            <div class="timeline">{% for exp in experience %}
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content"><h3>{{ exp.role }}</h3>
+                        <p class="timeline-meta">{{ exp.company }} • {{ exp.duration }}</p>
+                        <p class="timeline-description">{{ exp.description }}</p></div>
+                </div>{% endfor %}</div>
+        </div>
+    </section>{% endif %}
+
+{% if education %}
+    <section class="section" id="education">
+        <div class="container"><h2>Education</h2>
+            <div class="timeline">{% for edu in education %}
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content"><h3>{{ edu.degree }} in {{ edu.field }}</h3>
+                        <p class="timeline-meta">{{ edu.school }} • {{ edu.year }}</p></div>
+                </div>{% endfor %}</div>
+        </div>
+    </section>{% endif %}
+
+<footer><p>&copy; 2026 {{ full_name }}. All rights reserved.</p></footer>
+</body>
+</html>
+
