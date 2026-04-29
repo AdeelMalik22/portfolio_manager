@@ -58,6 +58,9 @@ class Portfolio(models.Model):
     # Profile Image
     profile_image = models.ImageField(upload_to='profiles/', null=True, blank=True)
 
+    # Processed Profile Image (background removed + themed)
+    processed_profile_image = models.ImageField(upload_to='profiles_processed/', null=True, blank=True)
+
     # Skills (stored as JSON)
     skills = models.JSONField(default=list)  # ["Python", "Django", "React"]
 
@@ -169,6 +172,9 @@ class PublicPortfolio(models.Model):
 
     # Media
     profile_image = models.ImageField(upload_to='portfolio_profiles/', null=True, blank=True)
+
+    # Processed Profile Image (background removed + themed)
+    processed_profile_image = models.ImageField(upload_to='portfolio_profiles_processed/', null=True, blank=True)
 
     # Data (stored as JSON for flexibility)
     skills = models.JSONField(default=list)

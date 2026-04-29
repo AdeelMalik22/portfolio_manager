@@ -427,16 +427,30 @@
     let expCount = 0;
     let eduCount = 0;
 
-    // Template preview
-    document.getElementById('template').addEventListener('change', function() {
-        if (this.value) {
-            const previewLink = document.getElementById('previewLink');
-            previewLink.href = `/api/template/${this.value}/preview/`;
-            document.getElementById('templatePreview').style.display = 'block';
-        } else {
-            document.getElementById('templatePreview').style.display = 'none';
-        }
-    });
+     // Load template from URL parameter if provided
+     function initializeTemplate() {
+         const params = new URLSearchParams(window.location.search);
+         const templateId = params.get('template');
+         if (templateId) {
+             document.getElementById('template').value = templateId;
+             // Trigger change event to show preview
+             document.getElementById('template').dispatchEvent(new Event('change'));
+         }
+     }
+
+     // Template preview
+     document.getElementById('template').addEventListener('change', function() {
+         if (this.value) {
+             const previewLink = document.getElementById('previewLink');
+             previewLink.href = `/api/template/${this.value}/preview/`;
+             document.getElementById('templatePreview').style.display = 'block';
+         } else {
+             document.getElementById('templatePreview').style.display = 'none';
+         }
+     });
+
+     // Initialize when page loads
+     window.addEventListener('DOMContentLoaded', initializeTemplate);
 
     function addSkill() {
         const container = document.getElementById('skillsContainer');

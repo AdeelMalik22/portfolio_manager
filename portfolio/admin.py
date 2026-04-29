@@ -9,7 +9,7 @@ from .models import (
 @admin.register(PortfolioTemplate)
 class PortfolioTemplateAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'color_scheme', 'is_active', 'order')
-    list_filter = ('category', 'is_active')
+    list_filter = ('category', 'is_active','id')
     search_fields = ('name', 'description')
     prepopulated_fields = {'slug': ('name',)}
     ordering = ('order', 'name')

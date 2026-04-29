@@ -69,6 +69,90 @@
         font-weight: 500;
     }
 
+    /* Image Preview & Processing */
+    .image-preview-container {
+        margin-top: var(--space-lg);
+        display: flex;
+        gap: var(--space-lg);
+        flex-wrap: wrap;
+    }
+
+    .preview-box {
+        flex: 1;
+        min-width: 200px;
+        padding: var(--space-md);
+        border: 2px dashed var(--neutral-300);
+        border-radius: var(--radius-lg);
+        text-align: center;
+    }
+
+    .preview-box h4 {
+        margin-bottom: var(--space-sm);
+        font-size: 0.9rem;
+    }
+
+    .preview-box img {
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: var(--radius-md);
+        margin: var(--space-md) 0;
+    }
+
+    .process-btn {
+        background-color: #10b981;
+        color: white;
+        padding: var(--space-sm) var(--space-md);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 600;
+        transition: all var(--transition-base);
+        font-size: 0.9rem;
+    }
+
+    .process-btn:hover {
+        background-color: #059669;
+        transform: translateY(-2px);
+    }
+
+    .process-btn:disabled {
+        background-color: var(--neutral-400);
+        cursor: not-allowed;
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-right: 8px;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .alert {
+        padding: var(--space-md);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-md);
+    }
+
+    .alert-success {
+        background-color: #d1fae5;
+        border: 1px solid #6ee7b7;
+        color: #065f46;
+    }
+
+    .alert-error {
+        background-color: #fee2e2;
+        border: 1px solid #fca5a5;
+        color: #7f1d1d;
+    }
+
     /* ============================================
        FORM ACTIONS
        ============================================ */
@@ -102,6 +186,10 @@
         .form-actions .btn {
             width: 100%;
         }
+
+        .image-preview-container {
+            flex-direction: column;
+        }
     }
 </style>
 {% endblock %}
@@ -111,15 +199,130 @@
     <h2>✏️ Edit Your Portfolio</h2>
     <p class="help-text">Update your portfolio information. JSON fields accept arrays. Example for skills: ["Python", "Django"].</p>
 
-    <form method="post" enctype="multipart/form-data">
+    <div id="alerts"></div>
+
+    <form method="post" enctype="multipart/form-data" id="portfolioForm">
         {% csrf_token %}
         {{ form.non_field_errors }}
-        {{ form.as_p }}
+
+        <!-- Image Upload Section -->
+        <div id="imageSection">
+            {{ form.profile_image }}
+            <p class="help-text">Upload a profile image (any format). The background will be automatically removed and merged with your template's theme.</p>
+        </div>
+
+        <!-- Image Preview Section -->
+        <div id="previewSection" style="display: none;">
+            <div class="image-preview-container">
+                <div class="preview-box">
+                    <h4>Original Image</h4>
+                    <img id="originalPreview" alt="Original">
+                </div>
+                <div class="preview-box">
+                    <h4>Processed Image</h4>
+                    <img id="processedPreview" alt="Processed" style="display: none;">
+                    <button type="button" class="process-btn" id="processImageBtn" onclick="processImage()">
+                        🎨 Process Image
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rest of form fields -->
+        {% for field in form %}
+            {% if field.name not in 'profile_image' %}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="alert alert-error">{{ field.errors }}</div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
         <div class="form-actions">
             <button class="btn btn-lg" type="submit">💾 Save Changes</button>
             <a class="btn btn-lg btn-secondary" href="{% url 'portfolio:dashboard' %}">✕ Cancel</a>
         </div>
     </form>
 </div>
+
+<script>
+    // Image preview on upload
+    document.getElementById('id_profile_image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('originalPreview').src = event.target.result;
+                document.getElementById('previewSection').style.display = 'block';
+                document.getElementById('processedPreview').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    async function processImage() {
+        const btn = document.getElementById('processImageBtn');
+        const file = document.getElementById('id_profile_image').files[0];
+        const template = document.getElementById('id_template').value;
+
+        if (!file) {
+            showAlert('Please select an image first', 'error');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span>Processing...';
+
+        try {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('template_slug', template || 'modern_corporate');
+
+            const response = await fetch('/api/my-portfolio/process-image/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Processing failed');
+            }
+
+            const data = await response.json();
+
+            // Display processed image
+            document.getElementById('processedPreview').src = data.portfolio.processed_profile_image;
+            document.getElementById('processedPreview').style.display = 'block';
+
+            showAlert('✅ Image processed successfully! The processed image will be used.', 'success');
+        } catch (error) {
+            showAlert('❌ ' + error.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '🎨 Process Image';
+        }
+    }
+
+    function showAlert(message, type) {
+        const alertsDiv = document.getElementById('alerts');
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+        const alert = document.createElement('div');
+        alert.className = `alert ${alertClass}`;
+        alert.textContent = message;
+        alertsDiv.innerHTML = '';
+        alertsDiv.appendChild(alert);
+
+        if (type === 'success') {
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 0.3s';
+            }, 3000);
+        }
+    }
+</script>
 {% endblock %}
 

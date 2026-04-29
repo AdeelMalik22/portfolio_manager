@@ -21,6 +21,7 @@ urlpatterns = [
     path('my-portfolio/', views.my_portfolio, name='my_portfolio'),
     path('my-portfolio/publish/', views.publish_my_portfolio, name='my_portfolio_publish'),
     path('my-portfolio/unpublish/', views.unpublish_my_portfolio, name='my_portfolio_unpublish'),
+    path('my-portfolio/process-image/', views.process_my_portfolio_image, name='my_portfolio_process_image'),
 ]
 
 # Web URLs (non-API)

@@ -1,16 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Q, F
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 import json
 
 from .models import PortfolioTemplate, Portfolio, UserProfile, PublicPortfolio
@@ -21,6 +17,7 @@ from .serializers import (
     PublicPortfolioSerializer, PublicPortfolioEditSerializer
 )
 from .services import PortfolioRenderer, PublicPortfolioRenderer
+from .image_processor import ImageProcessor
 from .forms import PublicPortfolioForm
 
 
@@ -141,6 +138,42 @@ class PortfolioViewSet(viewsets.ModelViewSet):
         portfolio.save()
         serializer = self.get_serializer(portfolio)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['post'], parser_classes=(MultiPartParser, FormParser))
+    def process_image(self, request, pk=None):
+        """Process profile image: remove background and merge with template theme"""
+        portfolio = self.get_object()
+        
+        # Get image file
+        image_file = request.FILES.get('image')
+        if not image_file:
+            return Response(
+                {'error': 'No image file provided'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Get template slug
+        template_slug = request.data.get('template_slug', portfolio.template.slug)
+        
+        try:
+            # Process image
+            processor = ImageProcessor()
+            processed_file = processor.save_processed_image(image_file, template_slug)
+            
+            # Save to portfolio
+            portfolio.processed_profile_image = processed_file
+            portfolio.save(update_fields=['processed_profile_image'])
+            
+            serializer = self.get_serializer(portfolio)
+            return Response({
+                'message': 'Image processed successfully',
+                'portfolio': serializer.data
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {'error': f'Image processing failed: {str(e)}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 # Regular views for template preview
@@ -328,6 +361,47 @@ def unpublish_my_portfolio(request):
     portfolio.is_published = False
     portfolio.save(update_fields=['is_published'])
     return Response(PublicPortfolioSerializer(portfolio).data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def process_my_portfolio_image(request):
+    """Process profile image for authenticated user's public portfolio"""
+    portfolio = _get_or_create_public_portfolio(request.user)
+    
+    # Get image file
+    image_file = request.FILES.get('image')
+    if not image_file:
+        return Response(
+            {'error': 'No image file provided'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Get template slug
+    template_slug = request.data.get('template_slug')
+    if not template_slug and portfolio.template:
+        template_slug = portfolio.template.slug
+    else:
+        template_slug = template_slug or 'modern_corporate'
+    
+    try:
+        # Process image
+        processor = ImageProcessor()
+        processed_file = processor.save_processed_image(image_file, template_slug)
+        
+        # Save to portfolio
+        portfolio.processed_profile_image = processed_file
+        portfolio.save(update_fields=['processed_profile_image'])
+        
+        return Response({
+            'message': 'Image processed successfully',
+            'portfolio': PublicPortfolioSerializer(portfolio).data
+        }, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(
+            {'error': f'Image processing failed: {str(e)}'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 # Public portfolio HTML rendering

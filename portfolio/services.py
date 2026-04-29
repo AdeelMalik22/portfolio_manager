@@ -19,14 +19,17 @@ class PortfolioRenderer:
 
     def encode_image_to_base64(self):
         """Convert profile image to base64 for embedding in HTML"""
-        if not self.portfolio.profile_image:
+        # Use processed image if available, otherwise use original
+        image_to_use = self.portfolio.processed_profile_image or self.portfolio.profile_image
+
+        if not image_to_use:
             return None
 
         try:
-            with self.portfolio.profile_image.open('rb') as f:
+            with image_to_use.open('rb') as f:
                 image_data = f.read()
                 base64_str = base64.b64encode(image_data).decode('utf-8')
-                mime_type = mimetypes.guess_type(self.portfolio.profile_image.name)[0] or 'image/jpeg'
+                mime_type = mimetypes.guess_type(image_to_use.name)[0] or 'image/jpeg'
                 return f"data:{mime_type};base64,{base64_str}"
         except Exception as e:
             print(f"Error encoding image: {e}")
@@ -85,14 +88,17 @@ class PublicPortfolioRenderer:
 
     def encode_image_to_base64(self):
         """Convert profile image to base64 for embedding in HTML"""
-        if not self.portfolio.profile_image:
+        # Use processed image if available, otherwise use original
+        image_to_use = self.portfolio.processed_profile_image or self.portfolio.profile_image
+
+        if not image_to_use:
             return None
 
         try:
-            with self.portfolio.profile_image.open('rb') as f:
+            with image_to_use.open('rb') as f:
                 image_data = f.read()
                 base64_str = base64.b64encode(image_data).decode('utf-8')
-                mime_type = mimetypes.guess_type(self.portfolio.profile_image.name)[0] or 'image/jpeg'
+                mime_type = mimetypes.guess_type(image_to_use.name)[0] or 'image/jpeg'
                 return f"data:{mime_type};base64,{base64_str}"
         except Exception as e:
             print(f"Error encoding image: {e}")

@@ -8,6 +8,9 @@ class PublicPortfolioForm(forms.ModelForm):
     experience = forms.JSONField(required=False)
     education = forms.JSONField(required=False)
 
+    # Option to auto-process image
+    auto_process_image = forms.BooleanField(required=False, initial=True)
+
     class Meta:
         model = PublicPortfolio
         fields = [
@@ -22,6 +25,7 @@ class PublicPortfolioForm(forms.ModelForm):
             'projects': forms.Textarea(attrs={'rows': 5}),
             'experience': forms.Textarea(attrs={'rows': 5}),
             'education': forms.Textarea(attrs={'rows': 4}),
+            'profile_image': forms.FileInput(attrs={'accept': 'image/*'}),
         }
 
     def clean(self):
@@ -30,4 +34,29 @@ class PublicPortfolioForm(forms.ModelForm):
             if cleaned.get(field) in [None, '']:
                 cleaned[field] = []
         return cleaned
+
+    def save(self, commit=True):
+        """Override save to process image if requested"""
+        instance = super().save(commit=commit)
+
+        # Process image if auto_process_image is checked and image exists
+        if self.cleaned_data.get('auto_process_image') and self.files.get('profile_image'):
+            try:
+                from .image_processor import ImageProcessor
+                processor = ImageProcessor()
+                template_slug = instance.template.slug if instance.template else 'modern_corporate'
+                processed_file = processor.save_processed_image(
+                    self.files['profile_image'],
+                    template_slug
+                )
+                instance.processed_profile_image = processed_file
+                if commit:
+                    instance.save()
+            except Exception as e:
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.warning(f"Failed to auto-process image: {e}")
+
+        return instance
+
 
