@@ -1,76 +1,82 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Your Portfolio - Portfolio Builder{% endblock %}
+{% block title %}Create Your Portfolio — PortfolioForge{% endblock %}
 
 {% block extra_css %}
 <style>
     /* ============================================
-       FORM CONTAINER - Modern Form Layout
+       FORM CONTAINER - Modern Dark Form Layout
        ============================================ */
     .form-container {
-        background: #fff;
-        padding: var(--space-2xl);
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: var(--space-10) var(--space-8);
         border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-md);
-        max-width: 700px;
-        margin: 0 auto;
-        border: 1px solid var(--neutral-200);
+        box-shadow: var(--shadow-xl);
+        max-width: 800px;
+        margin: var(--space-8) auto;
+        backdrop-filter: blur(12px);
     }
 
     .form-header {
-        margin-bottom: var(--space-xl);
+        margin-bottom: var(--space-8);
+        border-bottom: 1px solid var(--border-subtle);
+        padding-bottom: var(--space-6);
     }
 
     .form-header h2 {
-        font-size: clamp(1.5rem, 5vw, 2rem);
-        color: var(--neutral-900);
-        margin-bottom: var(--space-md);
-        font-weight: 700;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(1.5rem, 5vw, 2.25rem);
+        color: var(--text-primary);
+        margin-bottom: var(--space-2);
+        font-weight: 800;
+        letter-spacing: -0.5px;
     }
 
     .form-header p {
-        color: var(--neutral-600);
-        font-size: 1rem;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
     }
 
     /* ============================================
        FORM SECTIONS - Step-by-Step Structure
        ============================================ */
     .form-section {
-        margin-bottom: var(--space-xl);
-        padding-bottom: var(--space-xl);
-        border-bottom: 1px solid var(--neutral-200);
+        margin-bottom: var(--space-10);
+        padding-bottom: var(--space-8);
+        border-bottom: 1px solid var(--border-subtle);
     }
 
-    .form-section:last-child {
+    .form-section:last-of-type {
         border-bottom: none;
         margin-bottom: 0;
         padding-bottom: 0;
     }
 
     .section-title {
-        font-size: 1.1rem;
-        color: var(--primary);
-        margin-bottom: var(--space-lg);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.15rem;
+        color: var(--brand-300);
+        margin-bottom: var(--space-6);
         font-weight: 700;
         display: flex;
         align-items: center;
-        gap: var(--space-sm);
+        gap: var(--space-3);
     }
 
     /* ============================================
        FORM GROUPS & FIELDS
        ============================================ */
     .form-group {
-        margin-bottom: var(--space-lg);
+        margin-bottom: var(--space-6);
     }
 
     label {
         display: block;
-        margin-bottom: var(--space-sm);
+        margin-bottom: var(--space-2);
         font-weight: 600;
-        color: var(--neutral-800);
-        font-size: 0.95rem;
+        color: var(--text-primary);
+        font-size: 0.875rem;
     }
 
     input[type="text"],
@@ -80,13 +86,14 @@
     textarea,
     select {
         width: 100%;
-        padding: var(--space-md);
-        border: 2px solid var(--neutral-300);
+        padding: var(--space-3) var(--space-4);
+        border: 1px solid var(--border-default);
         border-radius: var(--radius-lg);
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-family: inherit;
-        transition: all var(--transition-base);
-        background-color: var(--neutral-50);
+        color: var(--text-primary);
+        background-color: var(--surface-800);
+        transition: all var(--dur-base) var(--ease-out);
     }
 
     input[type="text"]:focus,
@@ -96,9 +103,9 @@
     textarea:focus,
     select:focus {
         outline: none;
-        border-color: var(--primary);
-        background-color: #fff;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        border-color: var(--brand-500);
+        background-color: var(--surface-700);
+        box-shadow: 0 0 0 3px var(--color-primary-glow);
     }
 
     textarea {
@@ -107,9 +114,9 @@
     }
 
     .help-text {
-        font-size: 0.8rem;
-        color: var(--neutral-600);
-        margin-top: var(--space-sm);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: var(--space-2);
         font-weight: 500;
     }
 
@@ -119,25 +126,26 @@
     .form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: var(--space-lg);
+        gap: var(--space-6);
     }
 
     /* ============================================
        ARRAY INPUT GROUPS - Dynamic Fields
        ============================================ */
     .array-input-group {
-        background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
-        padding: var(--space-lg);
+        background: var(--surface-800);
+        padding: var(--space-5);
         border-radius: var(--radius-lg);
-        margin-bottom: var(--space-lg);
-        border: 1px solid var(--neutral-200);
+        margin-bottom: var(--space-4);
+        border: 1px solid var(--border-subtle);
+        position: relative;
     }
 
     .array-input-item {
         display: grid;
         grid-template-columns: 1fr auto;
-        gap: var(--space-md);
-        margin-bottom: var(--space-md);
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
         align-items: flex-end;
     }
 
@@ -153,42 +161,46 @@
        BUTTONS - Action Buttons
        ============================================ */
     .btn-remove {
-        padding: var(--space-md) var(--space-lg);
-        background: var(--error);
-        color: #fff;
-        border: none;
+        padding: var(--space-3) var(--space-5);
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.3);
         border-radius: var(--radius-lg);
         cursor: pointer;
-        font-size: 0.85rem;
+        font-size: 0.8125rem;
         font-weight: 600;
-        transition: all var(--transition-base);
+        transition: all var(--dur-base) var(--ease-out);
         white-space: nowrap;
     }
 
     .btn-remove:hover {
-        background: #dc2626;
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
+        background: rgba(239, 68, 68, 0.25);
+        border-color: rgba(239, 68, 68, 0.5);
+        color: #ef4444;
     }
 
     .btn-add {
-        padding: var(--space-sm) var(--space-lg);
-        background: var(--success);
-        color: #fff;
-        border: none;
+        padding: var(--space-3) var(--space-5);
+        background: rgba(16, 185, 129, 0.12);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.25);
         border-radius: var(--radius-lg);
         cursor: pointer;
-        font-size: 0.85rem;
+        font-size: 0.8125rem;
         font-weight: 600;
-        margin-top: var(--space-md);
-        transition: all var(--transition-base);
+        margin-top: var(--space-4);
+        transition: all var(--dur-base) var(--ease-out);
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
     }
 
     .btn-add:hover {
-        background: #059669;
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
+        background: rgba(16, 185, 129, 0.22);
+        border-color: rgba(16, 185, 129, 0.45);
+        color: #10b981;
     }
 
     /* ============================================
@@ -196,55 +208,68 @@
        ============================================ */
     .form-actions {
         display: flex;
-        gap: var(--space-md);
-        margin-top: var(--space-2xl);
-        padding-top: var(--space-xl);
-        border-top: 1px solid var(--neutral-200);
+        gap: var(--space-4);
+        margin-top: var(--space-10);
+        padding-top: var(--space-6);
+        border-top: 1px solid var(--border-subtle);
     }
 
     .form-actions .btn {
         flex: 1;
-        padding: var(--space-md) var(--space-lg);
-        font-size: 1rem;
-        font-weight: 600;
     }
 
     /* ============================================
        FILE INPUT - Custom Styling
        ============================================ */
     input[type="file"] {
-        padding: var(--space-sm);
-        border: 2px dashed var(--primary);
-        background-color: rgba(99, 102, 241, 0.05);
+        padding: var(--space-2);
+        border: 1.5px dashed var(--border-strong);
+        background-color: var(--surface-800);
         cursor: pointer;
     }
 
-    input[type="file"]:focus {
-        border-color: var(--primary);
+    input[type="file"]::file-selector-button {
+        background: var(--surface-600);
+        color: var(--text-primary);
+        border: 1px solid var(--border-default);
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-right: var(--space-3);
+        transition: all var(--dur-fast);
+    }
+
+    input[type="file"]::file-selector-button:hover {
+        background: var(--surface-500);
     }
 
     /* ============================================
        TEMPLATE PREVIEW - Status Message
        ============================================ */
     .template-preview {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
-        padding: var(--space-lg);
+        background: rgba(99, 102, 241, 0.1);
+        padding: var(--space-4);
         border-radius: var(--radius-lg);
-        margin-top: var(--space-md);
+        margin-top: var(--space-4);
         text-align: center;
         border: 1px solid rgba(99, 102, 241, 0.2);
     }
 
     .template-preview a {
-        color: var(--primary);
+        color: var(--brand-300);
         text-decoration: none;
         font-weight: 600;
-        transition: color var(--transition-fast);
+        font-size: 0.875rem;
+        transition: color var(--dur-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
     }
 
     .template-preview a:hover {
-        color: var(--primary-dark);
-        text-decoration: underline;
+        color: var(--text-primary);
     }
 
     /* ============================================
@@ -253,19 +278,16 @@
     @media (max-width: 768px) {
         .form-row {
             grid-template-columns: 1fr;
+            gap: 0;
         }
 
         .form-container {
-            padding: var(--space-lg);
+            padding: var(--space-6) var(--space-4);
         }
 
         .array-input-item {
             grid-template-columns: 1fr;
-            gap: var(--space-sm);
-        }
-
-        .array-input-item input {
-            margin-bottom: var(--space-sm);
+            gap: var(--space-2);
         }
 
         .btn-remove {
@@ -275,10 +297,6 @@
         .form-actions {
             flex-direction: column;
         }
-
-        .form-actions .btn {
-            width: 100%;
-        }
     }
 </style>
 {% endblock %}
@@ -287,7 +305,7 @@
 <div class="form-container">
     <div class="form-header">
         <h2>🚀 Build Your Portfolio</h2>
-        <p>Fill in your information and generate your professional portfolio</p>
+        <p>Fill in your details to forge your premium professional portfolio page.</p>
     </div>
 
     <form id="portfolioForm">
@@ -306,7 +324,7 @@
                     {% endfor %}
                 </select>
                 <div id="templatePreview" class="template-preview" style="display:none;">
-                    <a id="previewLink" href="#" target="_blank">👁️ Preview This Template</a>
+                    <a id="previewLink" href="#" target="_blank">👁️ Preview Selected Template</a>
                 </div>
             </div>
 
@@ -324,7 +342,7 @@
             <div class="form-group">
                 <label for="bio">Bio / About Me *</label>
                 <textarea id="bio" name="bio" required placeholder="Tell us about yourself, your experience, and what makes you unique..."></textarea>
-                <div class="help-text">✓ Minimum 20 characters</div>
+                <div class="help-text">✓ Recommended: 20+ characters</div>
             </div>
 
             <div class="form-row">
@@ -416,41 +434,43 @@
 
         <!-- Form Actions -->
         <div class="form-actions">
-            <button type="reset" class="btn btn-secondary">✕ Clear</button>
-            <button type="submit" class="btn btn-lg">🎉 Generate Portfolio</button>
+            <button type="reset" class="btn btn-secondary">✕ Clear Form</button>
+            <button type="submit" class="btn btn-primary btn-lg">Generate Portfolio →</button>
         </div>
     </form>
 </div>
+{% endblock %}
 
+{% block extra_js %}
 <script>
     let projectCount = 0;
     let expCount = 0;
     let eduCount = 0;
 
-     // Load template from URL parameter if provided
-     function initializeTemplate() {
-         const params = new URLSearchParams(window.location.search);
-         const templateId = params.get('template');
-         if (templateId) {
-             document.getElementById('template').value = templateId;
-             // Trigger change event to show preview
-             document.getElementById('template').dispatchEvent(new Event('change'));
-         }
-     }
+    // Load template from URL parameter if provided
+    function initializeTemplate() {
+        const params = new URLSearchParams(window.location.search);
+        const templateId = params.get('template');
+        if (templateId) {
+            document.getElementById('template').value = templateId;
+            // Trigger change event to show preview
+            document.getElementById('template').dispatchEvent(new Event('change'));
+        }
+    }
 
-     // Template preview
-     document.getElementById('template').addEventListener('change', function() {
-         if (this.value) {
-             const previewLink = document.getElementById('previewLink');
-             previewLink.href = `/api/template/${this.value}/preview/`;
-             document.getElementById('templatePreview').style.display = 'block';
-         } else {
-             document.getElementById('templatePreview').style.display = 'none';
-         }
-     });
+    // Template preview
+    document.getElementById('template').addEventListener('change', function() {
+        if (this.value) {
+            const previewLink = document.getElementById('previewLink');
+            previewLink.href = `/api/template/${this.value}/preview/`;
+            document.getElementById('templatePreview').style.display = 'block';
+        } else {
+            document.getElementById('templatePreview').style.display = 'none';
+        }
+    });
 
-     // Initialize when page loads
-     window.addEventListener('DOMContentLoaded', initializeTemplate);
+    // Initialize when page loads
+    window.addEventListener('DOMContentLoaded', initializeTemplate);
 
     function addSkill() {
         const container = document.getElementById('skillsContainer');
@@ -470,11 +490,11 @@
         div.className = 'array-input-group';
         div.innerHTML = `
             <input type="text" class="project-title" placeholder="Project Title" required>
-            <textarea class="project-desc" placeholder="Project Description" style="margin-top:var(--space-md); margin-bottom:0; width:100%;"></textarea>
-            <input type="text" class="project-tech" placeholder="Tech Stack (e.g., Django, React)" style="margin-top:var(--space-md); margin-bottom:0;">
-            <input type="url" class="project-github" placeholder="GitHub Link (optional)" style="margin-top:var(--space-md); margin-bottom:0;">
-            <input type="url" class="project-live" placeholder="Live Demo Link (optional)" style="margin-top:var(--space-md); margin-bottom:0;">
-            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-md);">Remove</button>
+            <textarea class="project-desc" placeholder="Project Description" style="margin-top:var(--space-3); margin-bottom:0; width:100%;"></textarea>
+            <input type="text" class="project-tech" placeholder="Tech Stack (e.g., Django, React)" style="margin-top:var(--space-3); margin-bottom:0;">
+            <input type="url" class="project-github" placeholder="GitHub Link (optional)" style="margin-top:var(--space-3); margin-bottom:0;">
+            <input type="url" class="project-live" placeholder="Live Demo Link (optional)" style="margin-top:var(--space-3); margin-bottom:0;">
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-3);">Remove</button>
         `;
         container.appendChild(div);
     }
@@ -486,10 +506,10 @@
         div.className = 'array-input-group';
         div.innerHTML = `
             <input type="text" class="exp-company" placeholder="Company Name" required>
-            <input type="text" class="exp-role" placeholder="Job Title" style="margin-top:var(--space-md); margin-bottom:0;">
-            <input type="text" class="exp-duration" placeholder="Duration (e.g., Jan 2020 - Dec 2021)" style="margin-top:var(--space-md); margin-bottom:0;">
-            <textarea class="exp-desc" placeholder="Job Description" style="margin-top:var(--space-md); margin-bottom:0;"></textarea>
-            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-md);">Remove</button>
+            <input type="text" class="exp-role" placeholder="Job Title" style="margin-top:var(--space-3); margin-bottom:0;">
+            <input type="text" class="exp-duration" placeholder="Duration (e.g., Jan 2020 - Dec 2021)" style="margin-top:var(--space-3); margin-bottom:0;">
+            <textarea class="exp-desc" placeholder="Job Description" style="margin-top:var(--space-3); margin-bottom:0;"></textarea>
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-3);">Remove</button>
         `;
         container.appendChild(div);
     }
@@ -501,10 +521,10 @@
         div.className = 'array-input-group';
         div.innerHTML = `
             <input type="text" class="edu-school" placeholder="School/University" required>
-            <input type="text" class="edu-degree" placeholder="Degree" style="margin-top:var(--space-md); margin-bottom:0;">
-            <input type="text" class="edu-field" placeholder="Field of Study" style="margin-top:var(--space-md); margin-bottom:0;">
-            <input type="text" class="edu-year" placeholder="Graduation Year" style="margin-top:var(--space-md); margin-bottom:0;">
-            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-md);">Remove</button>
+            <input type="text" class="edu-degree" placeholder="Degree" style="margin-top:var(--space-3); margin-bottom:0;">
+            <input type="text" class="edu-field" placeholder="Field of Study" style="margin-top:var(--space-3); margin-bottom:0;">
+            <input type="text" class="edu-year" placeholder="Graduation Year" style="margin-top:var(--space-3); margin-bottom:0;">
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:var(--space-3);">Remove</button>
         `;
         container.appendChild(div);
     }
@@ -630,4 +650,3 @@
     });
 </script>
 {% endblock %}
-
