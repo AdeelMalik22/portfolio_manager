@@ -3,266 +3,416 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Portfolio Builder - Create Your Professional Portfolio{% endblock %}</title>
+    <title>{% block title %}PortfolioForge — Build Your Professional Portfolio{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Create a stunning, professional portfolio in minutes with PortfolioForge. Choose from 21 expertly designed templates.{% endblock %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           MODERN DESIGN SYSTEM - Base Styles
+           DESIGN SYSTEM — CSS Custom Properties
            ============================================ */
-
         :root {
-            /* Primary Colors */
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #818cf8;
+            /* Brand Colors */
+            --brand-50:  #f0f4ff;
+            --brand-100: #e0eaff;
+            --brand-200: #c7d7fe;
+            --brand-300: #a5b4fc;
+            --brand-400: #818cf8;
+            --brand-500: #6366f1;
+            --brand-600: #4f46e5;
+            --brand-700: #4338ca;
+            --brand-800: #3730a3;
+            --brand-900: #312e81;
 
-            /* Accent Colors */
-            --accent: #ec4899;
-            --accent-light: #f472b6;
+            /* Accent */
+            --accent-violet: #8b5cf6;
+            --accent-pink:   #ec4899;
+            --accent-teal:   #14b8a6;
+            --accent-amber:  #f59e0b;
 
-            /* Neutral Colors - Modern grayscale */
-            --neutral-50: #fafafa;
-            --neutral-100: #f3f4f6;
-            --neutral-200: #e5e7eb;
-            --neutral-300: #d1d5db;
-            --neutral-400: #9ca3af;
-            --neutral-500: #6b7280;
-            --neutral-600: #4b5563;
-            --neutral-700: #374151;
-            --neutral-800: #1f2937;
-            --neutral-900: #111827;
+            /* Semantic */
+            --color-primary:      var(--brand-500);
+            --color-primary-dark: var(--brand-700);
+            --color-primary-glow: rgba(99,102,241,0.35);
 
-            /* Status Colors */
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
+            /* Dark Surface Palette */
+            --surface-900: #0a0a0f;
+            --surface-800: #111118;
+            --surface-700: #1a1a28;
+            --surface-600: #22223a;
+            --surface-500: #2d2d4a;
+            --surface-400: #3d3d5c;
+            --surface-300: #52527a;
 
-            /* Spacing */
-            --space-xs: 0.25rem;
-            --space-sm: 0.5rem;
-            --space-md: 1rem;
-            --space-lg: 1.5rem;
-            --space-xl: 2rem;
-            --space-2xl: 3rem;
+            /* Text */
+            --text-primary:   #f1f1f8;
+            --text-secondary: #a8a8c4;
+            --text-muted:     #6b6b8f;
+            --text-inverse:   #0a0a0f;
 
-            /* Border Radius */
-            --radius-sm: 0.375rem;
-            --radius-md: 0.5rem;
-            --radius-lg: 0.75rem;
-            --radius-xl: 1rem;
+            /* Borders */
+            --border-subtle:  rgba(255,255,255,0.06);
+            --border-default: rgba(255,255,255,0.10);
+            --border-strong:  rgba(255,255,255,0.18);
+
+            /* Light surface (cards) */
+            --card-bg:     rgba(26,26,40,0.85);
+            --card-border: rgba(255,255,255,0.08);
+            --card-hover:  rgba(34,34,58,0.95);
+
+            /* Spacing Scale */
+            --space-1:  0.25rem;
+            --space-2:  0.5rem;
+            --space-3:  0.75rem;
+            --space-4:  1rem;
+            --space-5:  1.25rem;
+            --space-6:  1.5rem;
+            --space-8:  2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+
+            /* Radius */
+            --radius-sm:   0.375rem;
+            --radius-md:   0.625rem;
+            --radius-lg:   0.875rem;
+            --radius-xl:   1.25rem;
+            --radius-2xl:  1.75rem;
+            --radius-full: 9999px;
 
             /* Shadows */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-sm:    0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md:    0 4px 12px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
+            --shadow-lg:    0 10px 32px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-xl:    0 20px 60px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.5);
+            --shadow-brand: 0 0 0 1px rgba(99,102,241,0.3), 0 8px 32px rgba(99,102,241,0.25);
+            --shadow-glow:  0 0 40px rgba(99,102,241,0.2);
 
             /* Transitions */
-            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in:   cubic-bezier(0.4, 0, 1, 1);
+            --ease-io:   cubic-bezier(0.4, 0, 0.2, 1);
+            --dur-fast:  150ms;
+            --dur-base:  250ms;
+            --dur-slow:  400ms;
         }
 
-        * {
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background-color: var(--neutral-50);
-            color: var(--neutral-700);
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--surface-900);
+            color: var(--text-primary);
+            line-height: 1.65;
             font-size: 1rem;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Background mesh gradient */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% -10%, rgba(99,102,241,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 110%, rgba(139,92,246,0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* ============================================
-           NAVIGATION - Modern Header
+           NAVIGATION
            ============================================ */
-        nav {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #fff;
-            padding: var(--space-lg) var(--space-md);
-            box-shadow: var(--shadow-md);
+        .nav {
             position: sticky;
             top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
+            z-index: 200;
+            background: rgba(10,10,15,0.75);
+            backdrop-filter: blur(20px) saturate(1.8);
+            -webkit-backdrop-filter: blur(20px) saturate(1.8);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: var(--space-4) 0;
         }
 
-        nav .container {
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            gap: var(--space-6);
         }
 
-        nav h1 {
-            font-size: 1.5rem;
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            text-decoration: none;
+            color: var(--text-primary);
+            flex-shrink: 0;
+        }
+
+        .nav-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--brand-500) 0%, var(--accent-violet) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-brand);
+            flex-shrink: 0;
+        }
+
+        .nav-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
-            margin: 0;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #fff 30%, var(--brand-300) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        nav p {
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .nav-link {
+            padding: var(--space-2) var(--space-4);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            transition: all var(--dur-fast) var(--ease-io);
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--border-subtle);
+        }
+
+        .nav-cta {
+            padding: var(--space-2) var(--space-5);
+            background: linear-gradient(135deg, var(--brand-500) 0%, var(--brand-700) 100%);
+            color: #fff;
+            text-decoration: none;
             font-size: 0.875rem;
-            opacity: 0.9;
-            margin: 0.25rem 0 0 0;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            transition: all var(--dur-base) var(--ease-out);
+            box-shadow: 0 0 0 1px rgba(99,102,241,0.4), var(--shadow-sm);
+            white-space: nowrap;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 0 1px rgba(99,102,241,0.6), var(--shadow-brand);
         }
 
         /* ============================================
-           CONTAINER & LAYOUT
+           CONTAINER
            ============================================ */
         .container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: var(--space-md);
-        }
-
-        @media (min-width: 640px) {
-            .container {
-                padding: var(--space-lg);
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                padding: var(--space-2xl);
-            }
+            padding: var(--space-8) var(--space-6);
+            position: relative;
+            z-index: 1;
         }
 
         /* ============================================
-           BUTTONS - Modern & Interactive
+           UNIVERSAL BUTTON SYSTEM
            ============================================ */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: var(--space-sm) var(--space-lg);
-            background-color: var(--primary);
-            color: #fff;
-            text-decoration: none;
-            border-radius: var(--radius-lg);
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all var(--transition-base);
-            font-size: 0.95rem;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
             font-weight: 600;
-            gap: var(--space-sm);
+            border-radius: var(--radius-lg);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
             white-space: nowrap;
+            transition: all var(--dur-base) var(--ease-out);
             user-select: none;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn:hover {
-            background-color: var(--primary-dark);
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0);
+            transition: background var(--dur-fast);
+        }
+
+        .btn:hover::after { background: rgba(255,255,255,0.06); }
+        .btn:active::after { background: rgba(255,255,255,0.12); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--brand-500) 0%, var(--brand-700) 100%);
+            color: #fff;
+            box-shadow: 0 0 0 1px rgba(99,102,241,0.4), var(--shadow-md);
+        }
+
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 0 0 1px rgba(99,102,241,0.6), var(--shadow-brand);
         }
 
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        /* Button Variants */
         .btn-secondary {
-            background-color: var(--neutral-200);
-            color: var(--neutral-700);
+            background: var(--surface-600);
+            color: var(--text-primary);
+            border: 1px solid var(--border-default);
         }
 
         .btn-secondary:hover {
-            background-color: var(--neutral-300);
-            box-shadow: var(--shadow-md);
+            background: var(--surface-500);
+            border-color: var(--border-strong);
+            transform: translateY(-1px);
         }
 
-        .btn-outline {
-            background-color: transparent;
-            border-color: var(--primary);
-            color: var(--primary);
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-default);
         }
 
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: #fff;
+        .btn-ghost:hover {
+            background: var(--border-subtle);
+            color: var(--text-primary);
+            border-color: var(--border-strong);
         }
 
         .btn-sm {
-            padding: var(--space-xs) var(--space-md);
-            font-size: 0.875rem;
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.8125rem;
+            border-radius: var(--radius-md);
         }
 
         .btn-lg {
-            padding: var(--space-md) var(--space-xl);
-            font-size: 1.0625rem;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+            padding: var(--space-4) var(--space-8);
+            font-size: 1rem;
+            border-radius: var(--radius-xl);
         }
 
         /* ============================================
-           FOOTER - Modern & Minimal
+           FOOTER
            ============================================ */
         footer {
-            background-color: var(--neutral-900);
-            color: var(--neutral-100);
-            text-align: center;
-            padding: var(--space-2xl) var(--space-md);
-            margin-top: var(--space-2xl);
-            border-top: 1px solid var(--neutral-800);
+            background: var(--surface-800);
+            border-top: 1px solid var(--border-subtle);
+            padding: var(--space-12) var(--space-6);
+            margin-top: var(--space-20);
+            position: relative;
+            z-index: 1;
         }
 
-        footer p {
-            margin: 0;
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .footer-logo {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--brand-500), var(--accent-violet));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        .footer-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
             font-size: 0.9375rem;
-            opacity: 0.9;
+            color: var(--text-primary);
         }
 
-        footer a {
-            color: var(--primary-light);
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--space-5);
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
             text-decoration: none;
-            transition: color var(--transition-fast);
+            font-size: 0.8125rem;
+            transition: color var(--dur-fast);
         }
 
-        footer a:hover {
-            color: #fff;
-        }
+        .footer-links a:hover { color: var(--text-secondary); }
 
         /* ============================================
-           RESPONSIVE DESIGN
+           RESPONSIVE
            ============================================ */
-        @media (max-width: 640px) {
-            nav h1 {
-                font-size: 1.3rem;
-            }
-
-            nav p {
-                display: none;
-            }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .container { padding: var(--space-6) var(--space-4); }
+            .footer-inner { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
         }
 
         {% block extra_css %}{% endblock %}
     </style>
 </head>
 <body>
-    <!-- Modern Navigation Header -->
-    <nav>
-        <div class="container">
-            <div>
-                <h1>🎨 Portfolio Builder</h1>
-                <p>Create your professional portfolio in minutes</p>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-brand">
+                <div class="nav-logo">⚡</div>
+                <span class="nav-title">PortfolioForge</span>
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="{% url 'gallery' %}" class="nav-link">Templates</a>
+                <a href="{% url 'portfolio_form' %}" class="nav-link">Builder</a>
             </div>
+            <a href="{% url 'portfolio_form' %}" class="nav-cta">Get Started →</a>
         </div>
     </nav>
 
@@ -271,12 +421,23 @@
         {% block content %}{% endblock %}
     </div>
 
-    <!-- Modern Footer -->
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Portfolio Builder. 100% Free. No Signups. No Ads.</p>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand">
+                    <div class="footer-logo">⚡</div>
+                    <span class="footer-name">PortfolioForge</span>
+                </div>
+                <p class="footer-copy" style="margin-top: var(--space-2);">© 2026 PortfolioForge · 100% Free · No sign-up required</p>
+            </div>
+            <div class="footer-links">
+                <a href="{% url 'gallery' %}">Templates</a>
+                <a href="{% url 'portfolio_form' %}">Builder</a>
+            </div>
+        </div>
     </footer>
 
     {% block extra_js %}{% endblock %}
 </body>
 </html>
-

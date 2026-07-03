@@ -247,9 +247,20 @@ def index(request):
 
 
 def gallery(request):
-    """Template gallery view"""
-    templates = PortfolioTemplate.objects.filter(is_active=True).order_by('order')
-    return render(request, 'portfolio_gallery.html', {'templates': templates})
+    """Template gallery view — passes per-category counts to the template"""
+    templates = PortfolioTemplate.objects.filter(is_active=True).order_by('category', 'order', 'name')
+    active_qs = PortfolioTemplate.objects.filter(is_active=True)
+    category_counts = {
+        'all':        active_qs.count(),
+        'minimalist': active_qs.filter(category='minimalist').count(),
+        'developer':  active_qs.filter(category='developer').count(),
+        'creative':   active_qs.filter(category='creative').count(),
+        'corporate':  active_qs.filter(category='corporate').count(),
+    }
+    return render(request, 'portfolio_gallery.html', {
+        'templates': templates,
+        'category_counts': category_counts,
+    })
 
 
 def portfolio_form(request):

@@ -1,281 +1,481 @@
 {% extends 'base.html' %}
 
-{% block title %}Portfolio Templates - Choose Your Design{% endblock %}
+{% block title %}Template Gallery — PortfolioForge{% endblock %}
+{% block meta_description %}Browse 21 professional portfolio templates. Filter by Minimalist, Developer, Creative, or Corporate categories and preview any design instantly.{% endblock %}
 
 {% block extra_css %}
 <style>
-    /* ============================================
-       TEMPLATES INTRO - Header Section
-       ============================================ */
-    .templates-intro {
-        background: linear-gradient(135deg, #fff 0%, var(--neutral-50) 100%);
-        padding: var(--space-2xl);
-        border-radius: var(--radius-xl);
-        margin-bottom: var(--space-2xl);
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--neutral-200);
-    }
+/* ── PAGE HEADER ───────────────────────────────────────── */
+.gallery-header {
+    padding: var(--space-12) 0 var(--space-10);
+    text-align: center;
+}
 
-    .templates-intro h2 {
-        color: var(--primary);
-        margin-bottom: var(--space-lg);
-        font-size: clamp(1.5rem, 5vw, 2rem);
-        font-weight: 700;
-    }
+.gallery-header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.875rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin-bottom: var(--space-4);
+}
 
-    .templates-intro p {
-        color: var(--neutral-600);
-        font-size: 1rem;
-    }
+.gallery-header h1 span {
+    background: linear-gradient(135deg, var(--brand-300), var(--accent-violet));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-    /* ============================================
-       CATEGORY FILTER - Filter Buttons
-       ============================================ */
-    .category-filter {
-        margin-bottom: var(--space-2xl);
-        display: flex;
-        gap: var(--space-md);
-        flex-wrap: wrap;
-    }
+.gallery-header p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
 
-    .category-btn {
-        padding: var(--space-sm) var(--space-lg);
-        border: 2px solid var(--neutral-300);
-        background: #fff;
-        border-radius: 999px;
-        cursor: pointer;
-        transition: all var(--transition-base);
-        font-weight: 600;
-        font-size: 0.95rem;
-        color: var(--neutral-700);
-    }
+/* ── FILTER BAR ────────────────────────────────────────── */
+.filter-bar {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-10);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border-subtle);
+}
 
-    .category-btn:hover {
-        border-color: var(--primary);
-        color: var(--primary);
-    }
+.filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-5);
+    background: var(--surface-700);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--dur-base) var(--ease-out);
+    white-space: nowrap;
+}
 
-    .category-btn.active {
-        border-color: var(--primary);
-        background-color: var(--primary);
-        color: #fff;
-        box-shadow: var(--shadow-md);
-    }
+.filter-btn .count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--surface-500);
+    color: var(--text-muted);
+    padding: 1px 7px;
+    border-radius: var(--radius-full);
+    transition: all var(--dur-base);
+}
 
-    /* ============================================
-       TEMPLATES GRID - Card Layout
-       ============================================ */
-    .templates-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: var(--space-xl);
-        margin-top: var(--space-xl);
-    }
+.filter-btn:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+    background: var(--surface-600);
+}
 
-    .template-card {
-        background: #fff;
-        border-radius: var(--radius-xl);
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        transition: all var(--transition-base);
-        cursor: pointer;
-        border: 1px solid var(--neutral-200);
-        display: flex;
-        flex-direction: column;
-    }
+.filter-btn.active {
+    background: var(--brand-600);
+    border-color: var(--brand-500);
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(99,102,241,0.4), var(--shadow-sm);
+}
 
-    .template-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-xl);
-        border-color: var(--primary);
-    }
+.filter-btn.active .count {
+    background: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.9);
+}
 
-    /* ============================================
-       TEMPLATE HEADER - Card Header
-       ============================================ */
-    .template-header {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-        color: #fff;
-        padding: var(--space-xl);
-        text-align: center;
-        min-height: 140px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-    }
+/* ── RESULTS INFO ──────────────────────────────────────── */
+.results-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
 
-    .template-header::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        border-radius: 50%;
-    }
+#results-count { font-weight: 600; color: var(--text-secondary); }
 
-    .template-header h3 {
-        font-size: 1.3rem;
-        margin-bottom: var(--space-sm);
-        font-weight: 700;
-        position: relative;
-        z-index: 1;
-    }
+/* ── TEMPLATES GRID ────────────────────────────────────── */
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-5);
+}
 
-    .template-category {
-        font-size: 0.8rem;
-        opacity: 0.9;
-        background-color: rgba(255,255,255,0.2);
-        padding: var(--space-xs) var(--space-sm);
-        border-radius: 999px;
-        display: inline-block;
-        margin-top: var(--space-sm);
-        position: relative;
-        z-index: 1;
-        font-weight: 600;
-    }
+/* ── TEMPLATE CARD ─────────────────────────────────────── */
+.template-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: all var(--dur-base) var(--ease-out);
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+}
 
-    /* ============================================
-       TEMPLATE BODY - Card Content
-       ============================================ */
-    .template-body {
-        padding: var(--space-xl);
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
+.template-card:hover {
+    border-color: rgba(99,102,241,0.35);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl), 0 0 0 1px rgba(99,102,241,0.15);
+}
 
-    .template-body p {
-        color: var(--neutral-600);
-        font-size: 0.95rem;
-        margin-bottom: var(--space-lg);
-        line-height: 1.6;
-        flex-grow: 1;
-    }
+/* ── CARD PREVIEW AREA (replaces old purple header) ──── */
+.card-preview {
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-5);
+}
 
-    /* ============================================
-       TEMPLATE ACTIONS - Action Buttons
-       ============================================ */
-    .template-actions {
-        display: flex;
-        gap: var(--space-md);
-    }
+/* Category-specific preview backgrounds */
+.card-preview.cat-minimalist {
+    background: linear-gradient(145deg, #0d1a1a 0%, #0f2020 60%, #0a1f1c 100%);
+}
+.card-preview.cat-developer {
+    background: linear-gradient(145deg, #0a0a1a 0%, #0e0e2a 60%, #080820 100%);
+}
+.card-preview.cat-creative {
+    background: linear-gradient(145deg, #1a0a1a 0%, #200a20 60%, #1a0515 100%);
+}
+.card-preview.cat-corporate {
+    background: linear-gradient(145deg, #0a0f1a 0%, #0e1520 60%, #080d18 100%);
+}
 
-    .template-actions a {
-        flex: 1;
-        padding: var(--space-md);
-        text-align: center;
-        border-radius: var(--radius-lg);
-        text-decoration: none;
-        font-weight: 600;
-        transition: all var(--transition-base);
-        font-size: 0.9rem;
-    }
+/* Decorative elements inside preview */
+.preview-deco {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
 
-    .preview-btn {
-        background-color: var(--neutral-100);
-        color: var(--primary);
-        border: 2px solid var(--primary);
-    }
+/* Minimalist preview — clean lines */
+.cat-minimalist .preview-deco::before {
+    content: '';
+    position: absolute;
+    left: var(--space-5); top: var(--space-5);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(20,184,166,0.15);
+    border: 1px solid rgba(20,184,166,0.3);
+}
+.cat-minimalist .preview-deco::after {
+    content: '';
+    position: absolute;
+    left: var(--space-5); top: 90px;
+    width: 120px; height: 2px;
+    background: rgba(20,184,166,0.4);
+    border-radius: 2px;
+    box-shadow: 0 8px 0 rgba(20,184,166,0.15), 0 20px 0 rgba(20,184,166,0.08);
+}
 
-    .preview-btn:hover {
-        background-color: var(--primary);
-        color: #fff;
-        transform: translateY(-2px);
-    }
+/* Developer preview — terminal look */
+.cat-developer .preview-deco::before {
+    content: '$ forge --build';
+    position: absolute;
+    top: var(--space-5); left: var(--space-5);
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: rgba(99,102,241,0.6);
+}
+.cat-developer .preview-deco::after {
+    content: '';
+    position: absolute;
+    bottom: var(--space-8); left: var(--space-5); right: var(--space-5);
+    height: 1px;
+    background: rgba(99,102,241,0.2);
+    box-shadow: 0 -16px 0 rgba(99,102,241,0.1), 0 16px 0 rgba(99,102,241,0.08);
+}
 
-    .select-btn {
-        background-color: var(--primary);
-        color: #fff;
-        border: 2px solid var(--primary);
-    }
+/* Creative preview — gradient orbs */
+.cat-creative .preview-deco::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(236,72,153,0.25) 0%, transparent 70%);
+}
+.cat-creative .preview-deco::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; left: 20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%);
+}
 
-    .select-btn:hover {
-        background-color: var(--primary-dark);
-        border-color: var(--primary-dark);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-    }
+/* Corporate preview — structured grid */
+.cat-corporate .preview-deco::before {
+    content: '';
+    position: absolute;
+    top: var(--space-5); right: var(--space-5);
+    width: 80px; height: 50px;
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: var(--radius-sm);
+    background: rgba(245,158,11,0.05);
+}
+.cat-corporate .preview-deco::after {
+    content: '';
+    position: absolute;
+    top: var(--space-5); left: var(--space-5);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.25);
+}
 
-    /* ============================================
-       RESPONSIVE DESIGN
-       ============================================ */
-    @media (max-width: 768px) {
-        .templates-grid {
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: var(--space-md);
-        }
+/* Category accent line at top of card */
+.card-preview::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    z-index: 2;
+}
+.cat-minimalist::before { background: linear-gradient(90deg, #14b8a6, #0d9488); }
+.cat-developer::before  { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+.cat-creative::before   { background: linear-gradient(90deg, #ec4899, #8b5cf6); }
+.cat-corporate::before  { background: linear-gradient(90deg, #f59e0b, #d97706); }
 
-        .templates-intro {
-            padding: var(--space-lg);
-        }
+/* Template name overlay */
+.card-preview-info {
+    position: relative;
+    z-index: 2;
+}
 
-        .category-filter {
-            gap: var(--space-sm);
-        }
+.card-preview-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: var(--space-1);
+}
 
-        .category-btn {
-            padding: var(--space-xs) var(--space-md);
-            font-size: 0.85rem;
-        }
-    }
+.card-category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.pill-minimalist { background: rgba(20,184,166,0.2);  color: #5eead4; border:1px solid rgba(20,184,166,0.3); }
+.pill-developer  { background: rgba(99,102,241,0.2);  color: #a5b4fc; border:1px solid rgba(99,102,241,0.3); }
+.pill-creative   { background: rgba(236,72,153,0.2);  color: #f9a8d4; border:1px solid rgba(236,72,153,0.3); }
+.pill-corporate  { background: rgba(245,158,11,0.2);  color: #fcd34d; border:1px solid rgba(245,158,11,0.3); }
+
+/* ── CARD BODY ─────────────────────────────────────────── */
+.card-body {
+    padding: var(--space-5) var(--space-6);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-desc {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: var(--space-5);
+}
+
+.card-actions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.card-actions a {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--dur-base) var(--ease-out);
+    white-space: nowrap;
+}
+
+.btn-preview {
+    background: var(--surface-600);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+}
+.btn-preview:hover {
+    background: var(--surface-500);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+}
+
+.btn-use {
+    background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+    color: #fff;
+    border: 1px solid rgba(99,102,241,0.4);
+}
+.btn-use:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-brand);
+}
+
+/* ── EMPTY STATE ───────────────────────────────────────── */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-20) var(--space-6);
+    color: var(--text-muted);
+}
+
+.empty-state .icon { font-size: 3rem; margin-bottom: var(--space-4); }
+.empty-state h3 { color: var(--text-secondary); margin-bottom: var(--space-2); }
+
+/* ── RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .templates-grid { grid-template-columns: 1fr; }
+    .filter-bar { gap: var(--space-2); }
+}
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="templates-intro">
-    <h2>🎨 Choose Your Portfolio Template</h2>
-    <p>Select from our collection of 20+ professionally designed portfolio templates. Each template is fully responsive, modern, and ready to showcase your work beautifully.</p>
+
+<!-- Gallery Header -->
+<div class="gallery-header">
+    <h1>Choose Your <span>Template</span></h1>
+    <p>21 professionally crafted portfolio templates across 4 categories. Preview any design before you build.</p>
 </div>
 
-<div class="category-filter">
-    <button class="category-btn active" data-category="all">📋 All Templates (25)</button>
-    <button class="category-btn" data-category="minimalist">🌿 Minimalist (4)</button>
-    <button class="category-btn" data-category="developer">💻 Developer (6)</button>
-    <button class="category-btn" data-category="creative">🎨 Creative (6)</button>
-    <button class="category-btn" data-category="corporate">💼 Corporate (4)</button>
-    <button class="category-btn" data-category="latest">⭐ Latest (5)</button>
+<!-- Filter Bar -->
+<div class="filter-bar" role="tablist" aria-label="Filter templates by category">
+    <button class="filter-btn active" data-category="all" role="tab" aria-selected="true" id="filter-all">
+        All Templates <span class="count">{{ category_counts.all }}</span>
+    </button>
+    <button class="filter-btn" data-category="minimalist" role="tab" aria-selected="false" id="filter-minimalist">
+        🌿 Minimalist <span class="count">{{ category_counts.minimalist }}</span>
+    </button>
+    <button class="filter-btn" data-category="developer" role="tab" aria-selected="false" id="filter-developer">
+        💻 Developer <span class="count">{{ category_counts.developer }}</span>
+    </button>
+    <button class="filter-btn" data-category="creative" role="tab" aria-selected="false" id="filter-creative">
+        🎨 Creative <span class="count">{{ category_counts.creative }}</span>
+    </button>
+    <button class="filter-btn" data-category="corporate" role="tab" aria-selected="false" id="filter-corporate">
+        💼 Corporate <span class="count">{{ category_counts.corporate }}</span>
+    </button>
 </div>
 
+<!-- Results Info -->
+<div class="results-info">
+    <span>Showing <span id="results-count">21</span> templates</span>
+</div>
+
+<!-- Templates Grid -->
 <div class="templates-grid" id="templates-grid">
     {% for template in templates %}
-    <div class="template-card" data-category="{{ template.category }}">
-        <div class="template-header">
-            <h3>{{ template.name }}</h3>
-            <span class="template-category">{{ template.get_category_display }}</span>
-        </div>
-        <div class="template-body">
-            <p>{{ template.description }}</p>
-            <div class="template-actions">
-                <a href="{% url 'portfolio:template_preview' template.id %}" class="preview-btn" target="_blank">👁️ Preview</a>
-                <a href="/form/?template={{ template.id }}" class="select-btn">✓ Select</a>
+    <article class="template-card"
+             data-category="{{ template.category }}"
+             id="template-{{ template.id }}">
+
+        <!-- Visual Preview Area -->
+        <div class="card-preview cat-{{ template.category }}">
+            <div class="preview-deco"></div>
+            <div class="card-preview-info">
+                <div class="card-preview-name">{{ template.name }}</div>
+                <span class="card-category-pill pill-{{ template.category }}">
+                    {% if template.category == 'minimalist' %}🌿{% elif template.category == 'developer' %}💻{% elif template.category == 'creative' %}🎨{% else %}💼{% endif %}
+                    {{ template.get_category_display }}
+                </span>
             </div>
         </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+            <p class="card-desc">{{ template.description }}</p>
+            <div class="card-actions">
+                <a href="{% url 'portfolio:template_preview' template.id %}"
+                   class="btn-preview"
+                   target="_blank"
+                   rel="noopener"
+                   aria-label="Preview {{ template.name }}">
+                    👁 Preview
+                </a>
+                <a href="/form/?template={{ template.id }}"
+                   class="btn-use"
+                   aria-label="Use {{ template.name }} template">
+                    Use Template →
+                </a>
+            </div>
+        </div>
+    </article>
+    {% empty %}
+    <div class="empty-state">
+        <div class="icon">🎨</div>
+        <h3>No templates found</h3>
+        <p>Check back soon — new templates are added regularly.</p>
     </div>
     {% endfor %}
 </div>
 
-<script>
-    document.querySelectorAll('.category-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Update active button
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            // Filter cards
-            const category = this.dataset.category;
-            document.querySelectorAll('.template-card').forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
-</script>
 {% endblock %}
 
+{% block extra_js %}
+<script>
+(function () {
+    'use strict';
+
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards      = document.querySelectorAll('.template-card');
+    const countEl   = document.getElementById('results-count');
+
+    // Honour ?category= query param on page load
+    const urlCat = new URLSearchParams(location.search).get('category');
+    if (urlCat) {
+        const match = document.querySelector(`.filter-btn[data-category="${urlCat}"]`);
+        if (match) activateFilter(match, urlCat);
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            activateFilter(btn, btn.dataset.category);
+            // Update URL without reload
+            const url = new URL(location.href);
+            if (btn.dataset.category === 'all') url.searchParams.delete('category');
+            else url.searchParams.set('category', btn.dataset.category);
+            history.replaceState(null, '', url.toString());
+        });
+    });
+
+    function activateFilter(btn, category) {
+        filterBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        let visible = 0;
+        cards.forEach(card => {
+            const show = category === 'all' || card.dataset.category === category;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        countEl.textContent = visible;
+    }
+})();
+</script>
+{% endblock %}
