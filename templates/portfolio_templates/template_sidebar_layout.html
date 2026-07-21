@@ -32,4 +32,13 @@
     .template-sidebar-layout .hero h1 { font-weight: 700; }
     .template-sidebar-layout .project-card:nth-child(odd) { background: #efeafb; }
     .template-sidebar-layout .project-card:nth-child(even) { background: #f8f2ef; }
+    .template-sidebar-layout .hero { grid-template-columns: minmax(0, .78fr) minmax(254px, 1.02fr); }
+    .template-sidebar-layout .hero-visual { justify-items: end; }
+    .template-sidebar-layout .portrait-frame { width: min(100%, 274px); }
+    .template-sidebar-layout .portrait-image,
+    .template-sidebar-layout .portrait-monogram { width: 91%; border-width: 5px; }
+    @media (max-width: 980px) {
+        .template-sidebar-layout .hero { grid-template-columns: 1fr; }
+        .template-sidebar-layout .hero-visual { display: grid; justify-items: start; }
+    }
 {% endblock %}

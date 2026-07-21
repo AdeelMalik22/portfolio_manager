@@ -30,4 +30,16 @@
     .template-minimalist-mono .section-heading h2 { font-weight: 600; }
     .template-minimalist-mono .project-grid { grid-template-columns: 1fr; }
     .template-minimalist-mono .project-card:hover { transform: none; box-shadow: none; }
+    .template-minimalist-mono .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, .42fr); align-items: center; gap: 52px; text-align: left; }
+    .template-minimalist-mono .hero-visual { display: grid; justify-items: end; }
+    .template-minimalist-mono .portrait-frame { width: min(100%, 246px); aspect-ratio: .78; }
+    .template-minimalist-mono .portrait-frame::before,
+    .template-minimalist-mono .portrait-frame::after { display: none; }
+    .template-minimalist-mono .portrait-image,
+    .template-minimalist-mono .portrait-monogram { width: 100%; border: 1px solid var(--ink); border-radius: 0; box-shadow: 10px 10px 0 var(--accent); }
+    .template-minimalist-mono .portrait-note { right: -26px; bottom: -14px; border-radius: 0; }
+    @media (max-width: 760px) {
+        .template-minimalist-mono .hero { grid-template-columns: 1fr; gap: 26px; text-align: center; }
+        .template-minimalist-mono .hero-visual { order: -1; justify-items: center; }
+    }
 {% endblock %}

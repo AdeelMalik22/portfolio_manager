@@ -141,15 +141,15 @@
             position: sticky;
             top: 0;
             z-index: 200;
-            background: rgba(10,10,15,0.75);
+            background: rgba(9, 9, 14, .78);
             backdrop-filter: blur(20px) saturate(1.8);
             -webkit-backdrop-filter: blur(20px) saturate(1.8);
-            border-bottom: 1px solid var(--border-subtle);
-            padding: var(--space-4) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .075);
+            padding: .95rem 0;
         }
 
         .nav-inner {
-            max-width: 1280px;
+            max-width: 1360px;
             margin: 0 auto;
             padding: 0 var(--space-6);
             display: flex;
@@ -170,14 +170,24 @@
         .nav-logo {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, var(--brand-500) 0%, var(--accent-violet) 100%);
-            border-radius: var(--radius-md);
+            background: #d9ff7f;
+            border-radius: .72rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            box-shadow: var(--shadow-brand);
+            color: #14151a;
             flex-shrink: 0;
+        }
+
+        .nav-logo svg,
+        .footer-logo svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2.15;
         }
 
         .nav-title {
@@ -185,10 +195,7 @@
             font-size: 1.15rem;
             font-weight: 700;
             letter-spacing: -0.3px;
-            background: linear-gradient(135deg, #fff 30%, var(--brand-300) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #f3f3ee;
         }
 
         .nav-links {
@@ -199,7 +206,7 @@
 
         .nav-link {
             padding: var(--space-2) var(--space-4);
-            color: var(--text-secondary);
+            color: #9494a8;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
@@ -208,26 +215,28 @@
         }
 
         .nav-link:hover {
-            color: var(--text-primary);
-            background: var(--border-subtle);
+            color: #f3f3ee;
+            background: rgba(255, 255, 255, .055);
         }
 
         .nav-cta {
             padding: var(--space-2) var(--space-5);
-            background: linear-gradient(135deg, var(--brand-500) 0%, var(--brand-700) 100%);
-            color: #fff;
+            background: #f2f2ed;
+            border: 1px solid rgba(255, 255, 255, .12);
+            color: #15151a;
             text-decoration: none;
             font-size: 0.875rem;
             font-weight: 600;
-            border-radius: var(--radius-md);
+            border-radius: .62rem;
             transition: all var(--dur-base) var(--ease-out);
-            box-shadow: 0 0 0 1px rgba(99,102,241,0.4), var(--shadow-sm);
+            box-shadow: none;
             white-space: nowrap;
         }
 
         .nav-cta:hover {
+            background: #fff;
             transform: translateY(-1px);
-            box-shadow: 0 0 0 1px rgba(99,102,241,0.6), var(--shadow-brand);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
         }
 
         /* ============================================
@@ -326,66 +335,120 @@
            FOOTER
            ============================================ */
         footer {
-            background: var(--surface-800);
-            border-top: 1px solid var(--border-subtle);
-            padding: var(--space-12) var(--space-6);
-            margin-top: var(--space-20);
+            margin-top: clamp(4rem, 9vw, 8rem);
+            border-top: 1px solid rgba(255, 255, 255, .075);
+            background: #0c0c12;
             position: relative;
             z-index: 1;
         }
 
         .footer-inner {
-            max-width: 1280px;
+            max-width: 1360px;
             margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: var(--space-6);
-            flex-wrap: wrap;
+            padding: clamp(2.75rem, 5vw, 4.75rem) var(--space-6) clamp(2.25rem, 4vw, 3.5rem);
+            display: grid;
+            grid-template-columns: minmax(0, 1.65fr) repeat(2, minmax(9rem, .5fr));
+            gap: clamp(1.75rem, 5vw, 5rem);
+            align-items: start;
         }
 
         .footer-brand {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: var(--space-3);
+            color: var(--text-primary);
+            text-decoration: none;
         }
 
         .footer-logo {
-            width: 30px;
-            height: 30px;
-            background: linear-gradient(135deg, var(--brand-500), var(--accent-violet));
-            border-radius: var(--radius-sm);
+            width: 36px;
+            height: 36px;
+            border-radius: .72rem;
+            background: #d9ff7f;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.875rem;
+            color: #14151a;
+            flex-shrink: 0;
         }
 
         .footer-name {
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
-            font-size: 0.9375rem;
-            color: var(--text-primary);
+            font-size: 1.15rem;
+            letter-spacing: -0.3px;
+            color: #f3f3ee;
+        }
+
+        .footer-tagline {
+            max-width: 260px;
+            margin: var(--space-4) 0 0;
+            color: #85859a;
+            font-size: .82rem;
+            line-height: 1.65;
+        }
+
+        .footer-nav-label {
+            display: block;
+            margin-bottom: .9rem;
+            color: #c0c0ce;
+            font-size: .66rem;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
         }
 
         .footer-copy {
-            color: var(--text-muted);
-            font-size: 0.8125rem;
+            color: #6f6f84;
+            font-size: .74rem;
         }
 
         .footer-links {
             display: flex;
-            gap: var(--space-5);
+            flex-direction: column;
+            align-items: flex-start;
+            gap: .55rem;
         }
 
         .footer-links a {
-            color: var(--text-muted);
+            color: #89899d;
             text-decoration: none;
-            font-size: 0.8125rem;
-            transition: color var(--dur-fast);
+            font-size: .8rem;
+            transition: color var(--dur-fast), transform var(--dur-fast);
         }
 
-        .footer-links a:hover { color: var(--text-secondary); }
+        .footer-links a:hover {
+            color: #f0f0eb;
+            transform: translateX(2px);
+        }
+
+        .footer-bottom {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 1.1rem var(--space-6) 1.35rem;
+            border-top: 1px solid rgba(255, 255, 255, .075);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+        }
+
+        .footer-status {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            color: #828296;
+            font-size: .74rem;
+        }
+
+        .footer-status::before {
+            width: .38rem;
+            height: .38rem;
+            border-radius: 50%;
+            background: #d9ff7f;
+            box-shadow: 0 0 0 4px rgba(217, 255, 127, .07);
+            content: '';
+        }
 
         /* ============================================
            RESPONSIVE
@@ -393,7 +456,21 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .container { padding: var(--space-6) var(--space-4); }
-            .footer-inner { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
+            .footer-inner {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: var(--space-8);
+            }
+            .footer-brand-column { grid-column: 1 / -1; }
+            .footer-bottom { align-items: flex-start; flex-direction: column; }
+        }
+
+        @media (max-width: 460px) {
+            .nav-inner { gap: var(--space-2); padding: 0 var(--space-4); }
+            .nav-logo { width: 32px; height: 32px; }
+            .nav-title { font-size: 1rem; }
+            .nav-cta { padding: .56rem .68rem; font-size: .72rem; }
+            .footer-inner { grid-template-columns: 1fr; }
+            .footer-brand-column { grid-column: auto; }
         }
 
         {% block extra_css %}{% endblock %}
@@ -404,7 +481,9 @@
     <nav class="nav">
         <div class="nav-inner">
             <a href="/" class="nav-brand">
-                <div class="nav-logo">⚡</div>
+                <div class="nav-logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M13.5 2.75 5.25 13h5.65l-.4 8.25L18.75 11h-5.7l.45-8.25Z"/></svg>
+                </div>
                 <span class="nav-title">PortfolioForge</span>
             </a>
             <div class="nav-links">
@@ -424,17 +503,33 @@
     <!-- Footer -->
     <footer>
         <div class="footer-inner">
-            <div>
-                <div class="footer-brand">
-                    <div class="footer-logo">⚡</div>
+            <div class="footer-brand-column">
+                <a href="/" class="footer-brand">
+                    <div class="footer-logo" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M13.5 2.75 5.25 13h5.65l-.4 8.25L18.75 11h-5.7l.45-8.25Z"/></svg>
+                    </div>
                     <span class="footer-name">PortfolioForge</span>
+                </a>
+                <p class="footer-tagline">A focused place to turn your work into a portfolio with a point of view.</p>
+            </div>
+            <div class="footer-nav">
+                <span class="footer-nav-label">Explore</span>
+                <div class="footer-links">
+                    <a href="{% url 'gallery' %}">Template library</a>
+                    <a href="{% url 'gallery' %}?category=minimalist">Find your style</a>
                 </div>
-                <p class="footer-copy" style="margin-top: var(--space-2);">© 2026 PortfolioForge · 100% Free · No sign-up required</p>
             </div>
-            <div class="footer-links">
-                <a href="{% url 'gallery' %}">Templates</a>
-                <a href="{% url 'portfolio_form' %}">Builder</a>
+            <div class="footer-nav">
+                <span class="footer-nav-label">Build</span>
+                <div class="footer-links">
+                    <a href="{% url 'portfolio_form' %}">Start a portfolio</a>
+                    <a href="{% url 'portfolio_form' %}">Portfolio builder</a>
+                </div>
             </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2026 PortfolioForge. Built for independent work.</p>
+            <span class="footer-status">Free to use. Yours to publish.</span>
         </div>
     </footer>
 

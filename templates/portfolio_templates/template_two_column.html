@@ -31,4 +31,12 @@
     .template-two-column .hero h1 { font-size: clamp(2.8rem, 5vw, 5rem); }
     .template-two-column .project-card { min-height: 190px; }
     .template-two-column .section-projects .project-grid { grid-template-columns: 1fr; }
+    .template-two-column .hero { display: flex; flex-direction: column; align-items: stretch; }
+    .template-two-column .hero-visual { order: -1; display: grid; justify-items: start; margin: 0 0 32px; }
+    .template-two-column .portrait-frame { width: min(100%, 265px); }
+    .template-two-column .portrait-image,
+    .template-two-column .portrait-monogram { width: 88%; border-radius: 14px; }
+    @media (max-width: 760px) {
+        .template-two-column .hero-visual { display: grid; margin-bottom: 26px; }
+    }
 {% endblock %}

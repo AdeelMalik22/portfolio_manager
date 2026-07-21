@@ -8,6 +8,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.views.decorators.http import require_http_methods
+from django.template.loader import render_to_string
 import json
 
 from .models import PortfolioTemplate, Portfolio, UserProfile, PublicPortfolio
@@ -20,6 +22,11 @@ from .serializers import (
 from .services import PortfolioRenderer, PublicPortfolioRenderer
 from .image_processor import ImageProcessor
 from .forms import PublicPortfolioForm
+from .preview_context import (
+    PreviewPayloadError,
+    build_draft_preview_context,
+    build_sample_preview_context,
+)
 
 
 class PortfolioTemplateViewSet(viewsets.ReadOnlyModelViewSet):
@@ -179,73 +186,41 @@ class PortfolioViewSet(viewsets.ModelViewSet):
 
 # Regular views for template preview
 @xframe_options_sameorigin
+@require_http_methods(["GET", "POST"])
 def template_preview(request, template_id):
-    """Preview a template with dummy data"""
+    """Render either a rich public sample or an unsaved private form draft."""
     template = get_object_or_404(PortfolioTemplate, id=template_id, is_active=True)
 
-    # Dummy portfolio data for preview
-    dummy_context = {
-        'full_name': 'John Doe',
-        'title': 'Full Stack Developer',
-        'bio': 'Experienced developer with passion for building scalable web applications.',
-        'email': 'john@example.com',
-        'phone': '+1 (555) 123-4567',
-        'location': 'San Francisco, CA',
-        'linkedin': 'https://linkedin.com/in/johndoe',
-        'github': 'https://github.com/johndoe',
-        'portfolio_website': 'https://johndoe.dev',
-        'twitter': 'https://twitter.com/johndoe',
-        'skills': ['Python', 'Django', 'JavaScript', 'React', 'PostgreSQL', 'AWS'],
-        'projects': [
-            {
-                'title': 'E-commerce Platform',
-                'description': 'Full-stack e-commerce solution with payment integration',
-                'tech_stack': 'Django, React, Stripe',
-                'github_link': 'https://github.com/johndoe/ecommerce',
-                'live_link': 'https://ecommerce-demo.dev'
-            },
-            {
-                'title': 'Task Management App',
-                'description': 'Real-time collaborative task management application',
-                'tech_stack': 'Node.js, MongoDB, Vue.js',
-                'github_link': 'https://github.com/johndoe/taskapp',
-                'live_link': 'https://taskapp-demo.dev'
-            }
-        ],
-        'experience': [
-            {
-                'company': 'Tech Corporation',
-                'role': 'Senior Developer',
-                'duration': 'Jan 2021 - Present',
-                'description': 'Leading development of core products and mentoring junior developers.'
-            },
-            {
-                'company': 'Startup Inc',
-                'role': 'Full Stack Developer',
-                'duration': 'Jun 2019 - Dec 2020',
-                'description': 'Built and maintained multiple web applications using modern tech stack.'
-            }
-        ],
-        'education': [
-            {
-                'school': 'University of California',
-                'degree': 'Bachelor of Science',
-                'field': 'Computer Science',
-                'year': '2019'
-            }
-        ],
-        'profile_image_base64': None,
-        'template_color': template.color_scheme,
-        'portfolio': None,
-    }
+    if request.method == "POST":
+        try:
+            context = build_draft_preview_context(
+                template,
+                request.POST,
+                request.FILES.get("profile_image"),
+            )
+        except PreviewPayloadError as exc:
+            response = HttpResponse(str(exc), status=400, content_type="text/plain; charset=utf-8")
+            response["Cache-Control"] = "no-store"
+            return response
+    else:
+        context = build_sample_preview_context(template)
 
-    html = render(request, template.template_file, dummy_context).content.decode('utf-8')
-    return HttpResponse(html, content_type='text/html')
+    response = HttpResponse(
+        render_to_string(template.template_file, context),
+        content_type="text/html; charset=utf-8",
+    )
+    # Draft data and uploaded images are rendered only for the requesting user.
+    response["Cache-Control"] = "no-store"
+    return response
 
 
 def index(request):
     """Homepage view"""
-    return render(request, 'index.html')
+    active_templates = PortfolioTemplate.objects.filter(is_active=True).order_by('order', 'name')
+    return render(request, 'index.html', {
+        'template_count': active_templates.count(),
+        'featured_templates': active_templates[:3],
+    })
 
 
 def gallery(request):
@@ -466,4 +441,3 @@ def dashboard_edit(request):
         'form': form,
         'portfolio': portfolio,
     })
-

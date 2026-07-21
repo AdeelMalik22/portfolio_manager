@@ -1,594 +1,846 @@
 {% extends 'base.html' %}
 
-{% block title %}PortfolioForge — Build a Stunning Portfolio in Minutes{% endblock %}
-{% block meta_description %}Create a professional portfolio without code. Choose from 21 premium templates, fill in your details, and get a stunning HTML portfolio instantly.{% endblock %}
+{% block title %}PortfolioForge — Portfolios With a Point of View{% endblock %}
+{% block meta_description %}Create a considered, responsive portfolio without writing code. Explore live templates, tell your story, and export a portfolio you own.{% endblock %}
 
 {% block extra_css %}
 <style>
-/* ── HERO ──────────────────────────────────────────────── */
-.hero {
-    padding: var(--space-20) 0 var(--space-16);
-    text-align: center;
-    position: relative;
-}
+    /* ------------------------------------------------------------------
+       HOME
+       A quiet, editorial product page that lets the templates do the work.
+       ------------------------------------------------------------------ */
+    body::before {
+        background:
+            radial-gradient(ellipse 64% 48% at 72% 4%, rgba(129, 126, 255, .12), transparent 72%),
+            radial-gradient(ellipse 42% 28% at 7% 68%, rgba(180, 246, 194, .06), transparent 72%);
+    }
 
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-1) var(--space-4);
-    background: rgba(99,102,241,0.12);
-    border: 1px solid rgba(99,102,241,0.3);
-    border-radius: var(--radius-full);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--brand-300);
-    letter-spacing: 0.3px;
-    margin-bottom: var(--space-8);
-}
+    .container {
+        max-width: 1360px;
+        padding: 0 clamp(1.25rem, 3.3vw, 3rem);
+    }
 
-.hero-badge .dot {
-    width: 6px; height: 6px;
-    background: var(--brand-400);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
+    .home-page {
+        overflow: hidden;
+        padding: clamp(2.4rem, 4.8vw, 5.25rem) 0 5.5rem;
+    }
 
-@keyframes pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50%      { opacity:0.5; transform:scale(1.3); }
-}
+    .home-hero {
+        display: grid;
+        grid-template-columns: minmax(0, .95fr) minmax(430px, 1.05fr);
+        align-items: center;
+        gap: clamp(2.5rem, 6vw, 7.5rem);
+        min-height: 575px;
+        padding-bottom: clamp(3.5rem, 7vw, 7rem);
+    }
 
-.hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.5rem, 7vw, 5rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -2px;
-    margin-bottom: var(--space-6);
-    max-width: 820px;
-    margin-left: auto;
-    margin-right: auto;
-}
+    .hero-kicker,
+    .section-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: .6rem;
+        color: #b8b8c7;
+        font-size: .68rem;
+        font-weight: 800;
+        letter-spacing: .16em;
+        line-height: 1;
+        text-transform: uppercase;
+    }
 
-.hero h1 .gradient-text {
-    background: linear-gradient(135deg, var(--brand-300) 0%, var(--accent-violet) 50%, var(--accent-pink) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
+    .hero-kicker::before,
+    .section-kicker::before {
+        width: .5rem;
+        height: .5rem;
+        border-radius: 50%;
+        background: #d9ff7f;
+        box-shadow: 0 0 0 5px rgba(217, 255, 127, .08);
+        content: '';
+    }
 
-.hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    color: var(--text-secondary);
-    max-width: 540px;
-    margin: 0 auto var(--space-10);
-    line-height: 1.7;
-}
+    .hero-kicker { margin-bottom: 1.45rem; }
 
-.hero-actions {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: var(--space-16);
-}
+    .hero-title {
+        max-width: 650px;
+        margin: 0;
+        color: #f5f5f0;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(3.1rem, 5.6vw, 6.15rem);
+        font-weight: 600;
+        letter-spacing: -.083em;
+        line-height: .92;
+    }
 
-.hero-trust {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-6);
-    flex-wrap: wrap;
-}
+    .hero-title em {
+        color: #aaa7ff;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 400;
+        letter-spacing: -.09em;
+    }
 
-.trust-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--text-muted);
-    font-size: 0.8125rem;
-}
+    .hero-copy {
+        max-width: 540px;
+        margin: 1.55rem 0 0;
+        color: #9999ad;
+        font-size: clamp(1rem, 1.5vw, 1.12rem);
+        line-height: 1.75;
+    }
 
-.trust-item svg { flex-shrink:0; }
+    .hero-actions {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        margin-top: 2rem;
+    }
 
-/* ── STATS ─────────────────────────────────────────────── */
-.stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-4);
-    margin: var(--space-16) 0;
-}
+    .hero-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: .55rem;
+        min-height: 3rem;
+        padding: .76rem 1rem;
+        border-radius: .62rem;
+        font-size: .82rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
 
-.stat-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8) var(--space-6);
-    text-align: center;
-    backdrop-filter: blur(12px);
-    transition: border-color var(--dur-base) var(--ease-out);
-}
+    .hero-action svg,
+    .text-link svg,
+    .library-link svg {
+        width: .95rem;
+        height: .95rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+    }
 
-.stat-card:hover { border-color: rgba(99,102,241,0.3); }
+    .hero-action--primary {
+        border: 1px solid rgba(255, 255, 255, .12);
+        background: #f2f2ed;
+        color: #15151a;
+    }
 
-.stat-number {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.75rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--brand-300), var(--accent-violet));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-    margin-bottom: var(--space-2);
-}
+    .hero-action--primary:hover {
+        background: #fff;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
+        transform: translateY(-1px);
+    }
 
-.stat-label {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    font-weight: 500;
-}
+    .hero-action--secondary {
+        color: #c2c2d0;
+    }
 
-/* ── SECTION HEADER ────────────────────────────────────── */
-.section-header {
-    text-align: center;
-    margin-bottom: var(--space-12);
-}
+    .hero-action--secondary:hover { color: #fff; }
 
-.section-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--brand-400);
-    margin-bottom: var(--space-3);
-}
+    .hero-notes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem 1.15rem;
+        margin: 1.5rem 0 0;
+        color: #77778c;
+        font-size: .72rem;
+    }
 
-.section-header h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: var(--text-primary);
-    margin-bottom: var(--space-4);
-}
+    .hero-notes span {
+        display: inline-flex;
+        align-items: center;
+        gap: .38rem;
+    }
 
-.section-header p {
-    color: var(--text-secondary);
-    font-size: 1.05rem;
-    max-width: 520px;
-    margin: 0 auto;
-}
+    .hero-notes span::before {
+        width: .3rem;
+        height: .3rem;
+        border-radius: 50%;
+        background: #86d8ab;
+        content: '';
+    }
 
-/* ── FEATURES ──────────────────────────────────────────── */
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
-    margin-bottom: var(--space-20);
-}
+    /* Live template composition ------------------------------------------------ */
+    .hero-showcase {
+        position: relative;
+        min-height: 500px;
+        isolation: isolate;
+    }
 
-.feature-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    backdrop-filter: blur(12px);
-    transition: all var(--dur-base) var(--ease-out);
-    position: relative;
-    overflow: hidden;
-}
+    .hero-showcase::before {
+        position: absolute;
+        inset: 9% 5% 2%;
+        z-index: -2;
+        border: 1px solid rgba(255, 255, 255, .06);
+        border-radius: 2rem;
+        background:
+            linear-gradient(135deg, rgba(255, 255, 255, .035), transparent 58%),
+            radial-gradient(circle at 79% 15%, rgba(162, 159, 255, .16), transparent 35%),
+            #101018;
+        content: '';
+        transform: rotate(-2deg);
+    }
 
-.feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent);
-    opacity: 0;
-    transition: opacity var(--dur-base);
-}
+    .showcase-orbit {
+        position: absolute;
+        z-index: -1;
+        width: 22rem;
+        height: 22rem;
+        border: 1px solid rgba(169, 166, 255, .13);
+        border-radius: 50%;
+        right: -8rem;
+        top: -4rem;
+    }
 
-.feature-card:hover { border-color: rgba(99,102,241,0.25); transform: translateY(-4px); }
-.feature-card:hover::before { opacity: 1; }
+    .showcase-card {
+        position: absolute;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .18);
+        border-radius: 1rem;
+        background: #0b0c12;
+        box-shadow: 0 26px 62px rgba(0, 0, 0, .38), 0 1px 0 rgba(255, 255, 255, .09) inset;
+    }
 
-.feature-icon-wrap {
-    width: 52px; height: 52px;
-    border-radius: var(--radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: var(--space-5);
-    background: rgba(99,102,241,0.12);
-    border: 1px solid rgba(99,102,241,0.2);
-}
+    .showcase-card:nth-of-type(2) {
+        z-index: 3;
+        top: 3.5%;
+        left: 13%;
+        width: 73%;
+        aspect-ratio: 4 / 3;
+    }
 
-.feature-card h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: var(--space-2);
-}
+    .showcase-card:nth-of-type(3) {
+        z-index: 2;
+        right: -1.5%;
+        bottom: 4%;
+        width: 42%;
+        aspect-ratio: 4 / 3;
+        opacity: .96;
+        transform: rotate(4.5deg);
+    }
 
-.feature-card p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.65;
-}
+    .showcase-card:nth-of-type(4) {
+        z-index: 1;
+        bottom: 12%;
+        left: -2%;
+        width: 39%;
+        aspect-ratio: 4 / 3;
+        opacity: .94;
+        transform: rotate(-6deg);
+    }
 
-/* ── CATEGORIES ────────────────────────────────────────── */
-.categories-section {
-    margin-bottom: var(--space-20);
-}
+    .showcase-frame {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background: #11121a;
+    }
 
-.categories-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-5);
-}
+    .showcase-frame::after {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(7, 8, 13, .03), rgba(7, 8, 13, .18));
+        content: '';
+        pointer-events: none;
+    }
 
-.category-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    display: flex;
-    gap: var(--space-5);
-    align-items: flex-start;
-    backdrop-filter: blur(12px);
-    text-decoration: none;
-    color: inherit;
-    transition: all var(--dur-base) var(--ease-out);
-    group: true;
-}
+    .showcase-frame iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 360%;
+        height: 360%;
+        border: 0;
+        pointer-events: none;
+        transform: scale(.2777778);
+        transform-origin: top left;
+        background: #11121a;
+    }
 
-.category-card:hover {
-    border-color: rgba(99,102,241,0.3);
-    background: var(--card-hover);
-    transform: translateY(-3px);
-}
+    .showcase-label {
+        position: absolute;
+        z-index: 4;
+        right: 7%;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        gap: .65rem;
+        padding: .68rem .8rem;
+        border: 1px solid rgba(255, 255, 255, .14);
+        border-radius: .55rem;
+        background: rgba(14, 14, 21, .84);
+        box-shadow: 0 10px 26px rgba(0, 0, 0, .24);
+        color: #eeeeec;
+        font-size: .69rem;
+        font-weight: 700;
+        letter-spacing: .01em;
+        backdrop-filter: blur(12px);
+    }
 
-.cat-icon {
-    width: 56px; height: 56px;
-    border-radius: var(--radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    flex-shrink: 0;
-}
+    .showcase-label::before {
+        width: .42rem;
+        height: .42rem;
+        border-radius: 50%;
+        background: #d9ff7f;
+        box-shadow: 0 0 0 4px rgba(217, 255, 127, .09);
+        content: '';
+    }
 
-.cat-icon.minimalist { background: rgba(20,184,166,0.12); border:1px solid rgba(20,184,166,0.25); }
-.cat-icon.developer  { background: rgba(99,102,241,0.12); border:1px solid rgba(99,102,241,0.25); }
-.cat-icon.creative   { background: rgba(236,72,153,0.12); border:1px solid rgba(236,72,153,0.25); }
-.cat-icon.corporate  { background: rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.25); }
+    .showcase-fallback {
+        position: absolute;
+        inset: 16% 11%;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, .10);
+        border-radius: 1rem;
+        color: #a4a4b8;
+        text-align: center;
+    }
 
-.cat-info h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: var(--space-1);
-}
+    /* Proof strip -------------------------------------------------------------- */
+    .proof-strip {
+        display: grid;
+        grid-template-columns: 1.35fr repeat(3, 1fr);
+        gap: 1rem;
+        align-items: stretch;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(255, 255, 255, .105);
+        border-bottom: 1px solid rgba(255, 255, 255, .105);
+    }
 
-.cat-count {
-    font-size: 0.8rem;
-    color: var(--brand-400);
-    font-weight: 600;
-    margin-bottom: var(--space-2);
-}
+    .proof-intro,
+    .proof-item {
+        display: flex;
+        align-items: center;
+        min-height: 4.8rem;
+        padding: .65rem 1.15rem;
+    }
 
-.cat-info p {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-    line-height: 1.6;
-    margin: 0;
-}
+    .proof-intro {
+        padding-left: 0;
+        color: #eeeeea;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(.95rem, 1.4vw, 1.1rem);
+        font-weight: 500;
+        letter-spacing: -.035em;
+    }
 
-/* ── HOW IT WORKS ──────────────────────────────────────── */
-.steps-section { margin-bottom: var(--space-20); }
+    .proof-item { border-left: 1px solid rgba(255, 255, 255, .095); }
 
-.steps-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-5);
-    position: relative;
-}
+    .proof-item strong {
+        display: block;
+        margin-bottom: .2rem;
+        color: #e8e8e4;
+        font-size: .76rem;
+        font-weight: 800;
+    }
 
-.steps-grid::before {
-    content: '';
-    position: absolute;
-    top: 28px; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-default), var(--border-default), transparent);
-    z-index: 0;
-}
+    .proof-item span {
+        display: block;
+        color: #77778b;
+        font-size: .7rem;
+        line-height: 1.45;
+    }
 
-.step-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8) var(--space-6);
-    text-align: center;
-    backdrop-filter: blur(12px);
-    position: relative;
-    z-index: 1;
-    transition: all var(--dur-base) var(--ease-out);
-}
+    /* Editorial section ------------------------------------------------------- */
+    .home-section {
+        padding: clamp(4.5rem, 9vw, 9rem) 0;
+    }
 
-.step-card:hover { border-color: rgba(99,102,241,0.3); transform: translateY(-3px); }
+    .section-kicker { margin-bottom: 1rem; }
 
-.step-num {
-    width: 52px; height: 52px;
-    background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
-    border-radius: var(--radius-full);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #fff;
-    margin: 0 auto var(--space-5);
-    box-shadow: var(--shadow-brand);
-}
+    .section-title {
+        max-width: 710px;
+        margin: 0;
+        color: #f2f2ed;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(2.05rem, 4.2vw, 4.2rem);
+        font-weight: 600;
+        letter-spacing: -.07em;
+        line-height: .98;
+    }
 
-.step-card h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: var(--space-2);
-}
+    .section-title em {
+        color: #b3b1ff;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 400;
+    }
 
-.step-card p {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-    line-height: 1.6;
-}
+    .section-copy {
+        max-width: 460px;
+        margin: 1.15rem 0 0;
+        color: #9090a5;
+        font-size: .96rem;
+        line-height: 1.75;
+    }
 
-/* ── CTA SECTION ───────────────────────────────────────── */
-.cta-section {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-16) var(--space-12);
-    text-align: center;
-    backdrop-filter: blur(12px);
-    position: relative;
-    overflow: hidden;
-    margin-bottom: var(--space-8);
-}
+    .process-layout {
+        display: grid;
+        grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+        gap: clamp(2rem, 7vw, 8rem);
+        align-items: start;
+    }
 
-.cta-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(99,102,241,0.15) 0%, transparent 70%);
-    pointer-events: none;
-}
+    .process-list {
+        margin: .3rem 0 0;
+        padding: 0;
+        border-top: 1px solid rgba(255, 255, 255, .10);
+        list-style: none;
+    }
 
-.cta-section h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    font-weight: 800;
-    letter-spacing: -1px;
-    margin-bottom: var(--space-4);
-    position: relative;
-}
+    .process-item {
+        display: grid;
+        grid-template-columns: 3.5rem minmax(0, 1fr) auto;
+        gap: 1rem;
+        align-items: start;
+        padding: 1.35rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, .10);
+    }
 
-.cta-section p {
-    color: var(--text-secondary);
-    font-size: 1.05rem;
-    margin-bottom: var(--space-8);
-    position: relative;
-}
+    .process-number {
+        padding-top: .2rem;
+        color: #8987d6;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: .72rem;
+        font-weight: 700;
+    }
 
-.cta-buttons {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
-    position: relative;
-}
+    .process-item h3 {
+        margin: 0;
+        color: #eeeeea;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.04rem;
+        font-weight: 600;
+        letter-spacing: -.035em;
+    }
 
-/* ── RESPONSIVE ────────────────────────────────────────── */
-@media (max-width: 900px) {
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-    .features-grid { grid-template-columns: repeat(2, 1fr); }
-    .steps-grid { grid-template-columns: repeat(2, 1fr); }
-    .steps-grid::before { display: none; }
-}
+    .process-item p {
+        margin: .34rem 0 0;
+        color: #808095;
+        font-size: .79rem;
+        line-height: 1.6;
+    }
 
-@media (max-width: 640px) {
-    .hero { padding: var(--space-12) 0 var(--space-8); }
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-    .features-grid { grid-template-columns: 1fr; }
-    .categories-grid { grid-template-columns: 1fr; }
-    .steps-grid { grid-template-columns: 1fr; }
-    .cta-section { padding: var(--space-10) var(--space-6); }
-}
+    .process-mark {
+        width: 1.6rem;
+        height: 1.6rem;
+        margin-top: .05rem;
+        border: 1px solid rgba(255, 255, 255, .14);
+        border-radius: 50%;
+        color: #c7c5ff;
+        font-size: .86rem;
+        line-height: 1.42rem;
+        text-align: center;
+    }
+
+    /* Value statements -------------------------------------------------------- */
+    .values-section {
+        padding-top: 0;
+    }
+
+    .values-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .values-header .section-copy { margin-bottom: .15rem; }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-top: 1px solid rgba(255, 255, 255, .11);
+        border-left: 1px solid rgba(255, 255, 255, .11);
+    }
+
+    .value-card {
+        min-height: 260px;
+        padding: 1.45rem;
+        border-right: 1px solid rgba(255, 255, 255, .11);
+        border-bottom: 1px solid rgba(255, 255, 255, .11);
+        background: linear-gradient(145deg, rgba(255, 255, 255, .026), transparent 66%);
+        transition: background .25s ease;
+    }
+
+    .value-card:hover { background: linear-gradient(145deg, rgba(178, 175, 255, .10), transparent 70%); }
+
+    .value-index {
+        display: block;
+        margin-bottom: 3.5rem;
+        color: #8583c7;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: .68rem;
+        font-weight: 700;
+        letter-spacing: .1em;
+    }
+
+    .value-card h3 {
+        margin: 0;
+        color: #eeeeea;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.15rem;
+        font-weight: 600;
+        letter-spacing: -.045em;
+    }
+
+    .value-card p {
+        margin: .55rem 0 0;
+        color: #838398;
+        font-size: .8rem;
+        line-height: 1.65;
+    }
+
+    /* Categories -------------------------------------------------------------- */
+    .library-section {
+        padding-top: clamp(4.5rem, 9vw, 9rem);
+    }
+
+    .library-intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(250px, .55fr);
+        gap: 2.5rem;
+        align-items: end;
+        margin-bottom: 2.6rem;
+    }
+
+    .library-intro .section-copy { margin-bottom: .2rem; }
+
+    .library-link,
+    .text-link {
+        display: inline-flex;
+        align-items: center;
+        gap: .52rem;
+        color: #efefea;
+        font-size: .78rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition: color .18s ease;
+    }
+
+    .library-link:hover,
+    .text-link:hover { color: #c7c5ff; }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: .7rem;
+    }
+
+    .category-card {
+        --card-accent: #b6b4ff;
+        position: relative;
+        min-height: 242px;
+        overflow: hidden;
+        padding: 1.25rem;
+        border: 1px solid rgba(255, 255, 255, .12);
+        border-radius: .9rem;
+        background: #15151e;
+        color: inherit;
+        text-decoration: none;
+        transition: border-color .22s ease, transform .22s ease, box-shadow .22s ease;
+    }
+
+    .category-card::before {
+        position: absolute;
+        width: 10rem;
+        height: 10rem;
+        right: -4rem;
+        top: -5rem;
+        border-radius: 50%;
+        background: var(--card-accent);
+        content: '';
+        filter: blur(16px);
+        opacity: .14;
+        transition: opacity .22s ease, transform .3s ease;
+    }
+
+    .category-card:hover {
+        border-color: color-mix(in srgb, var(--card-accent) 48%, rgba(255, 255, 255, .14));
+        box-shadow: 0 18px 44px rgba(0, 0, 0, .24);
+        transform: translateY(-4px);
+    }
+
+    .category-card:hover::before { opacity: .25; transform: scale(1.1); }
+
+    .category-card--minimalist { --card-accent: #a3e5c3; background: linear-gradient(145deg, #15221e, #101613); }
+    .category-card--developer { --card-accent: #a9bcff; background: linear-gradient(145deg, #171a35, #0f1020); }
+    .category-card--creative { --card-accent: #ff9dca; background: linear-gradient(145deg, #311329, #180e1b); }
+    .category-card--corporate { --card-accent: #e3c47e; background: linear-gradient(145deg, #282116, #14120e); }
+
+    .category-index {
+        position: relative;
+        display: block;
+        color: var(--card-accent);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: .68rem;
+        font-weight: 700;
+        letter-spacing: .12em;
+    }
+
+    .category-card h3 {
+        position: absolute;
+        right: 1.25rem;
+        bottom: 2.85rem;
+        left: 1.25rem;
+        margin: 0;
+        color: #f2f2ed;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: -.05em;
+    }
+
+    .category-card p {
+        position: absolute;
+        right: 1.25rem;
+        bottom: 1.25rem;
+        left: 1.25rem;
+        margin: 0;
+        color: #afafbe;
+        font-size: .72rem;
+    }
+
+    /* Close ------------------------------------------------------------------- */
+    .closing-section {
+        padding-bottom: 1rem;
+    }
+
+    .closing-panel {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(2rem, 6vw, 5.5rem);
+        border: 1px solid rgba(255, 255, 255, .12);
+        border-radius: 1.15rem;
+        background:
+            radial-gradient(circle at 81% 4%, rgba(164, 160, 255, .24), transparent 28%),
+            linear-gradient(135deg, #171724, #101016 65%);
+    }
+
+    .closing-panel::after {
+        position: absolute;
+        width: 28rem;
+        height: 28rem;
+        right: -13rem;
+        bottom: -17rem;
+        border: 1px solid rgba(217, 255, 127, .16);
+        border-radius: 50%;
+        content: '';
+    }
+
+    .closing-panel > * { position: relative; z-index: 1; }
+
+    .closing-panel .section-title { max-width: 670px; }
+    .closing-panel .section-copy { max-width: 485px; }
+    .closing-actions { display: flex; gap: .7rem; margin-top: 1.7rem; }
+
+    @media (max-width: 1080px) {
+        .home-hero { grid-template-columns: minmax(0, 1fr) minmax(370px, .9fr); gap: 2.5rem; }
+        .proof-strip { grid-template-columns: 1fr 1fr; }
+        .proof-intro { grid-column: 1 / -1; min-height: auto; padding-bottom: .25rem; }
+        .proof-item:first-of-type { border-left: 0; padding-left: 0; }
+        .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 800px) {
+        .home-hero { grid-template-columns: 1fr; min-height: 0; }
+        .hero-showcase { max-width: 620px; width: 100%; margin: 0 auto; }
+        .process-layout { grid-template-columns: 1fr; }
+        .values-header,
+        .library-intro { align-items: start; flex-direction: column; }
+        .values-header { display: block; }
+        .values-header .section-copy { margin-top: 1rem; }
+        .library-intro { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+        .container { padding: 0 1.15rem; }
+        .home-page { padding-top: 2rem; }
+        .hero-actions,
+        .closing-actions { align-items: stretch; flex-direction: column; }
+        .hero-action { width: 100%; }
+        .hero-action--secondary { justify-content: flex-start; }
+        .hero-showcase { min-height: 360px; }
+        .showcase-card:nth-of-type(2) { top: 1%; left: 9%; width: 80%; }
+        .showcase-card:nth-of-type(3) { right: -5%; bottom: 7%; width: 44%; }
+        .showcase-card:nth-of-type(4) { bottom: 12%; left: -5%; width: 42%; }
+        .showcase-label { right: 8%; font-size: .62rem; }
+        .proof-strip { grid-template-columns: 1fr; gap: 0; }
+        .proof-intro { padding-bottom: .75rem; }
+        .proof-item { min-height: 3.9rem; padding: .75rem 0; border-left: 0; border-top: 1px solid rgba(255, 255, 255, .09); }
+        .values-grid { grid-template-columns: 1fr; }
+        .value-card { min-height: 195px; }
+        .value-index { margin-bottom: 2rem; }
+        .category-grid { grid-template-columns: 1fr; }
+        .category-card { min-height: 190px; }
+    }
+
+    @media (max-width: 440px) {
+        .nav-inner { gap: .5rem; padding: 0 .85rem; }
+        .nav-logo { width: 32px; height: 32px; border-radius: .62rem; font-size: 1rem; }
+        .nav-title { font-size: 1rem; }
+        .nav-cta { padding: .56rem .68rem; font-size: .72rem; }
+        .hero-title { font-size: clamp(2.65rem, 12.5vw, 3rem); line-height: .95; }
+        .hero-copy { font-size: .95rem; }
+        .hero-notes { gap: .45rem .75rem; font-size: .66rem; }
+        .hero-showcase { min-height: 335px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-action,
+        .category-card,
+        .category-card::before,
+        .value-card { transition: none; }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-badge">
-        <span class="dot"></span>
-        21 Professional Templates · 100% Free
-    </div>
-    <h1>Your Portfolio.<br><span class="gradient-text">Crafted to Impress.</span></h1>
-    <p class="hero-sub">No designers. No developers. No cost. Pick a template, fill your details, and launch a stunning portfolio in under 5 minutes.</p>
-    <div class="hero-actions">
-        <a href="{% url 'gallery' %}" class="btn btn-primary btn-lg">Browse Templates →</a>
-        <a href="{% url 'portfolio_form' %}" class="btn btn-secondary btn-lg">Start Building</a>
-    </div>
-    <div class="hero-trust">
-        <span class="trust-item">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            No account needed
-        </span>
-        <span class="trust-item">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            Fully responsive
-        </span>
-        <span class="trust-item">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            Instant HTML download
-        </span>
-    </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-row">
-    <div class="stat-card">
-        <div class="stat-number">21</div>
-        <div class="stat-label">Premium Templates</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-number">4</div>
-        <div class="stat-label">Design Categories</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-number">&lt;5m</div>
-        <div class="stat-label">Setup Time</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-number">Free</div>
-        <div class="stat-label">Always & Forever</div>
-    </div>
-</div>
-
-<!-- FEATURES -->
-<div class="section-header">
-    <span class="section-tag">Features</span>
-    <h2>Everything You Need</h2>
-    <p>A complete toolkit to build and publish a professional portfolio — zero experience required.</p>
-</div>
-
-<div class="features-grid">
-    <div class="feature-card">
-        <div class="feature-icon-wrap">🎨</div>
-        <h3>21 Expert Templates</h3>
-        <p>Handcrafted designs across 4 categories — minimalist, developer, creative, and corporate.</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon-wrap">👁️</div>
-        <h3>Live Preview</h3>
-        <p>See exactly how your portfolio looks before committing. Preview any template instantly.</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon-wrap">⬇️</div>
-        <h3>Single-File Export</h3>
-        <p>Download a single self-contained HTML file you can host anywhere — GitHub Pages, Netlify, anywhere.</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon-wrap">📱</div>
-        <h3>Fully Responsive</h3>
-        <p>Every template looks pixel-perfect on desktop, tablet, and mobile without any extra work.</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon-wrap">⚡</div>
-        <h3>Blazing Fast</h3>
-        <p>Pure HTML output with no frameworks or dependencies means your portfolio loads instantly.</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon-wrap">🔒</div>
-        <h3>Privacy First</h3>
-        <p>Your data never leaves your session. We collect nothing, track nothing, sell nothing.</p>
-    </div>
-</div>
-
-<!-- CATEGORIES -->
-<section class="categories-section">
-    <div class="section-header">
-        <span class="section-tag">Template Categories</span>
-        <h2>Find Your Style</h2>
-        <p>Four carefully curated categories, each with a distinct visual language.</p>
-    </div>
-
-    <div class="categories-grid">
-        <a href="{% url 'gallery' %}?category=minimalist" class="category-card">
-            <div class="cat-icon minimalist">🌿</div>
-            <div class="cat-info">
-                <h3>Minimalist</h3>
-                <div class="cat-count">2 templates</div>
-                <p>Restrained elegance. Content-first layouts with generous whitespace and refined typography.</p>
+<main class="home-page">
+    <section class="home-hero" aria-labelledby="home-title">
+        <div class="hero-content">
+            <p class="hero-kicker">PortfolioForge / Your work, considered</p>
+            <h1 class="hero-title" id="home-title">Your work deserves more than <em>a link.</em></h1>
+            <p class="hero-copy">
+                Build a portfolio with its own point of view. Choose a live template, shape the story around your work, and export a responsive site you fully own.
+            </p>
+            <div class="hero-actions">
+                <a class="hero-action hero-action--primary" href="{% url 'gallery' %}">
+                    Explore templates
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+                <a class="hero-action hero-action--secondary" href="{% url 'portfolio_form' %}">Start with your details</a>
             </div>
-        </a>
-        <a href="{% url 'gallery' %}?category=developer" class="category-card">
-            <div class="cat-icon developer">💻</div>
-            <div class="cat-info">
-                <h3>Developer</h3>
-                <div class="cat-count">7 templates</div>
-                <p>Tech-forward designs with dark themes, code aesthetics, and strong technical branding.</p>
+            <div class="hero-notes" aria-label="PortfolioForge benefits">
+                <span>No sign-up required</span>
+                <span>Responsive by default</span>
+                <span>Single-file export</span>
             </div>
-        </a>
-        <a href="{% url 'gallery' %}?category=creative" class="category-card">
-            <div class="cat-icon creative">🎨</div>
-            <div class="cat-info">
-                <h3>Creative</h3>
-                <div class="cat-count">6 templates</div>
-                <p>Bold gradients, expressive color and dynamic layouts for artists and creative professionals.</p>
+        </div>
+
+        <div class="hero-showcase" aria-label="Live examples of PortfolioForge templates">
+            <div class="showcase-orbit" aria-hidden="true"></div>
+            {% for template in featured_templates %}
+            <div class="showcase-card">
+                <div class="showcase-frame">
+                    <iframe
+                        src="{% url 'portfolio:template_preview' template.id %}"
+                        title="{{ template.name }} portfolio template"
+                        tabindex="-1"
+                        aria-hidden="true"></iframe>
+                </div>
             </div>
-        </a>
-        <a href="{% url 'gallery' %}?category=corporate" class="category-card">
-            <div class="cat-icon corporate">💼</div>
-            <div class="cat-info">
-                <h3>Corporate</h3>
-                <div class="cat-count">6 templates</div>
-                <p>Polished, authoritative designs for executives, consultants, and business professionals.</p>
+            {% empty %}
+            <div class="showcase-fallback">Your next portfolio, displayed here.</div>
+            {% endfor %}
+            <span class="showcase-label">Live template renders</span>
+        </div>
+    </section>
+
+    <section class="proof-strip" aria-label="PortfolioForge at a glance">
+        <div class="proof-intro">Everything you need to make a strong first impression—without a design handoff or a deployment headache.</div>
+        <div class="proof-item">
+            <div><strong>{{ template_count }} live starting points</strong><span>Built as full pages, not color swaps.</span></div>
+        </div>
+        <div class="proof-item">
+            <div><strong>One focused workflow</strong><span>Choose, write, preview, and export.</span></div>
+        </div>
+        <div class="proof-item">
+            <div><strong>HTML you own</strong><span>Publish wherever your work belongs.</span></div>
+        </div>
+    </section>
+
+    <section class="home-section process-section" aria-labelledby="process-title">
+        <div class="process-layout">
+            <div>
+                <p class="section-kicker">A clearer way to publish</p>
+                <h2 class="section-title" id="process-title">Less setup. More <em>shape.</em></h2>
+                <p class="section-copy">A portfolio builder should keep you close to your work. The process is intentionally short, so the final page feels authored rather than assembled.</p>
             </div>
-        </a>
-    </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="steps-section">
-    <div class="section-header">
-        <span class="section-tag">How It Works</span>
-        <h2>Three Steps to Launch</h2>
-        <p>From zero to a live portfolio in under five minutes.</p>
-    </div>
-
-    <div class="steps-grid">
-        <div class="step-card">
-            <div class="step-num">1</div>
-            <h3>Pick a Template</h3>
-            <p>Browse the gallery, preview designs, and choose the one that represents you best.</p>
+            <ol class="process-list">
+                <li class="process-item">
+                    <span class="process-number">01</span>
+                    <div><h3>Find the right visual voice</h3><p>Compare real, full-page previews and choose a composition that fits your discipline.</p></div>
+                    <span class="process-mark" aria-hidden="true">↗</span>
+                </li>
+                <li class="process-item">
+                    <span class="process-number">02</span>
+                    <div><h3>Tell the story behind the work</h3><p>Add your experience, projects, skills, and links through a structured, distraction-free form.</p></div>
+                    <span class="process-mark" aria-hidden="true">↗</span>
+                </li>
+                <li class="process-item">
+                    <span class="process-number">03</span>
+                    <div><h3>Preview, refine, and take it with you</h3><p>Review the finished portfolio, then export a clean HTML file ready for any host.</p></div>
+                    <span class="process-mark" aria-hidden="true">↗</span>
+                </li>
+            </ol>
         </div>
-        <div class="step-card">
-            <div class="step-num">2</div>
-            <h3>Fill Your Details</h3>
-            <p>Add your bio, skills, experience, and projects using our guided form — no code needed.</p>
-        </div>
-        <div class="step-card">
-            <div class="step-num">3</div>
-            <h3>Preview & Export</h3>
-            <p>See your portfolio live instantly. Download the HTML file when you're satisfied.</p>
-        </div>
-        <div class="step-card">
-            <div class="step-num">4</div>
-            <h3>Deploy Anywhere</h3>
-            <p>Upload to GitHub Pages, Netlify, Vercel, or any web host. No backend required.</p>
-        </div>
-    </div>
-</section>
+    </section>
 
-<!-- CTA -->
-<section class="cta-section">
-    <h2>Ready to Stand Out?</h2>
-    <p>Join thousands of professionals who built their portfolio with PortfolioForge. It's free, it's fast, and it's yours.</p>
-    <div class="cta-buttons">
-        <a href="{% url 'gallery' %}" class="btn btn-primary btn-lg">Browse All Templates</a>
-        <a href="{% url 'portfolio_form' %}" class="btn btn-secondary btn-lg">Start Building Now</a>
-    </div>
-</section>
+    <section class="home-section values-section" aria-labelledby="values-title">
+        <div class="values-header">
+            <div>
+                <p class="section-kicker">Made for the work, not the dashboard</p>
+                <h2 class="section-title" id="values-title">A better starting point for a <em>serious portfolio.</em></h2>
+            </div>
+            <p class="section-copy">No templates that feel like a form with a hero section. Every choice is meant to give your work clarity, confidence, and room to breathe.</p>
+        </div>
+        <div class="values-grid">
+            <article class="value-card">
+                <span class="value-index">01 / LIVE PREVIEW</span>
+                <h3>See the real page first.</h3>
+                <p>Browse actual responsive template renders before you choose a direction.</p>
+            </article>
+            <article class="value-card">
+                <span class="value-index">02 / CONTENT-LED</span>
+                <h3>Your work stays in focus.</h3>
+                <p>Thoughtful typography and hierarchy make projects and outcomes easy to scan.</p>
+            </article>
+            <article class="value-card">
+                <span class="value-index">03 / PORTABLE</span>
+                <h3>Leave with something useful.</h3>
+                <p>Export a self-contained HTML portfolio for GitHub Pages, Netlify, Vercel, or your own host.</p>
+            </article>
+        </div>
+    </section>
 
+    <section class="home-section library-section" aria-labelledby="library-title">
+        <div class="library-intro">
+            <div>
+                <p class="section-kicker">The template library</p>
+                <h2 class="section-title" id="library-title">One library. Four distinct <em>directions.</em></h2>
+            </div>
+            <div>
+                <p class="section-copy">Find a tone that supports the work you do—from restrained editorial pages to technical interfaces and expressive presentations.</p>
+                <a class="library-link" href="{% url 'gallery' %}">Browse all {{ template_count }} templates <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+        </div>
+        <div class="category-grid">
+            <a class="category-card category-card--minimalist" href="{% url 'gallery' %}?category=minimalist">
+                <span class="category-index">01 / MINIMALIST</span><h3>Quiet structure</h3><p>Editorial clarity and considered whitespace.</p>
+            </a>
+            <a class="category-card category-card--developer" href="{% url 'gallery' %}?category=developer">
+                <span class="category-index">02 / DEVELOPER</span><h3>Technical clarity</h3><p>Interfaces with a confident engineering edge.</p>
+            </a>
+            <a class="category-card category-card--creative" href="{% url 'gallery' %}?category=creative">
+                <span class="category-index">03 / CREATIVE</span><h3>Expressive frame</h3><p>Bold formats for visual and creative practice.</p>
+            </a>
+            <a class="category-card category-card--corporate" href="{% url 'gallery' %}?category=corporate">
+                <span class="category-index">04 / CORPORATE</span><h3>Executive presence</h3><p>Clear, composed pages for professional credibility.</p>
+            </a>
+        </div>
+    </section>
+
+    <section class="home-section closing-section" aria-labelledby="closing-title">
+        <div class="closing-panel">
+            <p class="section-kicker">Ready when your work is</p>
+            <h2 class="section-title" id="closing-title">Give your next opportunity something <em>worth opening.</em></h2>
+            <p class="section-copy">Choose a template, add the work you are proud of, and publish a portfolio that feels like you.</p>
+            <div class="closing-actions">
+                <a class="hero-action hero-action--primary" href="{% url 'gallery' %}">Choose a template <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                <a class="hero-action hero-action--secondary" href="{% url 'portfolio_form' %}">Build your portfolio</a>
+            </div>
+        </div>
+    </section>
+</main>
 {% endblock %}

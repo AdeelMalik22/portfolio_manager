@@ -198,6 +198,10 @@
         transition: border-color .25s ease, box-shadow .25s ease, transform .25s cubic-bezier(.2, .8, .2, 1);
     }
 
+    /* The browser's default [hidden] rule can be overridden by the card's
+       display:flex declaration above. Keep filtered cards out of the grid. */
+    .template-card[hidden] { display: none !important; }
+
     .template-card--corporate { --category-color: #e3c27e; }
     .template-card--creative { --category-color: #ff9ec8; }
     .template-card--minimalist { --category-color: #a8e6c7; }
@@ -482,7 +486,7 @@
             <p class="gallery-eyebrow">PortfolioForge template library</p>
             <h1 class="gallery-title" id="gallery-title">A portfolio should have a <em>point of view.</em></h1>
             <p class="gallery-intro">
-                Browse complete, responsive portfolio systems with distinct visual directions. Every cover below is a live rendering of the template you will use.
+                Browse complete sample portfolios with a full profile, work history, and selected projects. Every cover below is the real template—open any example, then make it yours.
             </p>
         </div>
         <div class="gallery-proof" aria-label="{{ category_counts.all }} live portfolio templates">
@@ -509,7 +513,7 @@
                 Corporate <span class="filter-count">{{ category_counts.corporate }}</span>
             </button>
         </div>
-        <p class="gallery-results" aria-live="polite"><strong id="results-count">{{ category_counts.all }}</strong> live template previews</p>
+        <p class="gallery-results" aria-live="polite"><strong id="results-count">{{ category_counts.all }}</strong> complete sample portfolios</p>
     </section>
 
     <section class="templates-grid" id="templates-grid" aria-label="Portfolio templates">
@@ -520,14 +524,14 @@
                     <iframe
                         class="template-cover__frame"
                         src="{% url 'portfolio:template_preview' template.id %}"
-                        title="Live cover preview for {{ template.name }}"
+                        title="Sample portfolio for {{ template.name }}"
                         loading="lazy"
                         tabindex="-1"
                         aria-hidden="true"></iframe>
                 </div>
-                <a class="cover-open" href="{% url 'portfolio:template_preview' template.id %}" target="_blank" rel="noopener" aria-label="Open full preview of {{ template.name }}">
+                <a class="cover-open" href="{% url 'portfolio:template_preview' template.id %}" target="_blank" rel="noopener" aria-label="Explore the {{ template.name }} design">
                     <span>
-                        Open live preview
+                        Explore design
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M19 14v5H5V5h5"/></svg>
                     </span>
                 </a>
@@ -541,8 +545,8 @@
                 <h2>{{ template.name }}</h2>
                 <p class="template-card__description">{{ template.description }}</p>
                 <div class="template-card__actions">
-                    <a class="card-preview" href="{% url 'portfolio:template_preview' template.id %}" target="_blank" rel="noopener" aria-label="View preview of {{ template.name }}">
-                        View preview
+                    <a class="card-preview" href="{% url 'portfolio:template_preview' template.id %}" target="_blank" rel="noopener" aria-label="Explore the {{ template.name }} design">
+                        Explore design
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </a>
                     <a class="card-select" href="/form/?template={{ template.id }}" aria-label="Use {{ template.name }} template">
