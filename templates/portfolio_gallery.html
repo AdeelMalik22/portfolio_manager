@@ -1,521 +1,565 @@
 {% extends 'base.html' %}
 
-{% block title %}Template Gallery — PortfolioForge{% endblock %}
-{% block meta_description %}Browse 21 professional portfolio templates. Filter by Minimalist, Developer, Creative, or
-Corporate categories and preview any design instantly.{% endblock %}
+{% block title %}Portfolio Templates — PortfolioForge{% endblock %}
+{% block meta_description %}Explore professionally designed portfolio templates with live, full-page previews before you start building.{% endblock %}
 
 {% block extra_css %}
 <style>
-    /* ── PAGE HEADER ───────────────────────────────────────── */
-    .gallery-header {
-        padding: var(--space-16) 0 var(--space-10);
-        text-align: center;
+    /* ------------------------------------------------------------------
+       TEMPLATE LIBRARY
+       The gallery deliberately uses the real template pages as its covers.
+       This keeps a card truthful to the page a visitor will actually choose.
+       ------------------------------------------------------------------ */
+    .gallery-page {
+        padding: clamp(2.5rem, 5vw, 5.5rem) 0 5rem;
     }
 
-    .gallery-header h1 {
+    .gallery-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(230px, .55fr);
+        gap: clamp(2rem, 6vw, 6rem);
+        align-items: end;
+        padding: 0 0 clamp(2.5rem, 5vw, 4.25rem);
+        border-bottom: 1px solid rgba(255, 255, 255, .10);
+    }
+
+    .gallery-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: .65rem;
+        margin-bottom: 1.15rem;
+        color: #b8b7c7;
+        font-size: .69rem;
+        font-weight: 800;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+    }
+
+    .gallery-eyebrow::before {
+        width: .55rem;
+        height: .55rem;
+        border-radius: 50%;
+        background: #d9ff7f;
+        box-shadow: 0 0 0 5px rgba(217, 255, 127, .08);
+        content: '';
+    }
+
+    .gallery-title {
+        max-width: 850px;
+        margin: 0;
+        color: #f7f7f3;
         font-family: 'Space Grotesk', sans-serif;
-        font-size: clamp(2.25rem, 6vw, 3.5rem);
-        font-weight: 900;
-        letter-spacing: -2px;
-        margin-bottom: var(--space-4);
+        font-size: clamp(2.65rem, 5.2vw, 5.15rem);
+        font-weight: 600;
+        letter-spacing: -.075em;
+        line-height: .98;
     }
 
-    .gallery-header h1 span {
-        background: linear-gradient(135deg, var(--brand-300), var(--accent-violet));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+    .gallery-title em {
+        color: #a8a6ff;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 400;
+        letter-spacing: -.085em;
     }
 
-    .gallery-header p {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-        max-width: 650px;
-        margin: 0 auto var(--space-6);
-        line-height: 1.65;
+    .gallery-intro {
+        max-width: 680px;
+        margin: 1.35rem 0 0;
+        color: #9898ad;
+        font-size: clamp(.98rem, 1.4vw, 1.08rem);
+        line-height: 1.75;
     }
 
-    /* ── FILTER BAR ────────────────────────────────────────── */
-    .filter-bar {
+    .gallery-proof {
+        padding: 1.25rem 0 1.25rem 1.6rem;
+        border-left: 1px solid rgba(255, 255, 255, .18);
+    }
+
+    .gallery-proof strong {
+        display: block;
+        margin-bottom: .35rem;
+        color: #f4f4ef;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(2.4rem, 4vw, 3.5rem);
+        font-weight: 500;
+        letter-spacing: -.08em;
+        line-height: 1;
+    }
+
+    .gallery-proof span {
+        display: block;
+        max-width: 150px;
+        color: #85859a;
+        font-size: .78rem;
+        line-height: 1.55;
+    }
+
+    .gallery-toolbar {
         display: flex;
-        gap: var(--space-3);
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-bottom: var(--space-12);
-        padding-bottom: var(--space-8);
-        border-bottom: 1px solid var(--border-subtle);
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.25rem;
+        padding: 1.35rem 0 2rem;
     }
+
+    .filter-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: .22rem;
+        max-width: 100%;
+        padding: .3rem;
+        overflow-x: auto;
+        border: 1px solid rgba(255, 255, 255, .10);
+        border-radius: .85rem;
+        background: rgba(20, 20, 28, .72);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .025);
+        scrollbar-width: none;
+    }
+
+    .filter-nav::-webkit-scrollbar { display: none; }
 
     .filter-btn {
         display: inline-flex;
         align-items: center;
-        gap: var(--space-2);
-        padding: var(--space-3) var(--space-6);
-        background: var(--surface-800);
-        border: 1px solid var(--border-default);
-        border-radius: var(--radius-full);
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-        font-weight: 600;
+        gap: .55rem;
+        padding: .63rem .82rem;
+        border: 0;
+        border-radius: .6rem;
+        background: transparent;
+        color: #88889e;
         cursor: pointer;
-        transition: all var(--dur-base) var(--ease-out);
-        white-space: nowrap;
-    }
-
-    .filter-btn .count {
-        font-size: 0.75rem;
+        font: inherit;
+        font-size: .78rem;
         font-weight: 700;
-        background: var(--surface-700);
-        color: var(--text-muted);
-        padding: 2px 8px;
-        border-radius: var(--radius-full);
-        transition: all var(--dur-base);
+        letter-spacing: -.01em;
+        transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+        white-space: nowrap;
     }
 
     .filter-btn:hover {
-        border-color: var(--brand-400);
-        color: var(--text-primary);
-        background: var(--surface-700);
-        transform: translateY(-1px);
+        color: #eeeef0;
+        background: rgba(255, 255, 255, .055);
     }
 
     .filter-btn.active {
-        background: var(--brand-600);
-        border-color: var(--brand-500);
-        color: #fff;
-        box-shadow: 0 0 15px var(--color-primary-glow);
+        background: #f0f0eb;
+        color: #111117;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 5px 14px rgba(0, 0, 0, .16);
     }
 
-    .filter-btn.active .count {
-        background: rgba(255, 255, 255, 0.2);
-        color: #fff;
-    }
-
-    /* ── RESULTS INFO ──────────────────────────────────────── */
-    .results-info {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: var(--space-6);
-        color: var(--text-muted);
-        font-size: 0.875rem;
-    }
-
-    #results-count {
-        font-weight: 600;
-        color: var(--text-secondary);
-    }
-
-    /* ── TEMPLATES GRID ────────────────────────────────────── */
-    .templates-grid {
+    .filter-count {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: var(--space-5);
+        min-width: 1.25rem;
+        height: 1.25rem;
+        padding: 0 .25rem;
+        place-items: center;
+        border-radius: .4rem;
+        background: rgba(255, 255, 255, .09);
+        color: inherit;
+        font-size: .66rem;
+        font-variant-numeric: tabular-nums;
     }
 
-    /* ── TEMPLATE CARD ─────────────────────────────────────── */
-    .template-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: var(--radius-xl);
-        overflow: hidden;
-        transition: all var(--dur-base) var(--ease-out);
+    .filter-btn.active .filter-count { background: rgba(17, 17, 23, .10); }
+
+    .gallery-results {
         display: flex;
-        flex-direction: column;
-        backdrop-filter: blur(12px);
-        cursor: pointer;
-    }
-
-    .template-card:hover {
-        border-color: rgba(99, 102, 241, 0.35);
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-xl), 0 0 0 1px rgba(99, 102, 241, 0.15);
-    }
-
-    /* ── CARD PREVIEW AREA (replaces old purple header) ──── */
-    .card-preview {
-        height: 160px;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: var(--space-5);
-    }
-
-    /* Category-specific preview backgrounds */
-    .card-preview.cat-minimalist {
-        background: linear-gradient(145deg, #0d1a1a 0%, #0f2020 60%, #0a1f1c 100%);
-    }
-
-    .card-preview.cat-developer {
-        background: linear-gradient(145deg, #0a0a1a 0%, #0e0e2a 60%, #080820 100%);
-    }
-
-    .card-preview.cat-creative {
-        background: linear-gradient(145deg, #1a0a1a 0%, #200a20 60%, #1a0515 100%);
-    }
-
-    .card-preview.cat-corporate {
-        background: linear-gradient(145deg, #0a0f1a 0%, #0e1520 60%, #080d18 100%);
-    }
-
-    /* Decorative elements inside preview */
-    .preview-deco {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        padding: var(--space-4);
-        opacity: 0.75;
-        transition: opacity var(--dur-base);
-    }
-
-    .template-card:hover .preview-deco {
-        opacity: 1;
-    }
-
-    /* Minimalist preview — elegant typography page mockup */
-    .cat-minimalist .preview-deco {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-3);
-    }
-
-    .cat-minimalist .preview-deco::before {
-        content: 'J O H N';
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 2px;
-        color: rgba(20, 184, 166, 0.75);
-        border-bottom: 1px solid rgba(20, 184, 166, 0.2);
-        padding-bottom: 2px;
-        width: fit-content;
-    }
-
-    .cat-minimalist .preview-deco::after {
-        content: 'Minimalist, content-first portfolio focusing on clean typography and generous negative space.';
-        font-size: 0.65rem;
-        line-height: 1.4;
-        color: rgba(255, 255, 255, 0.4);
-        max-width: 80%;
-    }
-
-    /* Developer preview — mini IDE/terminal mockup */
-    .cat-developer .preview-deco {
-        background: rgba(10, 10, 15, 0.6);
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 0.65rem;
-        padding: var(--space-3);
-        border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-    }
-
-    .cat-developer .preview-deco::before {
-        content: '> npm run dev';
-        color: rgba(16, 185, 129, 0.85);
-        display: block;
-        margin-bottom: 4px;
-    }
-
-    .cat-developer .preview-deco::after {
-        content: 'ready - started server on 0.0.0.0:3000\ninfo - compiling...\ncompiled successfully';
-        color: rgba(255, 255, 255, 0.35);
-        white-space: pre-line;
-        display: block;
-        line-height: 1.3;
-    }
-
-    /* Creative preview — colorful overlapping abstract elements */
-    .cat-creative .preview-deco::before {
-        content: '';
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(139, 92, 246, 0.3));
-        filter: blur(10px);
-    }
-
-    .cat-creative .preview-deco::after {
-        content: 'CREATIVE';
-        position: absolute;
-        left: var(--space-4);
-        top: var(--space-4);
-        font-family: 'Space Grotesk', sans-serif;
-        font-size: 1.5rem;
-        font-weight: 900;
-        letter-spacing: -1px;
-        background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        opacity: 0.85;
-    }
-
-    /* Corporate preview — clean company landing page header */
-    .cat-corporate .preview-deco {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-    }
-
-    .cat-corporate .preview-deco::before {
-        content: '■ Logo   • About  • Projects  • Contact';
-        font-size: 0.65rem;
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.5);
-        word-spacing: 6px;
-        border-bottom: 1px solid rgba(245, 158, 11, 0.15);
-        padding-bottom: 4px;
-    }
-
-    .cat-corporate .preview-deco::after {
-        content: 'Executive Showcase\nProfessional & Clean';
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: rgba(245, 158, 11, 0.8);
-        white-space: pre-line;
-        line-height: 1.4;
-        margin-bottom: var(--space-6);
-    }
-
-    /* Category accent line at top of card */
-    .card-preview::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        z-index: 2;
-    }
-
-    .cat-minimalist::before {
-        background: linear-gradient(90deg, #14b8a6, #0d9488);
-    }
-
-    .cat-developer::before {
-        background: linear-gradient(90deg, #6366f1, #8b5cf6);
-    }
-
-    .cat-creative::before {
-        background: linear-gradient(90deg, #ec4899, #8b5cf6);
-    }
-
-    .cat-corporate::before {
-        background: linear-gradient(90deg, #f59e0b, #d97706);
-    }
-
-    /* Template name overlay */
-    .card-preview-info {
-        position: relative;
-        z-index: 2;
-    }
-
-    .card-preview-name {
-        font-family: 'Space Grotesk', sans-serif;
-        font-size: 1.05rem;
-        font-weight: 700;
-        color: #fff;
-        margin-bottom: var(--space-1);
-    }
-
-    .card-category-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 3px var(--space-3);
-        border-radius: var(--radius-full);
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.3px;
-    }
-
-    .pill-minimalist {
-        background: rgba(20, 184, 166, 0.2);
-        color: #5eead4;
-        border: 1px solid rgba(20, 184, 166, 0.3);
-    }
-
-    .pill-developer {
-        background: rgba(99, 102, 241, 0.2);
-        color: #a5b4fc;
-        border: 1px solid rgba(99, 102, 241, 0.3);
-    }
-
-    .pill-creative {
-        background: rgba(236, 72, 153, 0.2);
-        color: #f9a8d4;
-        border: 1px solid rgba(236, 72, 153, 0.3);
-    }
-
-    .pill-corporate {
-        background: rgba(245, 158, 11, 0.2);
-        color: #fcd34d;
-        border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-
-    /* ── CARD BODY ─────────────────────────────────────────── */
-    .card-body {
-        padding: var(--space-5) var(--space-6);
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .card-desc {
-        color: var(--text-muted);
-        font-size: 0.875rem;
-        line-height: 1.6;
-        flex-grow: 1;
-        margin-bottom: var(--space-5);
-    }
-
-    .card-actions {
-        display: flex;
-        gap: var(--space-3);
-    }
-
-    .card-actions a {
-        flex: 1;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-2);
-        padding: var(--space-3) var(--space-4);
-        border-radius: var(--radius-lg);
-        font-size: 0.8125rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all var(--dur-base) var(--ease-out);
+        align-items: baseline;
+        gap: .45rem;
+        margin: 0;
+        color: #77778d;
+        font-size: .75rem;
+        letter-spacing: .015em;
         white-space: nowrap;
     }
 
-    .btn-preview {
-        background: var(--surface-600);
-        color: var(--text-secondary);
-        border: 1px solid var(--border-default);
+    .gallery-results strong {
+        color: #dddddf;
+        font-size: .8rem;
+        font-variant-numeric: tabular-nums;
     }
 
-    .btn-preview:hover {
-        background: var(--surface-500);
-        color: var(--text-primary);
-        border-color: var(--border-strong);
+    .templates-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(1.1rem, 2.1vw, 1.8rem);
     }
 
-    .btn-use {
-        background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
-        color: #fff;
-        border: 1px solid rgba(99, 102, 241, 0.4);
+    .template-card {
+        --category-color: #b8b6ff;
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .10);
+        border-radius: 1.1rem;
+        background: rgba(17, 17, 24, .83);
+        box-shadow: 0 14px 40px rgba(0, 0, 0, .17);
+        transition: border-color .25s ease, box-shadow .25s ease, transform .25s cubic-bezier(.2, .8, .2, 1);
     }
 
-    .btn-use:hover {
+    .template-card--corporate { --category-color: #e3c27e; }
+    .template-card--creative { --category-color: #ff9ec8; }
+    .template-card--minimalist { --category-color: #a8e6c7; }
+    .template-card--developer { --category-color: #a9bcff; }
+
+    .template-card:hover {
+        z-index: 1;
+        border-color: rgba(255, 255, 255, .25);
+        box-shadow: 0 24px 65px rgba(0, 0, 0, .36);
+        transform: translateY(-5px);
+    }
+
+    .template-cover {
+        position: relative;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(255, 255, 255, .09);
+        background: #0b0c12;
+        isolation: isolate;
+    }
+
+    .template-cover__canvas {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background: #0d0d14;
+        transition: transform .5s cubic-bezier(.2, .75, .2, 1);
+    }
+
+    .template-card:hover .template-cover__canvas { transform: scale(1.018); }
+
+    /* 360% × 360% renders the iframe as a desktop viewport. The scale then
+       turns it into a sharply proportioned, real page cover at any card size. */
+    .template-cover__frame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 360%;
+        height: 360%;
+        border: 0;
+        pointer-events: none;
+        transform: scale(.2777778);
+        transform-origin: top left;
+        background: #101018;
+    }
+
+    .template-cover::after {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(180deg, rgba(6, 7, 12, .04) 35%, rgba(6, 7, 12, .35) 100%);
+        content: '';
+        pointer-events: none;
+    }
+
+    .cover-open {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .cover-open span {
+        display: inline-flex;
+        align-items: center;
+        gap: .55rem;
+        padding: .68rem .82rem;
+        border: 1px solid rgba(255, 255, 255, .22);
+        border-radius: .55rem;
+        background: rgba(11, 11, 16, .82);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
+        color: #f7f7f4;
+        font-size: .74rem;
+        font-weight: 700;
+        opacity: 0;
+        transform: translateY(7px);
+        transition: opacity .2s ease, transform .2s ease, background .2s ease;
+        backdrop-filter: blur(12px);
+    }
+
+    .template-card:hover .cover-open span,
+    .cover-open:focus-visible span {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .cover-open:hover span { background: #f5f5f0; color: #121218; }
+
+    .cover-open svg,
+    .card-preview svg,
+    .card-select svg {
+        width: .9rem;
+        height: .9rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+    }
+
+    .template-card__body {
+        display: flex;
+        min-height: 180px;
+        flex: 1;
+        flex-direction: column;
+        padding: 1.05rem 1.05rem 1.1rem;
+    }
+
+    .template-card__meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .75rem;
+        margin-bottom: .75rem;
+    }
+
+    .template-category {
+        display: inline-flex;
+        align-items: center;
+        gap: .42rem;
+        color: var(--category-color);
+        font-size: .65rem;
+        font-weight: 800;
+        letter-spacing: .095em;
+        text-transform: uppercase;
+    }
+
+    .template-category::before {
+        width: .35rem;
+        height: .35rem;
+        border-radius: 50%;
+        background: currentColor;
+        content: '';
+    }
+
+    .template-number {
+        color: #67677b;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: .68rem;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .template-card h2 {
+        margin: 0;
+        color: #f2f2ef;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.17rem;
+        font-weight: 600;
+        letter-spacing: -.04em;
+        line-height: 1.2;
+    }
+
+    .template-card__description {
+        display: -webkit-box;
+        margin: .5rem 0 1rem;
+        overflow: hidden;
+        color: #89899e;
+        font-size: .78rem;
+        line-height: 1.55;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+
+    .template-card__actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .8rem;
+        margin-top: auto;
+    }
+
+    .card-preview,
+    .card-select {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: .45rem;
+        min-height: 2.5rem;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .card-preview {
+        padding: .4rem 0;
+        color: #aaaabd;
+        font-size: .75rem;
+        font-weight: 700;
+        transition: color .18s ease;
+    }
+
+    .card-preview:hover { color: #f4f4f0; }
+
+    .card-select {
+        padding: .6rem .78rem;
+        border: 1px solid rgba(255, 255, 255, .10);
+        border-radius: .55rem;
+        background: #f2f2ed;
+        color: #14141a;
+        font-size: .74rem;
+        font-weight: 800;
+        transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .card-select:hover {
+        background: #fff;
+        box-shadow: 0 7px 20px rgba(0, 0, 0, .27);
         transform: translateY(-1px);
-        box-shadow: var(--shadow-brand);
     }
 
-    /* ── EMPTY STATE ───────────────────────────────────────── */
+    .template-card a:focus-visible,
+    .filter-btn:focus-visible {
+        outline: 2px solid #c8c6ff;
+        outline-offset: 3px;
+    }
+
     .empty-state {
         grid-column: 1 / -1;
+        padding: 5rem 1.25rem;
+        border: 1px dashed rgba(255, 255, 255, .16);
+        border-radius: 1rem;
+        color: #89899e;
         text-align: center;
-        padding: var(--space-20) var(--space-6);
-        color: var(--text-muted);
-    }
-
-    .empty-state .icon {
-        font-size: 3rem;
-        margin-bottom: var(--space-4);
     }
 
     .empty-state h3 {
-        color: var(--text-secondary);
-        margin-bottom: var(--space-2);
+        margin: 0 0 .4rem;
+        color: #f0f0ec;
+        font-family: 'Space Grotesk', sans-serif;
     }
 
-    /* ── RESPONSIVE ────────────────────────────────────────── */
-    @media (max-width: 768px) {
-        .templates-grid {
+    .empty-state p { margin: 0; }
+
+    @media (max-width: 1050px) {
+        .templates-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+        .gallery-page { padding-top: 2.4rem; }
+
+        .gallery-hero {
             grid-template-columns: 1fr;
+            gap: 1.8rem;
         }
 
-        .filter-bar {
-            gap: var(--space-2);
+        .gallery-proof {
+            max-width: 240px;
+            padding: 0 0 0 1.15rem;
         }
+
+        .gallery-toolbar {
+            align-items: flex-start;
+            flex-direction: column;
+            padding-bottom: 1.25rem;
+        }
+
+        .filter-nav { width: 100%; }
+        .gallery-results { padding-left: .15rem; }
+    }
+
+    @media (max-width: 520px) {
+        .templates-grid { grid-template-columns: 1fr; }
+        .template-card__body { min-height: 165px; }
+        .cover-open span { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .template-card,
+        .template-cover__canvas,
+        .cover-open span,
+        .card-select { transition: none; }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-
-<!-- Gallery Header -->
-<div class="gallery-header">
-    <h1>Choose Your <span>Template</span></h1>
-    <p>21 professionally crafted portfolio templates across 4 categories. Preview any design before you build.</p>
-</div>
-
-<!-- Filter Bar -->
-<div class="filter-bar" role="tablist" aria-label="Filter templates by category">
-    <button class="filter-btn active" data-category="all" role="tab" aria-selected="true" id="filter-all">
-        All Templates <span class="count">{{ category_counts.all }}</span>
-    </button>
-    <button class="filter-btn" data-category="minimalist" role="tab" aria-selected="false" id="filter-minimalist">
-        🌿 Minimalist <span class="count">{{ category_counts.minimalist }}</span>
-    </button>
-    <button class="filter-btn" data-category="developer" role="tab" aria-selected="false" id="filter-developer">
-        💻 Developer <span class="count">{{ category_counts.developer }}</span>
-    </button>
-    <button class="filter-btn" data-category="creative" role="tab" aria-selected="false" id="filter-creative">
-        🎨 Creative <span class="count">{{ category_counts.creative }}</span>
-    </button>
-    <button class="filter-btn" data-category="corporate" role="tab" aria-selected="false" id="filter-corporate">
-        💼 Corporate <span class="count">{{ category_counts.corporate }}</span>
-    </button>
-</div>
-
-
-<!-- Templates Grid -->
-<div class="templates-grid" id="templates-grid">
-    {% for template in templates %}
-    <article class="template-card" data-category="{{ template.category }}" id="template-{{ template.id }}">
-
-        <!-- Visual Preview Area -->
-        <div class="card-preview cat-{{ template.category }}">
-            <div class="preview-deco"></div>
-            <div class="card-preview-info">
-                <div class="card-preview-name">{{ template.name }}</div>
-                <span class="card-category-pill pill-{{ template.category }}">
-                    {% if template.category == 'minimalist' %}🌿{% elif template.category == 'developer' %}💻{% elif
-                    template.category == 'creative' %}🎨{% else %}💼{% endif %}
-                    {{ template.get_category_display }}
-                </span>
-            </div>
+<main class="gallery-page" aria-labelledby="gallery-title">
+    <header class="gallery-hero">
+        <div>
+            <p class="gallery-eyebrow">PortfolioForge template library</p>
+            <h1 class="gallery-title" id="gallery-title">A portfolio should have a <em>point of view.</em></h1>
+            <p class="gallery-intro">
+                Browse complete, responsive portfolio systems with distinct visual directions. Every cover below is a live rendering of the template you will use.
+            </p>
         </div>
+        <div class="gallery-proof" aria-label="{{ category_counts.all }} live portfolio templates">
+            <strong>{{ category_counts.all }}</strong>
+            <span>distinct templates, ready to make your work feel considered.</span>
+        </div>
+    </header>
 
-        <!-- Card Body -->
-        <div class="card-body">
-            <p class="card-desc">{{ template.description }}</p>
-            <div class="card-actions">
-                <a href="{% url 'portfolio:template_preview' template.id %}" class="btn-preview" target="_blank"
-                    rel="noopener" aria-label="Preview {{ template.name }}">
-                    👁 Preview
-                </a>
-                <a href="/form/?template={{ template.id }}" class="btn-use"
-                    aria-label="Use {{ template.name }} template">
-                    Use Template →
+    <section class="gallery-toolbar" aria-label="Template controls">
+        <div class="filter-nav" role="group" aria-label="Filter templates by category">
+            <button class="filter-btn active" type="button" data-category="all" aria-pressed="true">
+                All templates <span class="filter-count">{{ category_counts.all }}</span>
+            </button>
+            <button class="filter-btn" type="button" data-category="minimalist" aria-pressed="false">
+                Minimalist <span class="filter-count">{{ category_counts.minimalist }}</span>
+            </button>
+            <button class="filter-btn" type="button" data-category="developer" aria-pressed="false">
+                Developer <span class="filter-count">{{ category_counts.developer }}</span>
+            </button>
+            <button class="filter-btn" type="button" data-category="creative" aria-pressed="false">
+                Creative <span class="filter-count">{{ category_counts.creative }}</span>
+            </button>
+            <button class="filter-btn" type="button" data-category="corporate" aria-pressed="false">
+                Corporate <span class="filter-count">{{ category_counts.corporate }}</span>
+            </button>
+        </div>
+        <p class="gallery-results" aria-live="polite"><strong id="results-count">{{ category_counts.all }}</strong> live template previews</p>
+    </section>
+
+    <section class="templates-grid" id="templates-grid" aria-label="Portfolio templates">
+        {% for template in templates %}
+        <article class="template-card template-card--{{ template.category }}" data-category="{{ template.category }}" id="template-{{ template.id }}">
+            <div class="template-cover">
+                <div class="template-cover__canvas">
+                    <iframe
+                        class="template-cover__frame"
+                        src="{% url 'portfolio:template_preview' template.id %}"
+                        title="Live cover preview for {{ template.name }}"
+                        loading="lazy"
+                        tabindex="-1"
+                        aria-hidden="true"></iframe>
+                </div>
+                <a class="cover-open" href="{% url 'portfolio:template_preview' template.id %}" target="_blank" rel="noopener" aria-label="Open full preview of {{ template.name }}">
+                    <span>
+                        Open live preview
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M19 14v5H5V5h5"/></svg>
+                    </span>
                 </a>
             </div>
-        </div>
-    </article>
-    {% empty %}
-    <div class="empty-state">
-        <div class="icon">🎨</div>
-        <h3>No templates found</h3>
-        <p>Check back soon — new templates are added regularly.</p>
-    </div>
-    {% endfor %}
-</div>
 
+            <div class="template-card__body">
+                <div class="template-card__meta">
+                    <span class="template-category">{{ template.get_category_display }}</span>
+                    <span class="template-number">{{ forloop.counter|stringformat:"02d" }}</span>
+                </div>
+                <h2>{{ template.name }}</h2>
+                <p class="template-card__description">{{ template.description }}</p>
+                <div class="template-card__actions">
+                    <a class="card-preview" href="{% url 'portfolio:template_preview' template.id %}" target="_blank" rel="noopener" aria-label="View preview of {{ template.name }}">
+                        View preview
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </a>
+                    <a class="card-select" href="/form/?template={{ template.id }}" aria-label="Use {{ template.name }} template">
+                        Use template
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </a>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="empty-state">
+            <h3>No templates found</h3>
+            <p>New portfolio systems will appear here as they are added.</p>
+        </div>
+        {% endfor %}
+    </section>
+</main>
 {% endblock %}
 
 {% block extra_js %}
@@ -523,44 +567,48 @@ Corporate categories and preview any design instantly.{% endblock %}
     (function () {
         'use strict';
 
-        const filterBtns = document.querySelectorAll('.filter-btn');
+        const filterButtons = document.querySelectorAll('.filter-btn');
         const cards = document.querySelectorAll('.template-card');
-        const countEl = document.getElementById('results-count');
+        const resultsCount = document.getElementById('results-count');
 
-        // Honour ?category= query param on page load
-        const urlCat = new URLSearchParams(location.search).get('category');
-        if (urlCat) {
-            const match = document.querySelector(`.filter-btn[data-category="${urlCat}"]`);
-            if (match) activateFilter(match, urlCat);
+        function applyFilter(category, activeButton) {
+            let visible = 0;
+
+            filterButtons.forEach((button) => {
+                const isActive = button === activeButton;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-pressed', String(isActive));
+            });
+
+            cards.forEach((card) => {
+                const show = category === 'all' || card.dataset.category === category;
+                card.hidden = !show;
+                if (show) visible += 1;
+            });
+
+            resultsCount.textContent = visible;
         }
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                activateFilter(btn, btn.dataset.category);
-                // Update URL without reload
-                const url = new URL(location.href);
-                if (btn.dataset.category === 'all') url.searchParams.delete('category');
-                else url.searchParams.set('category', btn.dataset.category);
-                history.replaceState(null, '', url.toString());
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const category = button.dataset.category;
+                applyFilter(category, button);
+
+                const url = new URL(window.location.href);
+                if (category === 'all') {
+                    url.searchParams.delete('category');
+                } else {
+                    url.searchParams.set('category', category);
+                }
+                window.history.replaceState(null, '', url);
             });
         });
 
-        function activateFilter(btn, category) {
-            filterBtns.forEach(b => {
-                b.classList.remove('active');
-                b.setAttribute('aria-selected', 'false');
-            });
-            btn.classList.add('active');
-            btn.setAttribute('aria-selected', 'true');
-
-            let visible = 0;
-            cards.forEach(card => {
-                const show = category === 'all' || card.dataset.category === category;
-                card.style.display = show ? '' : 'none';
-                if (show) visible++;
-            });
-            countEl.textContent = visible;
+        const requestedCategory = new URLSearchParams(window.location.search).get('category');
+        const requestedButton = requestedCategory && document.querySelector('.filter-btn[data-category="' + requestedCategory + '"]');
+        if (requestedButton) {
+            applyFilter(requestedCategory, requestedButton);
         }
-    })();
+    }());
 </script>
 {% endblock %}

@@ -1,108 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ full_name }} - Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ full_name }} — Rose Notes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Quicksand', sans-serif; background: #fff8f7; color: #3a3a3a; line-height: 1.6; }
-        nav { position: fixed; top: 0; width: 100%; background: white; border-bottom: 1px solid #f0e8e6; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
-        nav .logo { font-size: 1.3rem; font-weight: 700; color: #d98598; }
-        nav ul { display: flex; list-style: none; gap: 2.5rem; }
-        nav a { color: #666; text-decoration: none; font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: #d98598; }
-        .hero { margin-top: 70px; background: linear-gradient(135deg, #ffeae6 0%, #f8d8d4 100%); padding: 5rem 2rem; display: flex; align-items: center; justify-content: center; min-height: 70vh; text-align: center; }
-        .hero .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #d98598; margin-bottom: 2rem; }
-        .hero h1 { font-size: 3rem; color: #3a3a3a; margin-bottom: 0.5rem; }
-        .hero .title { font-size: 1.3rem; color: #d98598; margin-bottom: 1rem; }
-        .hero p { max-width: 600px; margin: 0 auto 2rem; color: #666; line-height: 1.8; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 0.9rem 2rem; text-decoration: none; font-weight: 600; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 25px; }
-        .btn-primary { background: #d98598; color: white; }
-        .btn-primary:hover { background: #c86880; transform: translateY(-2px); }
-        .btn-secondary { background: white; color: #d98598; border: 2px solid #d98598; }
-        .btn-secondary:hover { background: #f0e8e6; }
-        .section { padding: 4rem 2rem; }
-        .section:nth-child(even) { background: white; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h2 { font-size: 2.3rem; color: #3a3a3a; margin-bottom: 3rem; text-align: center; }
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5rem; }
-        .skill-card { background: white; padding: 1.8rem; border-radius: 15px; border: 1px solid #f0e8e6; transition: all 0.3s; text-align: center; }
-        .skill-card:hover { border-color: #d98598; box-shadow: 0 8px 20px rgba(217, 133, 152, 0.1); }
-        .skill-card h3 { color: #d98598; margin-bottom: 1rem; }
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
-        .skill-tag { background: #fef3f1; color: #d98598; padding: 0.4rem 0.8rem; border-radius: 15px; font-size: 0.8rem; }
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.5rem; }
-        .project-card { background: white; border-radius: 15px; padding: 1.8rem; border: 1px solid #f0e8e6; transition: all 0.3s; }
-        .project-card:hover { border-color: #d98598; box-shadow: 0 10px 30px rgba(217, 133, 152, 0.15); transform: translateY(-5px); }
-        .project-card h3 { color: #3a3a3a; margin-bottom: 0.5rem; }
-        .project-tech { color: #d98598; font-size: 0.85rem; margin-bottom: 0.8rem; }
-        .project-description { color: #666; margin-bottom: 1rem; }
-        .project-links { display: flex; gap: 1rem; }
-        .project-link { color: #d98598; text-decoration: none; font-weight: 600; }
-        .project-link:hover { color: #3a3a3a; }
-        .timeline { position: relative; max-width: 750px; margin: 0 auto; }
-        .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 2px; height: 100%; background: #d98598; }
-        .timeline-item { margin-bottom: 2rem; width: 50%; }
-        .timeline-item:nth-child(odd) { margin-left: 0; text-align: right; padding-right: 2.5rem; }
-        .timeline-item:nth-child(even) { margin-left: auto; padding-left: 2.5rem; }
-        .timeline-dot { position: absolute; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; background: #d98598; border: 3px solid white; border-radius: 50%; top: 0; }
-        .timeline-content { background: white; padding: 1.5rem; border-radius: 10px; border-left: 3px solid #d98598; }
-        .timeline-item:nth-child(even) .timeline-content { border-left: none; border-right: 3px solid #d98598; }
-        .timeline-content h3 { color: #3a3a3a; }
-        .timeline-meta { color: #d98598; font-size: 0.85rem; font-weight: 600; }
-        .timeline-description { color: #666; margin-top: 0.5rem; }
-        footer { background: #3a3a3a; color: #ccc; text-align: center; padding: 2rem; border-top: 3px solid #d98598; }
-        footer a { color: #d98598; }
-        @media (max-width: 768px) {
-            nav ul { gap: 1rem; font-size: 0.9rem; }
-            .hero h1 { font-size: 2rem; }
-            .timeline::before { left: 15px; }
-            .timeline-item { width: 100%; padding-left: 45px !important; padding-right: 0 !important; text-align: left !important; }
-            .timeline-dot { left: 15px; }
-            .timeline-content { border-left: 3px solid #d98598 !important; border-right: none !important; }
-            .cta-buttons { flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
-        }
+        :root{--rose:#c85e7f;--plum:#432b37;--blush:#f9e9ea;--paper:#fffafa;--ink:#3f3137;--muted:#8b737c;--line:#e7cfd4}*{box-sizing:border-box}body{margin:0;background:var(--blush);color:var(--ink);font:15px/1.7 "DM Sans",sans-serif}a{color:inherit}.notes{width:min(1000px,calc(100% - 32px));margin:42px auto;background:var(--paper);box-shadow:0 20px 60px rgba(126,63,84,.13)}.notehead{display:flex;justify-content:space-between;padding:17px 30px;border-bottom:1px solid var(--line);color:var(--muted);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.opening{display:grid;grid-template-columns:1fr minmax(280px,.75fr);gap:48px;padding:clamp(44px,9vw,100px) 10%;align-items:center}.opening h1{margin:0;font:700 clamp(3.6rem,8vw,7rem)/.88 "Playfair Display",Georgia,serif;letter-spacing:-.075em}.opening .role{margin:18px 0;color:var(--rose);font-weight:700}.opening .bio{color:var(--muted);font-size:1.02rem}.portrait-rose{display:grid;width:min(100%,300px);aspect-ratio:1;place-items:center;margin:auto;overflow:hidden;border:12px solid #fff;border-radius:50% 50% 44% 56% / 58% 43% 57% 42%;background:linear-gradient(135deg,#d96f91,#a9476c);color:#fff;font:700 5rem "Playfair Display",serif;box-shadow:18px 18px 0 #f2ced8}.portrait-rose img{width:100%;height:100%;object-fit:cover}.message{padding:26px 10%;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff3f3;color:var(--plum);font:600 1.35rem/1.35 "Playfair Display",Georgia,serif;text-align:center}.message em{color:var(--rose);font-style:normal}
+        .contents{padding:68px 10%}.section-heading{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px}.section-heading h2{margin:0;font:700 2.15rem/1 "Playfair Display",Georgia,serif;letter-spacing:-.05em}.section-heading span{color:var(--rose);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.postcards{display:grid;grid-template-columns:repeat(2,1fr);gap:17px}.postcard{min-height:210px;padding:25px;border:1px solid var(--line);background:#fff;box-shadow:8px 8px 0 #f5dfe3}.postcard:nth-child(even){transform:translateY(27px);background:#fff5ed}.postcard small{color:var(--rose);font-weight:700}.postcard h3{margin:22px 0 7px;font:700 1.35rem/1.1 "Playfair Display",Georgia,serif}.postcard p{margin:0;color:var(--muted);font-size:.85rem}.postcard a{display:inline-block;margin-top:12px;color:var(--rose);font-size:.76rem;font-weight:700}.qualities{display:flex;flex-wrap:wrap;gap:8px}.qualities span{padding:7px 11px;border-bottom:1px solid var(--rose);font-size:.79rem;font-weight:700}.ledger{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:80px;padding-top:34px;border-top:1px solid var(--line)}.ledger h2{margin:0 0 19px;font:700 1.85rem "Playfair Display",Georgia,serif}.ledger article{padding:12px 0;border-bottom:1px solid var(--line)}.ledger time{display:block;color:var(--rose);font-size:.7rem;font-weight:700}.ledger h3{margin:4px 0;font-size:.94rem}.ledger p{margin:0;color:var(--muted);font-size:.82rem}footer{display:flex;justify-content:space-between;padding:23px 30px;background:var(--plum);color:#f9e9ea;font-size:.75rem}@media(max-width:700px){.notes{width:100%;margin:0}.notehead{padding:15px 20px}.opening{grid-template-columns:1fr;padding:55px 25px}.opening h1{font-size:4.2rem}.portrait-rose{width:190px}.contents{padding:50px 25px}.postcards,.ledger{grid-template-columns:1fr}.postcard:nth-child(even){transform:none}.ledger{margin-top:50px;gap:25px}footer{padding:20px}}
     </style>
 </head>
-<body>
-    <nav>
-        <div class="logo">{{ full_name }}</div>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#experience">Experience</a></li>
-        </ul>
-    </nav>
-
-    <section class="hero" id="about">
-        {% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="{{ full_name }}" class="profile-img">{% endif %}
-        <div>
-            <h1>{{ full_name }}</h1>
-            <p class="title">{{ title }}</p>
-            {% if bio %}<p>{{ bio }}</p>{% endif %}
-            <div class="cta-buttons">
-                {% if github %}<a href="{{ github }}" target="_blank" class="btn btn-primary"><i class="fab fa-github"></i> GitHub</a>{% endif %}
-                {% if linkedin %}<a href="{{ linkedin }}" target="_blank" class="btn btn-secondary"><i class="fab fa-linkedin"></i> LinkedIn</a>{% endif %}
-                {% if email %}<a href="mailto:{{ email }}" class="btn btn-secondary"><i class="fas fa-envelope"></i> Contact</a>{% endif %}
-            </div>
-        </div>
-    </section>
-
-    {% if skills %}<section class="section" id="skills"><div class="container"><h2>Skills</h2><div class="skills-grid">{% for skill in skills %}<div class="skill-card"><h3>{{ skill }}</h3><div class="skill-tags"><span class="skill-tag">Professional</span><span class="skill-tag">Advanced</span></div></div>{% endfor %}</div></div></section>{% endif %}
-
-    {% if projects %}<section class="section" id="projects"><div class="container"><h2>Projects</h2><div class="projects-grid">{% for project in projects %}<div class="project-card"><h3>{{ project.title }}</h3>{% if project.tech_stack %}<p class="project-tech">{{ project.tech_stack }}</p>{% endif %}<p class="project-description">{{ project.description }}</p><div class="project-links">{% if project.github_link %}<a href="{{ project.github_link }}" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>{% endif %}{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Live</a>{% endif %}</div></div>{% endfor %}</div></div></section>{% endif %}
-
-    {% if experience %}<section class="section" id="experience"><div class="container"><h2>Experience</h2><div class="timeline">{% for exp in experience %}<div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><h3>{{ exp.role }}</h3><p class="timeline-meta">{{ exp.company }} • {{ exp.duration }}</p><p class="timeline-description">{{ exp.description }}</p></div></div>{% endfor %}</div></div></section>{% endif %}
-
-    {% if education %}<section class="section" id="education"><div class="container"><h2>Education</h2><div class="timeline">{% for edu in education %}<div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><h3>{{ edu.degree }} in {{ edu.field }}</h3><p class="timeline-meta">{{ edu.school }} • {{ edu.year }}</p></div></div>{% endfor %}</div></div></section>{% endif %}
-
-    <footer><p>&copy; 2026 {{ full_name }}. All rights reserved.</p></footer>
-</body>
-</html>
-
+<body><article class="notes"><header class="notehead"><span>Field notes / {{ full_name }}</span><span>{% if location %}{{ location }}{% endif %}</span></header><main><section class="opening"><div><h1>{{ full_name }}</h1><p class="role">{{ title }}</p><p class="bio">{{ bio }}</p></div><div class="portrait-rose">{% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="{{ full_name }}">{% else %}{{ full_name|slice:":1" }}{% endif %}</div></section><p class="message">Making <em>useful, beautiful</em> things with a human point of view.</p>
+{% if projects %}<section class="contents"><div class="section-heading"><h2>Postcards from the work.</h2><span>Selected pieces</span></div><div class="postcards">{% for project in projects %}<article class="postcard"><small>0{{ forloop.counter }} / {{ project.tech_stack }}</small><h3>{{ project.title }}</h3>{% if project.description %}<p>{{ project.description }}</p>{% endif %}{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" rel="noopener noreferrer">Read more ↗</a>{% endif %}</article>{% endfor %}</div>{% endif %}
+{% if skills %}<div class="ledger"><section><h2>Favourite tools.</h2><div class="qualities">{% for skill in skills %}<span>{{ skill }}</span>{% endfor %}</div></section><section><h2>A little history.</h2>{% for exp in experience %}<article><time>{{ exp.duration }}</time><h3>{{ exp.role }}{% if exp.company %} · {{ exp.company }}{% endif %}</h3>{% if exp.description %}<p>{{ exp.description }}</p>{% endif %}</article>{% endfor %}{% for edu in education %}<article><time>{{ edu.year }}</time><h3>{{ edu.degree }}{% if edu.field %} · {{ edu.field }}{% endif %}</h3><p>{{ edu.school }}</p></article>{% endfor %}</section></div></section>{% endif %}</main><footer>{% if email %}<a href="mailto:{{ email }}">{{ email }}</a>{% endif %}<span>{% if linkedin %}<a href="{{ linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>{% endif %}</span></footer></article></body></html>

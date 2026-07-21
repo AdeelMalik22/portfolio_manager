@@ -7,6 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 import json
 
 from .models import PortfolioTemplate, Portfolio, UserProfile, PublicPortfolio
@@ -177,6 +178,7 @@ class PortfolioViewSet(viewsets.ModelViewSet):
 
 
 # Regular views for template preview
+@xframe_options_sameorigin
 def template_preview(request, template_id):
     """Preview a template with dummy data"""
     template = get_object_or_404(PortfolioTemplate, id=template_id, is_active=True)
@@ -464,5 +466,4 @@ def dashboard_edit(request):
         'form': form,
         'portfolio': portfolio,
     })
-
 

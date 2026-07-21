@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ full_name }} — {{ title }} portfolio">
+    <title>{% block title %}{{ full_name }} | Portfolio{% endblock %}</title>
+    {% block font %}{% endblock %}
+    <style>
+        :root {
+            --page: #f5f7fb;
+            --surface: #ffffff;
+            --surface-alt: #eef2f7;
+            --ink: #172033;
+            --muted: #637083;
+            --line: rgba(23, 32, 51, .13);
+            --brand: #2457e6;
+            --brand-strong: #163cae;
+            --accent: #a8c1ff;
+            --accent-ink: #102a7a;
+            --display: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+            --radius: 22px;
+            --shadow: 0 18px 50px rgba(23, 32, 51, .10);
+            --page-width: 1180px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            min-width: 320px;
+            margin: 0;
+            color: var(--ink);
+            background: var(--page);
+            font-family: var(--body);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            position: fixed;
+            z-index: -3;
+            inset: 0;
+            content: "";
+            background: var(--page);
+        }
+
+        body::after {
+            position: fixed;
+            z-index: -2;
+            top: -18rem;
+            right: -14rem;
+            width: 40rem;
+            height: 40rem;
+            content: "";
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 68%);
+            opacity: .35;
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        a { color: inherit; }
+
+        img { display: block; max-width: 100%; }
+
+        .portfolio-page {
+            position: relative;
+            width: min(var(--page-width), calc(100% - 48px));
+            margin: 0 auto;
+            padding: 24px 0 48px;
+        }
+
+        .portfolio-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            min-height: 62px;
+            margin-bottom: 28px;
+            padding: 12px 16px 12px 20px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--surface) 88%, transparent);
+            box-shadow: 0 8px 24px rgba(23, 32, 51, .04);
+            backdrop-filter: blur(14px);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+            font-family: var(--display);
+            font-size: .93rem;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 26px;
+            height: 26px;
+            place-items: center;
+            color: var(--surface);
+            border-radius: 50%;
+            background: var(--brand);
+            font-family: var(--mono);
+            font-size: .7rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 18px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: .79rem;
+            font-weight: 700;
+            letter-spacing: .02em;
+            text-decoration: none;
+            transition: color .2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a:focus-visible { color: var(--brand); }
+
+        .hero {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0, 1.18fr) minmax(250px, .82fr);
+            gap: clamp(30px, 6vw, 84px);
+            align-items: center;
+            min-height: 500px;
+            margin-bottom: clamp(42px, 8vw, 96px);
+            padding: clamp(32px, 6vw, 72px);
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: color-mix(in srgb, var(--surface) 94%, transparent);
+            box-shadow: var(--shadow);
+        }
+
+        .hero::before {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: min(42%, 420px);
+            height: 100%;
+            content: "";
+            background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 70%, transparent), transparent 68%);
+            pointer-events: none;
+        }
+
+        .hero-copy,
+        .hero-visual { position: relative; z-index: 1; }
+
+        .eyebrow,
+        .section-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin: 0 0 14px;
+            color: var(--brand);
+            font-family: var(--mono);
+            font-size: .71rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 22px;
+            height: 2px;
+            content: "";
+            border-radius: 2px;
+            background: currentColor;
+        }
+
+        h1, h2, h3, p { margin-top: 0; }
+
+        h1,
+        h2,
+        h3 { font-family: var(--display); }
+
+        .hero h1 {
+            max-width: 760px;
+            margin-bottom: 8px;
+            color: var(--ink);
+            font-size: clamp(3.1rem, 8vw, 7.25rem);
+            font-weight: 800;
+            letter-spacing: -.075em;
+            line-height: .93;
+            overflow-wrap: anywhere;
+        }
+
+        .hero-role {
+            margin-bottom: 20px;
+            color: var(--accent-ink);
+            font-family: var(--display);
+            font-size: clamp(1.02rem, 2vw, 1.38rem);
+            font-weight: 700;
+            letter-spacing: -.025em;
+        }
+
+        .hero-intro {
+            max-width: 620px;
+            margin-bottom: 28px;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.6vw, 1.13rem);
+        }
+
+        .hero-actions,
+        .social-links,
+        .project-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .button,
+        .social-link,
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 15px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--surface) 72%, transparent);
+            color: var(--ink);
+            font-size: .82rem;
+            font-weight: 750;
+            line-height: 1;
+            text-decoration: none;
+            transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
+        }
+
+        .button:hover,
+        .button:focus-visible,
+        .social-link:hover,
+        .social-link:focus-visible,
+        .project-link:hover,
+        .project-link:focus-visible {
+            border-color: var(--brand);
+            background: var(--brand);
+            color: var(--surface);
+            transform: translateY(-2px);
+        }
+
+        .button-primary {
+            border-color: var(--brand);
+            background: var(--brand);
+            color: var(--surface);
+        }
+
+        .button-primary:hover,
+        .button-primary:focus-visible { background: var(--brand-strong); }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+            margin: 25px 0 0;
+            padding: 0;
+            color: var(--muted);
+            font-size: .81rem;
+            list-style: none;
+        }
+
+        .hero-meta li { display: inline-flex; align-items: center; gap: 7px; }
+
+        .hero-meta li::before {
+            width: 6px;
+            height: 6px;
+            content: "";
+            border-radius: 50%;
+            background: var(--brand);
+        }
+
+        .hero-visual { display: grid; justify-items: center; }
+
+        .portrait-frame {
+            position: relative;
+            display: grid;
+            width: min(100%, 330px);
+            aspect-ratio: .88;
+            place-items: center;
+            isolation: isolate;
+        }
+
+        .portrait-frame::before,
+        .portrait-frame::after {
+            position: absolute;
+            z-index: -1;
+            content: "";
+            border-radius: 50%;
+        }
+
+        .portrait-frame::before {
+            width: 90%;
+            aspect-ratio: 1;
+            background: var(--accent);
+            opacity: .8;
+            transform: translate(8%, -8%);
+        }
+
+        .portrait-frame::after {
+            width: 72%;
+            aspect-ratio: 1;
+            border: 1px dashed var(--brand);
+            opacity: .75;
+            transform: translate(-18%, 15%);
+        }
+
+        .portrait-image,
+        .portrait-monogram {
+            width: 79%;
+            aspect-ratio: 1;
+            border: 7px solid color-mix(in srgb, var(--surface) 82%, transparent);
+            border-radius: 42% 58% 48% 52% / 47% 42% 58% 53%;
+            box-shadow: 0 20px 40px color-mix(in srgb, var(--ink) 22%, transparent);
+        }
+
+        .portrait-image { object-fit: cover; }
+
+        .portrait-monogram {
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+            color: var(--surface);
+            font-family: var(--display);
+            font-size: clamp(3.4rem, 7vw, 5.6rem);
+            font-weight: 800;
+            letter-spacing: -.09em;
+        }
+
+        .portrait-note {
+            position: absolute;
+            right: -4px;
+            bottom: 8%;
+            min-width: 150px;
+            padding: 10px 13px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: color-mix(in srgb, var(--surface) 92%, transparent);
+            box-shadow: 0 12px 30px rgba(23, 32, 51, .12);
+            color: var(--muted);
+            font-family: var(--mono);
+            font-size: .65rem;
+            line-height: 1.35;
+        }
+
+        .portrait-note strong { display: block; color: var(--ink); font-family: var(--body); font-size: .79rem; }
+
+        .portfolio-content { display: grid; gap: 24px; }
+
+        .section {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(170px, .32fr) minmax(0, 1fr);
+            gap: clamp(24px, 5vw, 68px);
+            padding: clamp(26px, 4vw, 46px);
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: calc(var(--radius) - 3px);
+            background: color-mix(in srgb, var(--surface) 94%, transparent);
+            box-shadow: 0 12px 35px rgba(23, 32, 51, .035);
+        }
+
+        .section-heading { position: relative; }
+
+        .section-number {
+            display: block;
+            margin-bottom: 16px;
+            color: color-mix(in srgb, var(--brand) 70%, transparent);
+            font-family: var(--mono);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .1em;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            color: var(--ink);
+            font-size: clamp(1.5rem, 2.8vw, 2.35rem);
+            font-weight: 760;
+            letter-spacing: -.055em;
+            line-height: 1.05;
+        }
+
+        .section-body > :last-child { margin-bottom: 0; }
+
+        .about-copy {
+            max-width: 720px;
+            margin-bottom: 23px;
+            color: var(--muted);
+            font-size: 1.04rem;
+        }
+
+        .contact-facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .contact-facts a,
+        .contact-facts span {
+            display: block;
+            padding: 11px 13px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface-alt);
+            color: var(--muted);
+            font-size: .82rem;
+            overflow-wrap: anywhere;
+        }
+
+        .contact-facts a { text-decoration: none; }
+
+        .contact-facts a:hover,
+        .contact-facts a:focus-visible { color: var(--brand); border-color: var(--brand); }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 38px;
+            padding: 8px 13px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: var(--surface-alt);
+            color: var(--ink);
+            font-size: .86rem;
+            font-weight: 700;
+        }
+
+        .skill::before {
+            width: 6px;
+            height: 6px;
+            margin-right: 8px;
+            content: "";
+            border-radius: 50%;
+            background: var(--brand);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 220px;
+            padding: 23px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: var(--surface-alt);
+            transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+        }
+
+        .project-card:hover {
+            border-color: color-mix(in srgb, var(--brand) 55%, var(--line));
+            box-shadow: 0 16px 28px color-mix(in srgb, var(--brand) 12%, transparent);
+            transform: translateY(-4px);
+        }
+
+        .project-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 21px;
+        }
+
+        .project-number {
+            color: var(--brand);
+            font-family: var(--mono);
+            font-size: .73rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+        }
+
+        .project-rule {
+            width: 42px;
+            height: 2px;
+            background: var(--brand);
+        }
+
+        .project-card h3 {
+            margin-bottom: 8px;
+            color: var(--ink);
+            font-size: 1.12rem;
+            letter-spacing: -.035em;
+            line-height: 1.18;
+        }
+
+        .project-tech {
+            margin-bottom: 10px;
+            color: var(--accent-ink);
+            font-family: var(--mono);
+            font-size: .72rem;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .project-description {
+            margin-bottom: 20px;
+            color: var(--muted);
+            font-size: .88rem;
+        }
+
+        .project-links { margin-top: auto; }
+
+        .project-link { min-height: 34px; padding: 8px 11px; font-size: .73rem; }
+
+        .timeline { display: grid; gap: 12px; }
+
+        .timeline-item {
+            position: relative;
+            padding: 19px 21px 19px 26px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface-alt);
+        }
+
+        .timeline-item::before {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 3px;
+            height: 30px;
+            content: "";
+            border-radius: 0 3px 3px 0;
+            background: var(--brand);
+        }
+
+        .timeline-topline {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .timeline h3 {
+            margin: 0;
+            color: var(--ink);
+            font-size: 1rem;
+            letter-spacing: -.025em;
+        }
+
+        .timeline-date {
+            flex: 0 0 auto;
+            color: var(--brand);
+            font-family: var(--mono);
+            font-size: .69rem;
+            font-weight: 750;
+            text-align: right;
+        }
+
+        .timeline-subtitle {
+            margin-bottom: 9px;
+            color: var(--accent-ink);
+            font-size: .82rem;
+            font-weight: 700;
+        }
+
+        .timeline-copy { margin: 0; color: var(--muted); font-size: .88rem; }
+
+        .contact-section {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
+            gap: 24px;
+            align-items: center;
+            padding: clamp(28px, 5vw, 52px);
+            border: 1px solid color-mix(in srgb, var(--brand) 28%, var(--line));
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 52%, var(--surface)), var(--surface));
+            box-shadow: var(--shadow);
+        }
+
+        .contact-section h2 {
+            max-width: 650px;
+            margin-bottom: 10px;
+            color: var(--ink);
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            letter-spacing: -.06em;
+            line-height: 1;
+        }
+
+        .contact-section p { max-width: 580px; margin: 0; color: var(--muted); }
+
+        .contact-section .social-links { justify-content: flex-end; }
+
+        .portfolio-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 31px 5px 3px;
+            color: var(--muted);
+            font-size: .75rem;
+        }
+
+        .portfolio-footer p { margin: 0; }
+
+        .footer-mark { color: var(--brand); font-family: var(--mono); font-weight: 800; }
+
+        /* Editorial resume: generous white space, rules, and text-forward hierarchy. */
+        .layout-editorial .portfolio-page { max-width: 1020px; }
+        .layout-editorial .portfolio-nav { border-width: 0 0 1px; border-radius: 0; background: transparent; box-shadow: none; backdrop-filter: none; }
+        .layout-editorial .hero,
+        .layout-editorial .section { border-width: 0 0 1px; border-radius: 0; background: transparent; box-shadow: none; }
+        .layout-editorial .hero { min-height: 440px; padding: 24px 0 56px; }
+        .layout-editorial .hero::before { display: none; }
+        .layout-editorial .portrait-image,
+        .layout-editorial .portrait-monogram { border-radius: 50%; }
+        .layout-editorial .portrait-note { display: none; }
+        .layout-editorial .project-card,
+        .layout-editorial .timeline-item { padding-right: 0; padding-left: 0; border-width: 0 0 1px; border-radius: 0; background: transparent; }
+        .layout-editorial .timeline-item::before { display: none; }
+        .layout-editorial .contact-section { border-width: 1px 0; border-radius: 0; box-shadow: none; }
+
+        /* Gallery-like luxury page: framed panels and a dramatic profile treatment. */
+        .layout-luxury .hero { grid-template-columns: minmax(240px, .75fr) minmax(0, 1.25fr); }
+        .layout-luxury .hero-copy { order: 2; }
+        .layout-luxury .hero-visual { order: 1; }
+        .layout-luxury .portrait-image,
+        .layout-luxury .portrait-monogram { border-radius: 3px; }
+        .layout-luxury .portrait-frame::before { border-radius: 3px; transform: translate(13%, -12%); }
+        .layout-luxury .portrait-frame::after { border-radius: 3px; transform: translate(-10%, 13%); }
+        .layout-luxury .section { grid-template-columns: .42fr 1fr; }
+        .layout-luxury .project-card { border-radius: 3px; }
+
+        /* Terminal: intentional grid lines, code-like metadata, and sharp corners. */
+        .layout-terminal .portfolio-page { max-width: 1260px; }
+        .layout-terminal .portfolio-nav,
+        .layout-terminal .hero,
+        .layout-terminal .section,
+        .layout-terminal .contact-section,
+        .layout-terminal .project-card,
+        .layout-terminal .timeline-item,
+        .layout-terminal .button,
+        .layout-terminal .skill { border-radius: 4px; }
+        .layout-terminal .portfolio-nav { border-style: dashed; }
+        .layout-terminal .hero { min-height: 470px; }
+        .layout-terminal .hero::before { width: 100%; background-image: linear-gradient(color-mix(in srgb, var(--brand) 10%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--brand) 10%, transparent) 1px, transparent 1px); background-size: 28px 28px; }
+        .layout-terminal .hero h1 { letter-spacing: -.055em; }
+        .layout-terminal .section-number,
+        .layout-terminal .eyebrow,
+        .layout-terminal .section-kicker,
+        .layout-terminal .project-tech,
+        .layout-terminal .timeline-date { font-family: var(--mono); }
+        .layout-terminal .skill::before { border-radius: 0; }
+
+        /* Aurora: translucent surfaces and soft, radial light. */
+        .layout-aurora .hero,
+        .layout-aurora .section,
+        .layout-aurora .contact-section { backdrop-filter: blur(18px); }
+        .layout-aurora .hero::before { width: 62%; background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--brand) 52%, transparent), transparent 54%), radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--accent) 80%, transparent), transparent 60%); }
+        .layout-aurora .project-card { background: color-mix(in srgb, var(--surface) 72%, transparent); }
+        .layout-aurora .portrait-image,
+        .layout-aurora .portrait-monogram { border-radius: 27px; }
+
+        /* Organic studio: playful geometry, rounded framing, tactile cards. */
+        .layout-organic .hero { border-radius: 42px 42px 42px 110px; }
+        .layout-organic .hero::before { width: 55%; border-radius: 46% 54% 41% 59% / 54% 44% 56% 46%; }
+        .layout-organic .portrait-image,
+        .layout-organic .portrait-monogram { border-radius: 58% 42% 62% 38% / 40% 54% 46% 60%; }
+        .layout-organic .section { border-radius: 28px; }
+        .layout-organic .project-card { border-radius: 22px 22px 22px 4px; }
+        .layout-organic .skill { transform: rotate(-.5deg); }
+        .layout-organic .skill:nth-child(even) { transform: rotate(.8deg); }
+
+        /* Product dashboard: bento structure, compact details, high information density. */
+        .layout-product .portfolio-content { grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr); align-items: start; }
+        .layout-product .section { grid-template-columns: 1fr; gap: 25px; }
+        .layout-product .section-about,
+        .layout-product .section-projects,
+        .layout-product .section-contact { grid-column: 1 / -1; }
+        .layout-product .section-skills { grid-column: 1; }
+        .layout-product .section-experience,
+        .layout-product .section-education { grid-column: 2; }
+        .layout-product .section-number { display: inline-block; margin: 0 10px 0 0; }
+        .layout-product .section-kicker { display: inline-flex; margin: 0; }
+        .layout-product .section-heading h2 { margin-top: 8px; }
+        .layout-product .project-card { min-height: 190px; }
+
+        /* Boardroom: a restrained briefing format with a strong left index. */
+        .layout-boardroom .hero { border-radius: 8px; }
+        .layout-boardroom .section { border-radius: 8px; }
+        .layout-boardroom .section-heading { padding-right: 25px; border-right: 1px solid var(--line); }
+        .layout-boardroom .section-number { color: var(--brand); font-size: .65rem; }
+        .layout-boardroom .project-grid { grid-template-columns: 1fr; }
+        .layout-boardroom .project-card { display: grid; grid-template-columns: 46px minmax(0, 1fr); min-height: 0; border-radius: 8px; }
+        .layout-boardroom .project-topline { grid-row: 1 / span 3; display: block; margin: 0; }
+        .layout-boardroom .project-rule { margin-top: 11px; }
+        .layout-boardroom .project-links { grid-column: 2; }
+
+        /* Soft creative: airy space, friendly pills, and calm oversized forms. */
+        .layout-soft .hero { border-radius: 50px; }
+        .layout-soft .hero::before { width: 65%; border-radius: 50%; }
+        .layout-soft .portrait-image,
+        .layout-soft .portrait-monogram { border-radius: 48px; }
+        .layout-soft .section { border-radius: 32px; }
+        .layout-soft .project-card { border-radius: 26px; }
+        .layout-soft .button,
+        .layout-soft .social-link,
+        .layout-soft .skill { box-shadow: 0 8px 18px color-mix(in srgb, var(--brand) 10%, transparent); }
+
+        /* Metrics: application-shell hierarchy with compact data cards. */
+        .layout-metrics .portfolio-nav { border-radius: 12px; }
+        .layout-metrics .hero,
+        .layout-metrics .section { border-radius: 14px; }
+        .layout-metrics .hero::before { width: 100%; background-image: linear-gradient(90deg, color-mix(in srgb, var(--line) 75%, transparent) 1px, transparent 1px), linear-gradient(color-mix(in srgb, var(--line) 75%, transparent) 1px, transparent 1px); background-size: 34px 34px; }
+        .layout-metrics .project-card { min-height: 182px; border-radius: 10px; }
+        .layout-metrics .timeline-item { border-radius: 10px; }
+        .layout-metrics .skill { border-radius: 8px; }
+
+        /* Warm editorial: horizontal color fields and kinetic card placement. */
+        .layout-sunrise .hero { grid-template-columns: minmax(0, 1.3fr) minmax(230px, .7fr); border-radius: 30px; }
+        .layout-sunrise .hero::before { width: 50%; background: linear-gradient(145deg, color-mix(in srgb, var(--brand) 72%, transparent), color-mix(in srgb, var(--accent) 82%, transparent)); }
+        .layout-sunrise .project-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .layout-sunrise .project-card:nth-child(2) { transform: translateY(28px); }
+        .layout-sunrise .project-card:nth-child(3n) { transform: translateY(-10px); }
+        .layout-sunrise .section { border-radius: 20px; }
+
+        /* Ledger: quiet, precise, highly scannable professional profile. */
+        .layout-ledger .portfolio-page { max-width: 1120px; }
+        .layout-ledger .portfolio-nav,
+        .layout-ledger .hero,
+        .layout-ledger .section,
+        .layout-ledger .contact-section { border-radius: 0; box-shadow: none; }
+        .layout-ledger .hero::before { width: 36%; background-image: repeating-linear-gradient(0deg, transparent, transparent 29px, color-mix(in srgb, var(--line) 65%, transparent) 30px); }
+        .layout-ledger .section { padding-top: 30px; padding-bottom: 30px; }
+        .layout-ledger .project-card,
+        .layout-ledger .timeline-item { border-radius: 0; background: transparent; }
+        .layout-ledger .project-card { min-height: 0; }
+
+        /* Tide: fluid, crisp light-on-water composition. */
+        .layout-tide .hero { border-radius: 28px 28px 90px 28px; }
+        .layout-tide .hero::before { width: 58%; border-radius: 50% 0 0 50%; background: radial-gradient(ellipse at 80% 70%, color-mix(in srgb, var(--brand) 58%, transparent), transparent 66%), linear-gradient(135deg, color-mix(in srgb, var(--accent) 85%, transparent), transparent); }
+        .layout-tide .section { border-radius: 18px 18px 52px 18px; }
+        .layout-tide .project-card { border-radius: 16px 16px 42px 16px; }
+        .layout-tide .timeline-item::before { border-radius: 0 8px 8px 0; }
+
+        /* Narrative: content reads as a magazine feature. */
+        .layout-narrative .hero { min-height: 620px; grid-template-columns: minmax(0, 1.25fr) minmax(230px, .75fr); border-radius: 0 0 0 80px; }
+        .layout-narrative .hero::before { width: 100%; background: linear-gradient(90deg, transparent 58%, color-mix(in srgb, var(--accent) 68%, transparent)); }
+        .layout-narrative .hero h1 { max-width: 640px; }
+        .layout-narrative .section { grid-template-columns: .25fr 1fr; border-radius: 0; }
+        .layout-narrative .section-heading h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); }
+        .layout-narrative .project-grid { grid-template-columns: 1fr; }
+        .layout-narrative .project-card { min-height: 0; border-radius: 0; }
+
+        /* Signal: visual systems language with luminous lines. */
+        .layout-signal .hero,
+        .layout-signal .section { border-radius: 0; }
+        .layout-signal .hero::before { width: 100%; background-image: linear-gradient(color-mix(in srgb, var(--brand) 20%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--brand) 20%, transparent) 1px, transparent 1px); background-size: 52px 52px; }
+        .layout-signal .hero h1 { text-transform: uppercase; }
+        .layout-signal .project-grid { grid-template-columns: 1fr; }
+        .layout-signal .project-card { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; align-items: center; min-height: 0; border-radius: 0; }
+        .layout-signal .project-topline { margin: 0; }
+        .layout-signal .project-card h3,
+        .layout-signal .project-tech,
+        .layout-signal .project-description { grid-column: 2; }
+        .layout-signal .project-links { grid-column: 3; grid-row: 1 / span 3; align-self: end; justify-content: flex-end; }
+
+        /* Collage: deliberately asymmetrical but still clear and production-ready. */
+        .layout-collage .hero { border-radius: 46px 8px 46px 8px; }
+        .layout-collage .hero::before { width: 48%; border-radius: 56% 44% 38% 62% / 46% 60% 40% 54%; }
+        .layout-collage .portrait-image,
+        .layout-collage .portrait-monogram { border-radius: 34px 7px 34px 7px; }
+        .layout-collage .section { border-radius: 26px 6px 26px 6px; }
+        .layout-collage .project-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); }
+        .layout-collage .project-card { border-radius: 24px 5px 24px 5px; }
+        .layout-collage .project-card:nth-child(odd) { transform: rotate(-.8deg); }
+        .layout-collage .project-card:nth-child(even) { transform: rotate(.8deg); }
+
+        /* Heritage: a quiet, timeless typesetting-led portfolio. */
+        .layout-heritage .portfolio-page { max-width: 1080px; }
+        .layout-heritage .portfolio-nav,
+        .layout-heritage .hero,
+        .layout-heritage .section,
+        .layout-heritage .contact-section { border-radius: 0; box-shadow: none; }
+        .layout-heritage .hero { min-height: 520px; border-width: 1px 0; }
+        .layout-heritage .hero::before { display: none; }
+        .layout-heritage .portrait-image,
+        .layout-heritage .portrait-monogram { border-radius: 50%; }
+        .layout-heritage .project-card,
+        .layout-heritage .timeline-item { border-radius: 0; background: transparent; }
+        .layout-heritage .project-card { border-width: 1px 0 0; }
+
+        /* Monograph: deliberately spare, black-and-white, and print-friendly. */
+        body.layout-monograph { background: #fff; }
+        .layout-monograph .portfolio-page { max-width: 940px; }
+        .layout-monograph .portfolio-nav { justify-content: center; border-width: 0 0 2px; border-radius: 0; background: transparent; box-shadow: none; }
+        .layout-monograph .brand { display: none; }
+        .layout-monograph .nav-links { justify-content: center; }
+        .layout-monograph .hero { display: block; min-height: 0; padding: 70px 0; border-width: 0 0 2px; border-radius: 0; background: transparent; box-shadow: none; text-align: center; }
+        .layout-monograph .hero::before,
+        .layout-monograph .hero-visual { display: none; }
+        .layout-monograph .hero h1 { max-width: none; font-size: clamp(3.5rem, 11vw, 8.3rem); }
+        .layout-monograph .hero-intro { margin-right: auto; margin-left: auto; }
+        .layout-monograph .hero-actions,
+        .layout-monograph .hero-meta { justify-content: center; }
+        .layout-monograph .section { grid-template-columns: 1fr; padding: 38px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; box-shadow: none; }
+        .layout-monograph .section-number { display: none; }
+        .layout-monograph .project-card,
+        .layout-monograph .timeline-item { border-radius: 0; background: transparent; }
+
+        /* Orbit: an immersive glass interface set on a deep radial field. */
+        .layout-orbit .hero,
+        .layout-orbit .section,
+        .layout-orbit .contact-section { backdrop-filter: blur(20px); }
+        .layout-orbit .hero::before { width: 100%; background: radial-gradient(circle at 74% 43%, color-mix(in srgb, var(--brand) 58%, transparent) 0 3%, transparent 3.4%), radial-gradient(circle at 74% 43%, transparent 0 17%, color-mix(in srgb, var(--accent) 46%, transparent) 17.3% 17.9%, transparent 18.2% 31%, color-mix(in srgb, var(--brand) 35%, transparent) 31.3% 31.8%, transparent 32.1%); }
+        .layout-orbit .portrait-image,
+        .layout-orbit .portrait-monogram { border-radius: 50%; }
+        .layout-orbit .project-card { background: color-mix(in srgb, var(--surface) 56%, transparent); }
+
+        /* Rail: desktop navigation becomes a composed left-hand identity panel. */
+        .layout-rail .portfolio-page { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 34px; max-width: 1320px; }
+        .layout-rail .portfolio-nav { position: sticky; top: 24px; z-index: 2; display: flex; grid-column: 1; grid-row: 1 / span 4; flex-direction: column; align-items: stretch; justify-content: flex-start; min-height: calc(100vh - 48px); margin: 0; padding: 27px 22px; border-radius: 20px; }
+        .layout-rail .brand { margin-bottom: 30px; }
+        .layout-rail .nav-links { flex-direction: column; align-items: flex-start; gap: 16px; }
+        .layout-rail .hero,
+        .layout-rail .portfolio-content,
+        .layout-rail .portfolio-footer { grid-column: 2; }
+        .layout-rail .hero { grid-template-columns: minmax(0, 1fr) 220px; min-height: 460px; }
+        .layout-rail .section { grid-template-columns: .3fr 1fr; }
+
+        /* Split: a sticky personal statement alongside a detailed work history. */
+        .layout-split .portfolio-page { display: grid; grid-template-columns: minmax(290px, .72fr) minmax(0, 1.28fr); gap: 24px 42px; max-width: 1280px; }
+        .layout-split .portfolio-nav,
+        .layout-split .portfolio-footer { grid-column: 1 / -1; }
+        .layout-split .hero { position: sticky; top: 24px; grid-column: 1; align-self: start; display: block; min-height: calc(100vh - 145px); margin: 0; }
+        .layout-split .hero-visual { margin-top: 38px; }
+        .layout-split .portfolio-content { grid-column: 2; }
+        .layout-split .section { grid-template-columns: 1fr; gap: 22px; }
+        .layout-split .section-number { display: inline-block; margin: 0 9px 0 0; }
+        .layout-split .section-kicker { display: inline-flex; margin: 0; }
+        .layout-split .section-heading h2 { margin-top: 9px; }
+
+        @media (max-width: 980px) {
+            .hero,
+            .layout-luxury .hero,
+            .layout-sunrise .hero,
+            .layout-narrative .hero { grid-template-columns: minmax(0, 1fr) minmax(210px, .72fr); }
+
+            .layout-product .portfolio-content { grid-template-columns: 1fr 1fr; }
+
+            .layout-product .section-skills,
+            .layout-product .section-experience,
+            .layout-product .section-education { grid-column: auto; }
+
+            .layout-rail .portfolio-page { grid-template-columns: 190px minmax(0, 1fr); gap: 22px; }
+
+            .layout-rail .hero { grid-template-columns: minmax(0, 1fr); }
+
+            .layout-rail .hero-visual { display: none; }
+
+            .layout-split .portfolio-page { grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); gap: 20px; }
+
+            .layout-sunrise .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 760px) {
+            .portfolio-page { width: min(100% - 28px, var(--page-width)); padding-top: 14px; }
+
+            .portfolio-nav { min-height: 0; padding: 12px 14px; border-radius: 17px; }
+
+            .nav-links { gap: 12px; }
+
+            .nav-links li:nth-child(2),
+            .nav-links li:nth-child(3) { display: none; }
+
+            .hero,
+            .layout-luxury .hero,
+            .layout-sunrise .hero,
+            .layout-narrative .hero { grid-template-columns: 1fr; min-height: 0; padding: 34px 25px; }
+
+            .layout-luxury .hero-copy,
+            .layout-luxury .hero-visual { order: initial; }
+
+            .hero-visual { order: -1; justify-items: start; }
+
+            .portrait-frame { width: 190px; }
+
+            .portrait-note { right: -35px; min-width: 127px; }
+
+            .section { grid-template-columns: 1fr; gap: 22px; padding: 28px 23px; }
+
+            .section-number { margin-bottom: 8px; }
+
+            .section-heading h2 { font-size: 1.75rem; }
+
+            .project-grid,
+            .layout-sunrise .project-grid { grid-template-columns: 1fr; }
+
+            .layout-sunrise .project-card:nth-child(2),
+            .layout-sunrise .project-card:nth-child(3n),
+            .layout-collage .project-card:nth-child(odd),
+            .layout-collage .project-card:nth-child(even) { transform: none; }
+
+            .contact-section { grid-template-columns: 1fr; padding: 30px 24px; }
+
+            .contact-section .social-links { justify-content: flex-start; }
+
+            .layout-product .portfolio-content { grid-template-columns: 1fr; }
+
+            .layout-product .section-about,
+            .layout-product .section-projects,
+            .layout-product .section-contact,
+            .layout-product .section-skills,
+            .layout-product .section-experience,
+            .layout-product .section-education { grid-column: 1; }
+
+            .layout-boardroom .section-heading { padding: 0; border: 0; }
+
+            .layout-boardroom .project-card { display: flex; }
+
+            .layout-boardroom .project-topline { display: flex; margin-bottom: 21px; }
+
+            .layout-signal .project-card { display: flex; }
+
+            .layout-signal .project-links { justify-content: flex-start; }
+
+            .layout-editorial .hero,
+            .layout-editorial .section { padding-right: 0; padding-left: 0; }
+
+            .layout-rail .portfolio-page,
+            .layout-split .portfolio-page { display: block; }
+
+            .layout-rail .portfolio-nav,
+            .layout-split .portfolio-nav { position: static; display: flex; min-height: 0; margin-bottom: 24px; padding: 12px 14px; }
+
+            .layout-rail .brand { margin: 0; }
+
+            .layout-rail .nav-links { flex-direction: row; align-items: center; }
+
+            .layout-rail .hero,
+            .layout-rail .portfolio-content,
+            .layout-rail .portfolio-footer,
+            .layout-split .hero,
+            .layout-split .portfolio-content,
+            .layout-split .portfolio-footer { width: auto; }
+
+            .layout-split .hero { position: static; min-height: 0; margin-bottom: 24px; }
+
+            .layout-split .hero-visual { display: none; }
+
+            .layout-monograph .hero { padding: 50px 0; }
+
+            .portfolio-footer { align-items: flex-start; flex-direction: column; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+        }
+
+        @media print {
+            body { background: #fff !important; color: #111 !important; }
+            body::after,
+            .portfolio-nav,
+            .hero-actions,
+            .social-links,
+            .project-links,
+            .portrait-note { display: none !important; }
+            .portfolio-page { width: 100%; max-width: none; padding: 0; }
+            .hero,
+            .section,
+            .contact-section { break-inside: avoid; box-shadow: none !important; background: #fff !important; }
+            .hero { min-height: 0; }
+            a { text-decoration: none; }
+        }
+
+        {% block theme %}{% endblock %}
+    </style>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <div class="portfolio-page">
+        <nav class="portfolio-nav" aria-label="Portfolio sections">
+            <a class="brand" href="#top" aria-label="Back to top">
+                <span class="brand-mark" aria-hidden="true">{{ full_name|slice:":1" }}</span>
+                <span>{{ full_name }}</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">Profile</a></li>
+                {% if projects %}<li><a href="#projects">Work</a></li>{% endif %}
+                {% if experience %}<li><a href="#experience">Experience</a></li>{% endif %}
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <header class="hero" id="top">
+            <div class="hero-copy">
+                <p class="eyebrow">{% block eyebrow %}Independent portfolio{% endblock %}</p>
+                <h1>{{ full_name }}</h1>
+                <p class="hero-role">{{ title }}</p>
+                <p class="hero-intro">{{ bio }}</p>
+                <div class="hero-actions" aria-label="Primary links">
+                    {% if portfolio_website %}<a class="button button-primary" href="{{ portfolio_website }}" target="_blank" rel="noopener noreferrer">Visit website</a>{% endif %}
+                    {% if github %}<a class="button" href="{{ github }}" target="_blank" rel="noopener noreferrer">GitHub</a>{% endif %}
+                    {% if linkedin %}<a class="button" href="{{ linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>{% endif %}
+                    {% if not portfolio_website and not github and not linkedin and email %}<a class="button button-primary" href="mailto:{{ email }}">Start a conversation</a>{% endif %}
+                </div>
+                {% if location or email or phone %}
+                    <ul class="hero-meta" aria-label="Contact details">
+                        {% if location %}<li>{{ location }}</li>{% endif %}
+                        {% if email %}<li><a href="mailto:{{ email }}">{{ email }}</a></li>{% endif %}
+                        {% if phone %}<li><a href="tel:{{ phone }}">{{ phone }}</a></li>{% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="hero-visual" aria-label="Profile image">
+                <div class="portrait-frame">
+                    {% if profile_image_base64 %}
+                        <img class="portrait-image" src="{{ profile_image_base64 }}" alt="Portrait of {{ full_name }}">
+                    {% else %}
+                        <div class="portrait-monogram" aria-hidden="true">{{ full_name|slice:":1" }}</div>
+                    {% endif %}
+                    <div class="portrait-note" aria-hidden="true">
+                        <span>{% block portrait_label %}Selected work{% endblock %}</span>
+                        <strong>{% block portrait_value %}Built with intent{% endblock %}</strong>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="portfolio-content">
+            <section class="section section-about" id="about">
+                <div class="section-heading">
+                    <span class="section-number">01</span>
+                    <p class="section-kicker">Profile</p>
+                    <h2>{% block about_heading %}A little more context.{% endblock %}</h2>
+                </div>
+                <div class="section-body">
+                    <p class="about-copy">{{ bio }}</p>
+                    {% if email or phone or location %}
+                        <ul class="contact-facts" aria-label="Contact information">
+                            {% if email %}<li><a href="mailto:{{ email }}">{{ email }}</a></li>{% endif %}
+                            {% if phone %}<li><a href="tel:{{ phone }}">{{ phone }}</a></li>{% endif %}
+                            {% if location %}<li><span>{{ location }}</span></li>{% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </section>
+
+            {% if skills %}
+                <section class="section section-skills" id="skills">
+                    <div class="section-heading">
+                        <span class="section-number">02</span>
+                        <p class="section-kicker">Capabilities</p>
+                        <h2>{% block skills_heading %}Tools of the trade.{% endblock %}</h2>
+                    </div>
+                    <div class="section-body">
+                        <div class="skills-list" aria-label="Skills">
+                            {% for skill in skills %}<span class="skill">{{ skill }}</span>{% endfor %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if projects %}
+                <section class="section section-projects" id="projects">
+                    <div class="section-heading">
+                        <span class="section-number">03</span>
+                        <p class="section-kicker">Selected work</p>
+                        <h2>{% block projects_heading %}Work worth a closer look.{% endblock %}</h2>
+                    </div>
+                    <div class="section-body">
+                        <div class="project-grid">
+                            {% for project in projects %}
+                                <article class="project-card">
+                                    <div class="project-topline">
+                                        <span class="project-number">0{{ forloop.counter }}</span>
+                                        <span class="project-rule" aria-hidden="true"></span>
+                                    </div>
+                                    <h3>{{ project.title }}</h3>
+                                    {% if project.tech_stack %}<p class="project-tech">{{ project.tech_stack }}</p>{% endif %}
+                                    {% if project.description %}<p class="project-description">{{ project.description }}</p>{% endif %}
+                                    {% if project.github_link or project.live_link %}
+                                        <div class="project-links">
+                                            {% if project.github_link %}<a class="project-link" href="{{ project.github_link }}" target="_blank" rel="noopener noreferrer">Source</a>{% endif %}
+                                            {% if project.live_link %}<a class="project-link" href="{{ project.live_link }}" target="_blank" rel="noopener noreferrer">Live site</a>{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </article>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if experience %}
+                <section class="section section-experience" id="experience">
+                    <div class="section-heading">
+                        <span class="section-number">04</span>
+                        <p class="section-kicker">Experience</p>
+                        <h2>{% block experience_heading %}The path so far.{% endblock %}</h2>
+                    </div>
+                    <div class="section-body">
+                        <div class="timeline">
+                            {% for exp in experience %}
+                                <article class="timeline-item">
+                                    <div class="timeline-topline">
+                                        <h3>{{ exp.role }}</h3>
+                                        {% if exp.duration %}<span class="timeline-date">{{ exp.duration }}</span>{% endif %}
+                                    </div>
+                                    {% if exp.company %}<p class="timeline-subtitle">{{ exp.company }}</p>{% endif %}
+                                    {% if exp.description %}<p class="timeline-copy">{{ exp.description }}</p>{% endif %}
+                                </article>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if education %}
+                <section class="section section-education" id="education">
+                    <div class="section-heading">
+                        <span class="section-number">05</span>
+                        <p class="section-kicker">Education</p>
+                        <h2>{% block education_heading %}Foundations that last.{% endblock %}</h2>
+                    </div>
+                    <div class="section-body">
+                        <div class="timeline">
+                            {% for edu in education %}
+                                <article class="timeline-item">
+                                    <div class="timeline-topline">
+                                        <h3>{{ edu.degree }}{% if edu.field %}, {{ edu.field }}{% endif %}</h3>
+                                        {% if edu.year %}<span class="timeline-date">{{ edu.year }}</span>{% endif %}
+                                    </div>
+                                    {% if edu.school %}<p class="timeline-subtitle">{{ edu.school }}</p>{% endif %}
+                                </article>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            <section class="contact-section section-contact" id="contact">
+                <div>
+                    <p class="section-kicker">Contact</p>
+                    <h2>{% block contact_heading %}Let’s make the next good thing.{% endblock %}</h2>
+                    <p>{% block contact_copy %}Have a project, role, or idea in mind? I’d be happy to hear from you.{% endblock %}</p>
+                </div>
+                <div class="social-links" aria-label="Social and contact links">
+                    {% if email %}<a class="social-link" href="mailto:{{ email }}">Email</a>{% endif %}
+                    {% if linkedin %}<a class="social-link" href="{{ linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>{% endif %}
+                    {% if github %}<a class="social-link" href="{{ github }}" target="_blank" rel="noopener noreferrer">GitHub</a>{% endif %}
+                    {% if twitter %}<a class="social-link" href="{{ twitter }}" target="_blank" rel="noopener noreferrer">X / Twitter</a>{% endif %}
+                    {% if portfolio_website %}<a class="social-link" href="{{ portfolio_website }}" target="_blank" rel="noopener noreferrer">Website</a>{% endif %}
+                </div>
+            </section>
+        </main>
+
+        <footer class="portfolio-footer">
+            <p>© {{ full_name }}. All rights reserved.</p>
+            <p class="footer-mark">{% block footer_mark %}01 — portfolio{% endblock %}</p>
+        </footer>
+    </div>
+</body>
+</html>

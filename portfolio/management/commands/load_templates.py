@@ -3,7 +3,7 @@ from portfolio.models import PortfolioTemplate
 
 
 class Command(BaseCommand):
-    help = 'Load 20 professional portfolio templates into the database'
+    help = 'Load 21 professional portfolio templates into the database'
 
     def handle(self, *args, **options):
         templates = [
@@ -271,6 +271,5 @@ class Command(BaseCommand):
                     )
 
         self.stdout.write(
-            self.style.SUCCESS('\n✅ Successfully loaded all 19 professional portfolio templates!')
+            self.style.SUCCESS('\n✅ Successfully loaded all 21 professional portfolio templates!')
         )
-

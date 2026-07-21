@@ -1,108 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ full_name }} - Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ full_name }} — Professional Dossier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Ubuntu', sans-serif; background: #1a1f2e; color: #e8e8e8; line-height: 1.6; }
-        nav { position: fixed; top: 0; width: 100%; background: rgba(26, 31, 46, 0.95); border-bottom: 2px solid #3b82f6; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
-        nav .logo { font-size: 1.3rem; font-weight: 700; color: #3b82f6; }
-        nav ul { display: flex; list-style: none; gap: 2.5rem; }
-        nav a { color: #a0a0a0; text-decoration: none; font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: #3b82f6; }
-        .hero { margin-top: 70px; background: linear-gradient(135deg, #1a1f2e 0%, #2a3a4f 100%); padding: 5rem 2rem; display: flex; align-items: center; justify-content: center; min-height: 70vh; text-align: center; border-bottom: 2px solid #3b82f6; }
-        .hero .profile-img { width: 160px; height: 160px; border-radius: 12px; object-fit: cover; border: 3px solid #3b82f6; margin-bottom: 2rem; }
-        .hero h1 { font-size: 3.2rem; margin-bottom: 0.5rem; }
-        .hero .title { font-size: 1.3rem; color: #3b82f6; margin-bottom: 1rem; }
-        .hero p { max-width: 600px; margin: 0 auto 2rem; color: #a0a0a0; line-height: 1.8; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 0.9rem 2rem; text-decoration: none; font-weight: 600; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 6px; }
-        .btn-primary { background: #3b82f6; color: white; }
-        .btn-primary:hover { background: #1d4ed8; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-        .btn-secondary { background: transparent; color: #3b82f6; border: 2px solid #3b82f6; }
-        .btn-secondary:hover { background: #3b82f6; color: white; }
-        .section { padding: 4rem 2rem; }
-        .section:nth-child(even) { background: #242d3d; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h2 { font-size: 2.2rem; color: #3b82f6; margin-bottom: 3rem; text-align: center; }
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5rem; }
-        .skill-card { background: #1a1f2e; padding: 1.8rem; border-radius: 8px; border: 1px solid #3b3f52; transition: all 0.3s; }
-        .skill-card:hover { border-color: #3b82f6; background: #222938; box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
-        .skill-card h3 { color: #3b82f6; margin-bottom: 1rem; }
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .skill-tag { background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; color: #3b82f6; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem; }
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.5rem; }
-        .project-card { background: #1a1f2e; border-radius: 8px; padding: 1.8rem; border: 1px solid #3b3f52; transition: all 0.3s; }
-        .project-card:hover { border-color: #3b82f6; background: #222938; box-shadow: 0 0 25px rgba(59, 130, 246, 0.2); transform: translateY(-5px); }
-        .project-card h3 { color: #e8e8e8; margin-bottom: 0.5rem; }
-        .project-tech { color: #3b82f6; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.8rem; }
-        .project-description { color: #a0a0a0; margin-bottom: 1rem; }
-        .project-links { display: flex; gap: 1rem; }
-        .project-link { color: #3b82f6; text-decoration: none; font-weight: 600; }
-        .project-link:hover { color: #60a5fa; }
-        .timeline { position: relative; max-width: 750px; margin: 0 auto; }
-        .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 2px; height: 100%; background: #3b82f6; }
-        .timeline-item { margin-bottom: 2rem; width: 50%; }
-        .timeline-item:nth-child(odd) { margin-left: 0; text-align: right; padding-right: 2.5rem; }
-        .timeline-item:nth-child(even) { margin-left: auto; padding-left: 2.5rem; }
-        .timeline-dot { position: absolute; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; background: #3b82f6; border: 3px solid #1a1f2e; border-radius: 50%; top: 0; }
-        .timeline-content { background: #242d3d; padding: 1.5rem; border-radius: 8px; border-left: 3px solid #3b82f6; }
-        .timeline-item:nth-child(even) .timeline-content { border-left: none; border-right: 3px solid #3b82f6; }
-        .timeline-content h3 { color: #e8e8e8; }
-        .timeline-meta { color: #3b82f6; font-size: 0.85rem; font-weight: 700; }
-        .timeline-description { color: #a0a0a0; margin-top: 0.5rem; }
-        footer { background: rgba(26, 31, 46, 0.7); border-top: 2px solid #3b82f6; text-align: center; padding: 2rem; color: #a0a0a0; }
-        footer a { color: #3b82f6; }
-        @media (max-width: 768px) {
-            nav ul { gap: 1rem; font-size: 0.9rem; }
-            .hero h1 { font-size: 2rem; }
-            .timeline::before { left: 15px; }
-            .timeline-item { width: 100%; padding-left: 45px !important; padding-right: 0 !important; text-align: left !important; }
-            .timeline-dot { left: 15px; }
-            .timeline-content { border-left: 3px solid #3b82f6 !important; border-right: none !important; }
-            .cta-buttons { flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
-        }
+        :root{--ink:#27333d;--slate:#40535f;--pale:#eaf0f2;--paper:#fcfdfd;--line:#ced8dc;--muted:#71828a;--accent:#286c81}*{box-sizing:border-box}body{margin:0;background:var(--pale);color:var(--ink);font:15px/1.55 "IBM Plex Sans",sans-serif}a{color:inherit}.dossier{display:grid;grid-template-columns:minmax(280px,31vw) minmax(0,1fr);max-width:1280px;min-height:100vh;margin:auto;background:var(--paper)}
+        .profile{display:flex;flex-direction:column;padding:clamp(30px,5vw,65px);background:var(--slate);color:#f7fbfc}.profile-top{padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.22)}.initial{display:grid;width:66px;height:66px;place-items:center;border:1px solid #9eb3bc;border-radius:4px;font:600 1.8rem "IBM Plex Mono",monospace}.profile h1{margin:28px 0 10px;font-size:clamp(2.5rem,5vw,4.4rem);line-height:.9;letter-spacing:-.075em}.profile .title{margin:0;color:#cae3e8;font:500 .83rem "IBM Plex Mono",monospace}.profile h2{margin:34px 0 11px;color:#bce0e8;font:500 .67rem "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase}.profile p{margin:0;color:#e2edf0;font-size:.88rem}.profile .skills{display:flex;flex-wrap:wrap;gap:7px}.profile .skills span{padding:5px 7px;border:1px solid rgba(255,255,255,.21);font-size:.74rem}.profile .links{display:grid;gap:8px;margin-top:auto;padding-top:35px;color:#d4e6e9;font-size:.78rem}.profile .links a{overflow-wrap:anywhere}
+        .main{padding:clamp(30px,6vw,84px)}.doc-code{display:flex;justify-content:space-between;padding-bottom:17px;border-bottom:1px solid var(--line);color:var(--muted);font:500 .68rem "IBM Plex Mono",monospace}.doc-code b{color:var(--accent)}.intro{padding:65px 0 57px;border-bottom:2px solid var(--ink)}.intro p{max-width:720px;margin:0;color:var(--muted);font-size:1.08rem}.intro strong{display:block;margin-bottom:18px;color:var(--ink);font:600 clamp(1.9rem,4vw,3.5rem)/1.03 "IBM Plex Sans",sans-serif;letter-spacing:-.065em}
+        .dossier-section{display:grid;grid-template-columns:150px 1fr;gap:34px;padding:43px 0;border-bottom:1px solid var(--line)}.dossier-section>header{color:var(--accent);font:500 .69rem "IBM Plex Mono",monospace;letter-spacing:.09em;text-transform:uppercase}.dossier-section>header span{display:block;margin-top:5px;color:var(--muted);font-size:.64rem}.dossier-section h2{margin:0 0 22px;font-size:1.5rem;letter-spacing:-.045em}.case{display:grid;grid-template-columns:44px 1fr;gap:15px;padding:18px 0;border-top:1px solid var(--line)}.case:last-child{border-bottom:1px solid var(--line)}.case .index{color:var(--accent);font:500 .72rem "IBM Plex Mono",monospace}.case h3{margin:0 0 4px;font-size:1rem}.case p{margin:0;color:var(--muted);font-size:.86rem}.case small{display:block;margin-top:7px;color:var(--accent);font:500 .69rem "IBM Plex Mono",monospace}.case a{display:inline-block;margin-top:9px;font-size:.76rem;font-weight:700}.entries{display:grid;gap:0}.entry{display:grid;grid-template-columns:140px 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--line)}.entry time{color:var(--accent);font:500 .7rem "IBM Plex Mono",monospace}.entry h3{margin:0 0 4px;font-size:1rem}.entry p{margin:0;color:var(--muted);font-size:.85rem}footer{padding-top:28px;color:var(--muted);font-size:.75rem}
+        @media(max-width:800px){.dossier{display:block}.profile{min-height:0}.profile h1{font-size:3.4rem}.profile .links{margin-top:28px}.main{padding:30px 25px}.intro{padding:44px 0}.dossier-section{grid-template-columns:1fr;gap:13px}.entry{grid-template-columns:1fr;gap:5px}}
     </style>
 </head>
-<body>
-    <nav>
-        <div class="logo">{{ full_name }}</div>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#experience">Experience</a></li>
-        </ul>
-    </nav>
-
-    <section class="hero" id="about">
-        {% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="{{ full_name }}" class="profile-img">{% endif %}
-        <div>
-            <h1>{{ full_name }}</h1>
-            <p class="title">{{ title }}</p>
-            {% if bio %}<p>{{ bio }}</p>{% endif %}
-            <div class="cta-buttons">
-                {% if github %}<a href="{{ github }}" target="_blank" class="btn btn-primary"><i class="fab fa-github"></i> GitHub</a>{% endif %}
-                {% if linkedin %}<a href="{{ linkedin }}" target="_blank" class="btn btn-secondary"><i class="fab fa-linkedin"></i> LinkedIn</a>{% endif %}
-                {% if email %}<a href="mailto:{{ email }}" class="btn btn-secondary"><i class="fas fa-envelope"></i> Contact</a>{% endif %}
-            </div>
-        </div>
-    </section>
-
-    {% if skills %}<section class="section" id="skills"><div class="container"><h2>Skills</h2><div class="skills-grid">{% for skill in skills %}<div class="skill-card"><h3>{{ skill }}</h3><div class="skill-tags"><span class="skill-tag">Professional</span><span class="skill-tag">Advanced</span></div></div>{% endfor %}</div></div></section>{% endif %}
-
-    {% if projects %}<section class="section" id="projects"><div class="container"><h2>Projects</h2><div class="projects-grid">{% for project in projects %}<div class="project-card"><h3>{{ project.title }}</h3>{% if project.tech_stack %}<p class="project-tech">{{ project.tech_stack }}</p>{% endif %}<p class="project-description">{{ project.description }}</p><div class="project-links">{% if project.github_link %}<a href="{{ project.github_link }}" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>{% endif %}{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Live</a>{% endif %}</div></div>{% endfor %}</div></div></section>{% endif %}
-
-    {% if experience %}<section class="section" id="experience"><div class="container"><h2>Experience</h2><div class="timeline">{% for exp in experience %}<div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><h3>{{ exp.role }}</h3><p class="timeline-meta">{{ exp.company }} • {{ exp.duration }}</p><p class="timeline-description">{{ exp.description }}</p></div></div>{% endfor %}</div></div></section>{% endif %}
-
-    {% if education %}<section class="section" id="education"><div class="container"><h2>Education</h2><div class="timeline">{% for edu in education %}<div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><h3>{{ edu.degree }} in {{ edu.field }}</h3><p class="timeline-meta">{{ edu.school }} • {{ edu.year }}</p></div></div>{% endfor %}</div></div></section>{% endif %}
-
-    <footer><p>&copy; 2026 {{ full_name }}. All rights reserved.</p></footer>
-</body>
-</html>
-
+<body><div class="dossier"><aside class="profile"><div class="profile-top"><div class="initial">{{ full_name|slice:":1" }}</div><h1>{{ full_name }}</h1><p class="title">{{ title }}</p></div>{% if skills %}<section><h2>Core capabilities</h2><div class="skills">{% for skill in skills %}<span>{{ skill }}</span>{% endfor %}</div></section>{% endif %}<section><h2>Profile</h2><p>{{ bio }}</p></section><div class="links">{% if location %}<span>{{ location }}</span>{% endif %}{% if email %}<a href="mailto:{{ email }}">{{ email }}</a>{% endif %}{% if linkedin %}<a href="{{ linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>{% endif %}{% if github %}<a href="{{ github }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>{% endif %}</div></aside>
+<main class="main"><div class="doc-code"><span><b>DOSSIER /</b> {{ full_name|upper }}</span><span>UPDATED PORTFOLIO</span></div><section class="intro"><strong>Work with precision,<br>context, and momentum.</strong><p>{{ bio }}</p></section>
+{% if projects %}<section class="dossier-section"><header>01<span>Selected work</span></header><div><h2>Projects and systems.</h2>{% for project in projects %}<article class="case"><span class="index">0{{ forloop.counter }}</span><div><h3>{{ project.title }}</h3>{% if project.description %}<p>{{ project.description }}</p>{% endif %}{% if project.tech_stack %}<small>{{ project.tech_stack }}</small>{% endif %}{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" rel="noopener noreferrer">View project ↗</a>{% endif %}</div></article>{% endfor %}</div></section>{% endif %}
+<section class="dossier-section"><header>02<span>Professional record</span></header><div><h2>Experience and education.</h2><div class="entries">{% for exp in experience %}<article class="entry"><time>{{ exp.duration }}</time><div><h3>{{ exp.role }}{% if exp.company %} · {{ exp.company }}{% endif %}</h3>{% if exp.description %}<p>{{ exp.description }}</p>{% endif %}</div></article>{% endfor %}{% for edu in education %}<article class="entry"><time>{{ edu.year }}</time><div><h3>{{ edu.degree }}{% if edu.field %} · {{ edu.field }}{% endif %}</h3><p>{{ edu.school }}</p></div></article>{% endfor %}</div></div></section><footer>{% if portfolio_website %}<a href="{{ portfolio_website }}" target="_blank" rel="noopener noreferrer">{{ portfolio_website }}</a>{% endif %}</footer></main></div></body></html>
