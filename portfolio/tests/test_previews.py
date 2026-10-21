@@ -220,6 +220,26 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "50+")
         self.assertContains(response, "Projects delivered")
 
+    def test_sidebar_layout_uses_a_compact_top_navigation(self):
+        sidebar_layout = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_sidebar_layout.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[sidebar_layout.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-sidebar-layout")
+        self.assertContains(response, "display: block; max-width: 1320px")
+        self.assertContains(response, "border-radius: 0; background: transparent")
+        self.assertContains(response, "white-space: nowrap")
+        self.assertContains(response, "Profile")
+        self.assertContains(response, "Work")
+        self.assertContains(response, "Experience")
+        self.assertContains(response, "Contact")
+
     def test_luxury_elegant_uses_its_own_gallery_structure(self):
         luxury_elegant = next(
             template
