@@ -340,6 +340,15 @@ class Command(BaseCommand):
                 'template_file': 'portfolio_templates/template_field_manual.html',
                 'order': 36,
             },
+            {
+                'name': 'Kinetic Type',
+                'slug': 'kinetic-type',
+                'description': 'Typographic studio portfolio with oversized composition, kinetic project bands, and a cobalt-red visual language.',
+                'category': 'creative',
+                'color_scheme': 'cobalt-red-cream',
+                'template_file': 'portfolio_templates/template_kinetic_type.html',
+                'order': 37,
+            },
         ]
 
         # Deactivate old deprecated templates (don't delete - they may be referenced by portfolios)
@@ -415,5 +424,5 @@ class Command(BaseCommand):
                     )
 
         self.stdout.write(
-            self.style.SUCCESS('\n✅ Successfully loaded all 37 professional portfolio templates!')
+            self.style.SUCCESS('\n✅ Successfully loaded all 38 professional portfolio templates!')
         )

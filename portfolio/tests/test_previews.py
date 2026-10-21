@@ -249,6 +249,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_architect_portfolio.html",
         "portfolio_templates/template_brutalist_index.html",
         "portfolio_templates/template_field_manual.html",
+        "portfolio_templates/template_kinetic_type.html",
     ]
 
     TEMPLATE_FILES = [
@@ -289,6 +290,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_architect_portfolio.html",
         "portfolio_templates/template_brutalist_index.html",
         "portfolio_templates/template_field_manual.html",
+        "portfolio_templates/template_kinetic_type.html",
     ]
 
     def setUp(self):
@@ -742,4 +744,25 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Education")
         self.assertContains(response, "Leave the door open.")
         self.assertContains(response, "art-type")
+        self.assertNotContains(response, "portfolio-page")
+
+    def test_kinetic_type_has_typographic_project_bands_and_contact_close(self):
+        kinetic = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_kinetic_type.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[kinetic.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-kinetic-type")
+        self.assertContains(response, "Kinetic Type")
+        self.assertContains(response, "Selected signals.")
+        self.assertContains(response, "PortfolioForge Studio")
+        self.assertContains(response, "Experience")
+        self.assertContains(response, "Education")
+        self.assertContains(response, "Let’s make it move.")
+        self.assertContains(response, "type-art")
         self.assertNotContains(response, "portfolio-page")
