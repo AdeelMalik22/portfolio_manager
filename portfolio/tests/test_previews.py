@@ -118,6 +118,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_tech_glassmorphism.html",
         "portfolio_templates/template_sidebar_layout.html",
         "portfolio_templates/template_two_column.html",
+        "portfolio_templates/template_editorial_linen.html",
     ]
 
     def setUp(self):
@@ -177,3 +178,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Selected work with real-world impact.")
         self.assertContains(response, "50+")
         self.assertContains(response, "Projects delivered")
+
+    def test_editorial_linen_theme_exposes_its_reference_direction(self):
+        editorial_linen = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_editorial_linen.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[editorial_linen.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-editorial-linen")
+        self.assertContains(response, "Making complex ideas feel simple.")
+        self.assertContains(response, "Selected case studies.")
