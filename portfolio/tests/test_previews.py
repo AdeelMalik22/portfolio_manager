@@ -220,6 +220,23 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "50+")
         self.assertContains(response, "Projects delivered")
 
+    def test_luxury_elegant_uses_its_own_gallery_structure(self):
+        luxury_elegant = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_luxury_elegant.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[luxury_elegant.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-luxury-elegant")
+        self.assertContains(response, "collection-nav")
+        self.assertContains(response, "project-ledger")
+        self.assertContains(response, "Measured taste. Exacting execution.")
+        self.assertNotContains(response, "portfolio-page")
+
     def test_editorial_linen_theme_exposes_its_reference_direction(self):
         editorial_linen = next(
             template
