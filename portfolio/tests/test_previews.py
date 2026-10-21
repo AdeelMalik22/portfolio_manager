@@ -119,6 +119,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_sidebar_layout.html",
         "portfolio_templates/template_two_column.html",
         "portfolio_templates/template_editorial_linen.html",
+        "portfolio_templates/template_aurora_studio.html",
     ]
 
     def setUp(self):
@@ -193,3 +194,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-editorial-linen")
         self.assertContains(response, "Making complex ideas feel simple.")
         self.assertContains(response, "Selected case studies.")
+
+    def test_aurora_studio_theme_exposes_its_reference_direction(self):
+        aurora_studio = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_aurora_studio.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[aurora_studio.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-aurora-studio")
+        self.assertContains(response, "Ideas into experiences.")
+        self.assertContains(response, "Let’s make something magnetic.")
