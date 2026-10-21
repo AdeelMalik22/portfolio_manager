@@ -67,6 +67,13 @@ SAMPLE_SKILLS = [
     "Technical writing",
 ]
 
+SAMPLE_STATS = [
+    {"value": "50+", "label": "Projects delivered"},
+    {"value": "3+", "label": "Years experience"},
+    {"value": "20+", "label": "Happy clients"},
+    {"value": "100%", "label": "Client satisfaction"},
+]
+
 SAMPLE_PROJECTS = [
     {
         "title": "PortfolioForge Studio",
@@ -211,13 +218,14 @@ SAMPLE_PROFILE = {
 }
 
 
-def _portfolio_context(template, profile, image_data_uri, skills, projects, experience, education):
+def _portfolio_context(template, profile, image_data_uri, skills, stats, projects, experience, education):
     """Create the aliases used across the independent template families."""
     portfolio = SimpleNamespace(
         **profile,
         profile_image=SimpleNamespace(url=image_data_uri) if image_data_uri else None,
         processed_profile_image=None,
         skills=skills,
+        stats=stats,
         projects=projects,
         experience=experience,
         education=education,
@@ -235,6 +243,7 @@ def _portfolio_context(template, profile, image_data_uri, skills, projects, expe
         "profile_image_url": image_data_uri,
         "profile_image_base64": image_data_uri,
         "skills": skills,
+        "stats": stats,
         "projects": projects,
         "experience": experience,
         "education": education,
@@ -249,6 +258,7 @@ def build_sample_preview_context(template, profile_image_base64=None):
         profile=deepcopy(SAMPLE_PROFILE),
         image_data_uri=profile_image_base64 or SAMPLE_PROFILE_IMAGE,
         skills=deepcopy(SAMPLE_SKILLS),
+        stats=deepcopy(SAMPLE_STATS),
         projects=deepcopy(SAMPLE_PROJECTS),
         experience=deepcopy(SAMPLE_EXPERIENCE),
         education=deepcopy(SAMPLE_EDUCATION),
@@ -284,6 +294,23 @@ def _normalise_projects(projects):
             "github_link": str(item.get("github_link", "")).strip(),
             "live_link": str(item.get("live_link", "")).strip(),
             "project_url": str(item.get("project_url", item.get("live_link", ""))).strip(),
+        })
+    return normalised
+
+
+def _normalise_stats(stats):
+    normalised = []
+    for item in stats:
+        if not isinstance(item, dict):
+            continue
+        value = str(item.get("value", "")).strip()
+        label = str(item.get("label", "")).strip()
+        if not value or not label:
+            continue
+        normalised.append({
+            "value": value,
+            "label": label,
+            "detail": str(item.get("detail", "")).strip(),
         })
     return normalised
 
@@ -360,6 +387,7 @@ def build_draft_preview_context(template, payload, image_file=None):
     """
     profile_image_base64 = _image_data_uri(image_file)
     skills = [str(skill).strip() for skill in _read_json_list(payload, "skills") if str(skill).strip()]
+    stats = _normalise_stats(_read_json_list(payload, "stats"))
     projects = _normalise_projects(_read_json_list(payload, "projects"))
     experience = _normalise_experience(_read_json_list(payload, "experience"))
     education = _normalise_education(_read_json_list(payload, "education"))
@@ -377,7 +405,7 @@ def build_draft_preview_context(template, payload, image_file=None):
         "twitter",
     )
     profile = {field: str(payload.get(field, "")).strip() for field in profile_fields}
-    has_draft_content = any(profile.values()) or any((skills, projects, experience, education)) or bool(profile_image_base64)
+    has_draft_content = any(profile.values()) or any((skills, stats, projects, experience, education)) or bool(profile_image_base64)
     if not has_draft_content:
         return build_sample_preview_context(template)
 
@@ -398,6 +426,7 @@ def build_draft_preview_context(template, payload, image_file=None):
         profile=display_profile,
         image_data_uri=profile_image_base64,
         skills=skills,
+        stats=stats,
         projects=projects,
         experience=experience,
         education=education,

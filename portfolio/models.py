@@ -61,6 +61,7 @@ class Portfolio(models.Model):
 
     # Skills (stored as JSON)
     skills = models.JSONField(default=list)  # ["Python", "Django", "React"]
+    stats = models.JSONField(default=list)  # [{"value": "10+", "label": "Projects shipped"}]
 
     # Template Selection
     template = models.ForeignKey(PortfolioTemplate, on_delete=models.PROTECT)
@@ -176,6 +177,7 @@ class PublicPortfolio(models.Model):
 
     # Data (stored as JSON for flexibility)
     skills = models.JSONField(default=list)
+    stats = models.JSONField(default=list)
     projects = models.JSONField(default=list)
     experience = models.JSONField(default=list)
     education = models.JSONField(default=list)
