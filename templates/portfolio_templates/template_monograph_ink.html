@@ -1,0 +1,110 @@
+{% extends "portfolio_templates/_portfolio_base.html" %}
+
+{% block title %}{{ full_name }} — Monograph Ink Portfolio{% endblock %}
+{% block font %}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">{% endblock %}
+{% block body_class %}template-monograph-ink layout-monograph{% endblock %}
+{% block eyebrow %}Writer · researcher · creative director{% endblock %}
+{% block about_heading %}Notes on making meaningful things.{% endblock %}
+{% block skills_heading %}Working vocabulary.{% endblock %}
+{% block projects_heading %}Selected work.{% endblock %}
+{% block experience_heading %}A short biography.{% endblock %}
+{% block education_heading %}Further reading.{% endblock %}
+{% block contact_heading %}Write when the question is interesting.{% endblock %}
+{% block contact_copy %}For commissions, collaborations, lectures, and conversations about the work, I would be glad to hear from you.{% endblock %}
+{% block footer_mark %}MONOGRAPH / 01{% endblock %}
+
+{% block theme %}
+<style>
+    :root {
+        --page: #f8f8f5;
+        --surface: #f8f8f5;
+        --surface-alt: #efefeb;
+        --ink: #151515;
+        --muted: #686866;
+        --line: #151515;
+        --brand: #c74731;
+        --brand-strong: #9f2e20;
+        --accent: #d9d9d2;
+        --accent-ink: #151515;
+        --display: "Source Serif 4", Georgia, serif;
+        --body: "Source Serif 4", Georgia, serif;
+        --mono: "IBM Plex Mono", monospace;
+        --radius: 0;
+        --shadow: none;
+        --page-width: 980px;
+    }
+
+    body.template-monograph-ink { background: var(--page); }
+    body.template-monograph-ink::before,
+    body.template-monograph-ink::after { display: none; }
+    .template-monograph-ink .portfolio-page { padding-top: 0; }
+    .template-monograph-ink .portfolio-nav { min-height: 68px; padding: 17px 0; border-width: 0 0 2px; border-radius: 0; background: transparent; box-shadow: none; }
+    .template-monograph-ink .brand { display: none; }
+    .template-monograph-ink .nav-links { justify-content: center; gap: 26px; width: 100%; }
+    .template-monograph-ink .nav-links a { color: var(--ink); font-family: var(--mono); font-size: .62rem; letter-spacing: .07em; text-transform: uppercase; }
+    .template-monograph-ink .nav-links a:hover,
+    .template-monograph-ink .nav-links a:focus-visible { color: var(--brand); }
+    .template-monograph-ink .hero { display: block; min-height: 0; margin-bottom: 0; padding: 100px 0 82px; border-width: 0 0 2px; border-radius: 0; background: transparent; box-shadow: none; text-align: center; }
+    .template-monograph-ink .hero::before,
+    .template-monograph-ink .hero-visual { display: none; }
+    .template-monograph-ink .eyebrow,
+    .template-monograph-ink .section-kicker { justify-content: center; color: var(--brand); font-family: var(--mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; }
+    .template-monograph-ink .eyebrow::before { display: none; }
+    .template-monograph-ink .hero h1 { max-width: none; margin-bottom: 25px; font-size: clamp(4rem, 12vw, 9.2rem); font-weight: 500; letter-spacing: -.1em; line-height: .78; }
+    .template-monograph-ink .hero-role { margin-bottom: 20px; color: var(--brand); font-size: clamp(1.1rem, 2.2vw, 1.55rem); }
+    .template-monograph-ink .hero-intro { max-width: 600px; margin-right: auto; margin-left: auto; color: var(--muted); font-size: 1.02rem; }
+    .template-monograph-ink .hero-actions,
+    .template-monograph-ink .hero-meta { justify-content: center; }
+    .template-monograph-ink .button { border-radius: 0; border-color: var(--ink); background: transparent; font-family: var(--mono); font-size: .62rem; text-transform: uppercase; }
+    .template-monograph-ink .button-primary { background: var(--ink); color: var(--page); }
+    .template-monograph-ink .button:hover,
+    .template-monograph-ink .button:focus-visible { border-color: var(--brand); background: var(--brand); color: #fff; transform: none; }
+    .template-monograph-ink .stats-strip { margin: 0; border-bottom: 2px solid var(--ink); }
+    .template-monograph-ink .stat-item { padding: 22px 14px; border-width: 0 1px 0 0; border-radius: 0; background: transparent; text-align: center; }
+    .template-monograph-ink .stat-item:first-child { border-left: 1px solid var(--ink); }
+    .template-monograph-ink .stat-item strong { color: var(--ink); font-size: 2rem; }
+    .template-monograph-ink .stat-item span { color: var(--muted); font-family: var(--mono); font-size: .61rem; letter-spacing: .05em; text-transform: uppercase; }
+    .template-monograph-ink .portfolio-content { gap: 0; }
+    .template-monograph-ink .section { grid-template-columns: 1fr; gap: 25px; padding: 55px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; box-shadow: none; }
+    .template-monograph-ink .section-heading { display: flex; align-items: baseline; gap: 18px; }
+    .template-monograph-ink .section-number { display: none; }
+    .template-monograph-ink .section-kicker { justify-content: flex-start; margin: 0; }
+    .template-monograph-ink .section-kicker::before { content: "—"; margin-right: 4px; }
+    .template-monograph-ink .section-heading h2 { margin-top: 8px; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 500; letter-spacing: -.07em; }
+    .template-monograph-ink .about-copy { max-width: 760px; color: var(--ink); font-size: 1.35rem; line-height: 1.5; }
+    .template-monograph-ink .contact-facts a,
+    .template-monograph-ink .contact-facts span { border-radius: 0; background: transparent; font-family: var(--mono); font-size: .67rem; }
+    .template-monograph-ink .skills-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 24px; }
+    .template-monograph-ink .skill { min-height: 0; padding: 11px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; font-family: var(--mono); font-size: .73rem; }
+    .template-monograph-ink .skill::before { display: none; }
+    .template-monograph-ink .project-grid { grid-template-columns: 1fr; gap: 0; border-top: 2px solid var(--ink); border-left: 0; }
+    .template-monograph-ink .project-card { min-height: 0; padding: 25px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; }
+    .template-monograph-ink .project-card:hover { border-color: var(--brand); background: transparent; box-shadow: none; transform: none; }
+    .template-monograph-ink .project-number,
+    .template-monograph-ink .project-tech { color: var(--brand); font-family: var(--mono); }
+    .template-monograph-ink .project-card h3 { font-size: 1.75rem; font-weight: 500; }
+    .template-monograph-ink .project-description { color: var(--muted); }
+    .template-monograph-ink .project-rule { background: var(--brand); }
+    .template-monograph-ink .timeline { gap: 0; }
+    .template-monograph-ink .timeline-item { padding: 22px 0; border-width: 1px 0 0; border-radius: 0; background: transparent; }
+    .template-monograph-ink .timeline-item::before { display: none; }
+    .template-monograph-ink .timeline-date { color: var(--brand); font-family: var(--mono); }
+    .template-monograph-ink .contact-section { margin-top: 0; padding: 62px 0; border-width: 0 0 2px; border-radius: 0; background: transparent; box-shadow: none; }
+    .template-monograph-ink .contact-section h2 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 500; }
+    .template-monograph-ink .contact-section .social-links { justify-content: flex-start; }
+    .template-monograph-ink .social-link { border-radius: 0; background: transparent; font-family: var(--mono); font-size: .66rem; }
+    .template-monograph-ink .social-link:hover,
+    .template-monograph-ink .social-link:focus-visible { background: var(--brand); color: #fff; transform: none; }
+    .template-monograph-ink .portfolio-footer { padding-top: 25px; }
+    .template-monograph-ink .footer-mark { color: var(--brand); font-family: var(--mono); font-size: .68rem; letter-spacing: .07em; }
+
+    @media (max-width: 760px) {
+        .template-monograph-ink .hero { padding: 70px 0; }
+        .template-monograph-ink .stats-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .template-monograph-ink .stat-item:nth-child(3) { border-left: 1px solid var(--ink); border-top: 1px solid var(--ink); }
+        .template-monograph-ink .stat-item:nth-child(4) { border-top: 1px solid var(--ink); }
+        .template-monograph-ink .skills-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .template-monograph-ink .section-heading { display: block; }
+    }
+</style>
+{% endblock %}
