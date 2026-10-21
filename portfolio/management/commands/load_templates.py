@@ -3,10 +3,19 @@ from portfolio.models import PortfolioTemplate
 
 
 class Command(BaseCommand):
-    help = 'Load 21 professional portfolio templates into the database'
+    help = 'Load 22 professional portfolio templates into the database'
 
     def handle(self, *args, **options):
         templates = [
+            {
+                'name': 'Base Dark Portfolio',
+                'slug': 'base-dark',
+                'description': 'Reusable dark-blue portfolio foundation with luminous accents and glass surfaces.',
+                'category': 'developer',
+                'color_scheme': 'dark-blue',
+                'template_file': 'portfolio_templates/template_base_dark.html',
+                'order': 0,
+            },
             {
                 'name': 'Modern Corporate',
                 'slug': 'modern-corporate',
@@ -271,5 +280,5 @@ class Command(BaseCommand):
                     )
 
         self.stdout.write(
-            self.style.SUCCESS('\n✅ Successfully loaded all 21 professional portfolio templates!')
+            self.style.SUCCESS('\n✅ Successfully loaded all 22 professional portfolio templates!')
         )
