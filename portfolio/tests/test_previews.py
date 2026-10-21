@@ -122,6 +122,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_aurora_studio.html",
         "portfolio_templates/template_boardroom_blue.html",
         "portfolio_templates/template_summit_narrative.html",
+        "portfolio_templates/template_tide_glass.html",
     ]
 
     def setUp(self):
@@ -241,3 +242,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-summit-narrative")
         self.assertContains(response, "Tools for the climb.")
         self.assertContains(response, "Have a project worth the climb?")
+
+    def test_tide_glass_theme_exposes_its_reference_direction(self):
+        tide_glass = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_tide_glass.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[tide_glass.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-tide-glass")
+        self.assertContains(response, "Useful design for real people.")
+        self.assertContains(response, "Let’s find the right current.")
