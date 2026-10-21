@@ -383,6 +383,24 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Building useful things, end to end.")
         self.assertNotContains(response, "portfolio-page")
 
+    def test_teal_modern_uses_an_independent_signal_board_layout(self):
+        teal_modern = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_teal_modern.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[teal_modern.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-teal-modern")
+        self.assertContains(response, "signal-list")
+        self.assertContains(response, "live_profile.log")
+        self.assertContains(response, "width:min(100% - 64px,1440px)")
+        self.assertContains(response, "Practical work with a visible signal.")
+        self.assertNotContains(response, "portfolio-page")
+
     def test_summit_narrative_theme_exposes_its_reference_direction(self):
         summit_narrative = next(
             template
