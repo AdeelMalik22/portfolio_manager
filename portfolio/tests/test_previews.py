@@ -365,6 +365,24 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Ideas, released into the world.")
         self.assertNotContains(response, "portfolio-page")
 
+    def test_indigo_modern_uses_an_independent_casebook_layout(self):
+        indigo_modern = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_indigo_modern.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[indigo_modern.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-indigo-modern")
+        self.assertContains(response, "casebook")
+        self.assertContains(response, "case-list")
+        self.assertContains(response, "width:min(100% - 64px,1440px)")
+        self.assertContains(response, "Building useful things, end to end.")
+        self.assertNotContains(response, "portfolio-page")
+
     def test_summit_narrative_theme_exposes_its_reference_direction(self):
         summit_narrative = next(
             template
