@@ -347,6 +347,24 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Ready to build something useful?")
         self.assertNotContains(response, "portfolio-page")
 
+    def test_gradient_purple_uses_an_independent_journal_layout(self):
+        gradient_purple = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_gradient_purple.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[gradient_purple.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-gradient-purple")
+        self.assertContains(response, "journal")
+        self.assertContains(response, "story-list")
+        self.assertContains(response, "width:100%")
+        self.assertContains(response, "Ideas, released into the world.")
+        self.assertNotContains(response, "portfolio-page")
+
     def test_summit_narrative_theme_exposes_its_reference_direction(self):
         summit_narrative = next(
             template
