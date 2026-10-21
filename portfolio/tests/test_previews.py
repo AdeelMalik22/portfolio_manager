@@ -129,6 +129,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_organic_clay.html",
         "portfolio_templates/template_product_bento.html",
         "portfolio_templates/template_sunrise_mosaic.html",
+        "portfolio_templates/template_case_study_magazine.html",
     ]
 
     def setUp(self):
@@ -353,3 +354,19 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-sunrise-mosaic")
         self.assertContains(response, "Every good brand has a pulse.")
         self.assertContains(response, "Let’s make the next chapter vivid.")
+
+    def test_case_study_magazine_has_an_independent_editorial_structure(self):
+        case_study_magazine = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_case_study_magazine.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[case_study_magazine.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "CASE STUDY MAGAZINE")
+        self.assertContains(response, "Case studies with a point of view.")
+        self.assertContains(response, "A practice made of many small disciplines.")
+        self.assertNotContains(response, "portfolio-page")
