@@ -1,36 +1,114 @@
-{% extends "portfolio_templates/_portfolio_base.html" %}
-
-{% block title %}{{ full_name }} — Private Collection{% endblock %}
-{% block font %}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">{% endblock %}
-{% block body_class %}template-luxury-elegant layout-luxury{% endblock %}
-{% block eyebrow %}Private collection / 01{% endblock %}
-{% block portrait_label %}Signature work{% endblock %}
-{% block portrait_value %}Made to endure{% endblock %}
-{% block about_heading %}Measured taste. Exacting execution.{% endblock %}
-{% block projects_heading %}A considered body of work.{% endblock %}
-{% block contact_heading %}Begin with a conversation.{% endblock %}
-{% block footer_mark %}03 — private collection{% endblock %}
-{% block theme %}
-    .template-luxury-elegant {
-        --page: #11100e;
-        --surface: #181611;
-        --surface-alt: #211e17;
-        --ink: #f4eee2;
-        --muted: #bbb1a0;
-        --line: rgba(218, 187, 126, .26);
-        --brand: #d3ad62;
-        --brand-strong: #a47b37;
-        --accent: #51442c;
-        --accent-ink: #e2c78c;
-        --display: "Cormorant Garamond", Georgia, serif;
-        --body: "Manrope", sans-serif;
-        --radius: 3px;
-        --shadow: 0 24px 55px rgba(0, 0, 0, .34);
-    }
-    .template-luxury-elegant .hero { background: linear-gradient(110deg, #17150f, #272113); }
-    .template-luxury-elegant .hero h1 { font-size: clamp(4rem, 8vw, 7.8rem); font-weight: 600; }
-    .template-luxury-elegant .section-heading h2 { font-weight: 600; }
-    .template-luxury-elegant .project-card { background: #1a1812; }
-    .template-luxury-elegant .button-primary { color: #17130a; }
-    .template-luxury-elegant .button-primary:hover { color: #fff8e8; }
-{% endblock %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ full_name }} — {{ title }} portfolio">
+    <title>{{ full_name }} — Private Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --paper:#f2ede3; --panel:#e7ded0; --ink:#251d17; --muted:#74685b; --line:rgba(37,29,23,.2); --gold:#a87532; --deep:#30251b; --display:"Cormorant Garamond",Georgia,serif; --body:"Manrope",sans-serif; }
+        * { box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { min-width:320px; margin:0; background:var(--paper); color:var(--ink); font:15px/1.65 var(--body); }
+        body::before { position:fixed; z-index:-1; inset:0; background:linear-gradient(90deg,rgba(116,104,91,.035) 1px,transparent 1px); background-size:8px 8px; content:""; }
+        a { color:inherit; }
+        img { display:block; max-width:100%; }
+        .collection { width:min(1240px,calc(100% - 52px)); margin:auto; }
+        .collection-nav { display:flex; align-items:center; justify-content:space-between; min-height:82px; border-bottom:1px solid var(--ink); }
+        .collection-mark { display:flex; align-items:center; gap:12px; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+        .collection-mark span { display:grid; width:30px; height:30px; place-items:center; border:1px solid var(--ink); border-radius:50%; font-family:var(--display); font-size:1.25rem; font-weight:600; letter-spacing:0; }
+        .collection-nav nav { display:flex; gap:28px; }
+        .collection-nav nav a { color:var(--muted); font-size:.67rem; font-weight:700; text-decoration:none; text-transform:uppercase; }
+        .collection-nav nav a:hover { color:var(--gold); }
+        .collection-number { color:var(--gold); font:600 .75rem var(--display); }
+        .collection-hero { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(300px,.75fr); gap:clamp(38px,9vw,140px); align-items:center; padding:clamp(72px,11vw,145px) 0 92px; }
+        .collection-kicker { margin:0 0 18px; color:var(--gold); font-size:.68rem; font-weight:700; letter-spacing:.17em; text-transform:uppercase; }
+        .collection-hero h1 { max-width:820px; margin:0; font:600 clamp(5rem,12vw,11rem)/.72 var(--display); letter-spacing:-.09em; }
+        .collection-role { max-width:460px; margin:28px 0 0; color:var(--gold); font:600 clamp(1.45rem,3vw,2.5rem)/.95 var(--display); }
+        .collection-bio { max-width:510px; margin:20px 0 0; color:var(--muted); }
+        .collection-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
+        .collection-links a { padding:10px 15px; border:1px solid var(--ink); font-size:.7rem; font-weight:700; text-decoration:none; }
+        .collection-links a:first-child { background:var(--ink); color:var(--paper); }
+        .collection-links a:hover { border-color:var(--gold); background:var(--gold); color:#fff; }
+        .portrait-gallery { position:relative; min-height:500px; padding:20px; background:var(--panel); }
+        .portrait-gallery::before { position:absolute; inset:38px 38px auto auto; width:70%; height:70%; border:1px solid var(--gold); content:""; }
+        .portrait-gallery img, .portrait-monogram { position:absolute; right:14%; bottom:0; width:75%; height:88%; object-fit:cover; border:10px solid var(--paper); box-shadow:15px 15px 0 rgba(168,117,50,.22); }
+        .portrait-monogram { display:grid; place-items:center; background:var(--deep); color:var(--paper); font:600 9rem/.8 var(--display); }
+        .portrait-caption { position:absolute; right:20px; bottom:19px; color:var(--gold); font-size:.62rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; writing-mode:vertical-rl; }
+        .collection-stats { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); }
+        .collection-stat { padding:25px 18px 24px 0; border-right:1px solid var(--line); }
+        .collection-stat + .collection-stat { padding-left:18px; }
+        .collection-stat:last-child { border:0; }
+        .collection-stat strong { display:block; color:var(--gold); font:600 2.8rem/1 var(--display); }
+        .collection-stat span { display:block; margin-top:7px; color:var(--muted); font-size:.64rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+        .collection-section { padding:88px 0; border-bottom:1px solid var(--ink); }
+        .section-label { display:flex; align-items:center; gap:15px; margin:0 0 28px; color:var(--gold); font-size:.67rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+        .section-label::after { width:70px; height:1px; background:var(--gold); content:""; }
+        .collection-section h2 { max-width:800px; margin:0 0 34px; font:600 clamp(2.8rem,6vw,6.5rem)/.83 var(--display); letter-spacing:-.07em; }
+        .collection-intro { max-width:650px; margin:0; color:var(--muted); font-size:1rem; }
+        .project-ledger { margin-top:48px; border-top:1px solid var(--ink); }
+        .ledger-row { display:grid; grid-template-columns:72px minmax(0,1fr) 210px; gap:25px; align-items:start; padding:25px 0; border-bottom:1px solid var(--line); }
+        .ledger-index { color:var(--gold); font:600 1.15rem var(--display); }
+        .ledger-row h3 { margin:0 0 7px; font:600 clamp(1.7rem,3vw,3rem)/.9 var(--display); letter-spacing:-.04em; }
+        .ledger-row p { max-width:600px; margin:0; color:var(--muted); font-size:.83rem; }
+        .ledger-meta { color:var(--gold); font-size:.67rem; font-weight:700; text-align:right; }
+        .ledger-meta a { display:block; margin-top:12px; color:var(--ink); text-decoration:none; }
+        .ledger-meta a:hover { color:var(--gold); }
+        .practice { display:grid; grid-template-columns:.8fr 1fr; gap:clamp(30px,8vw,110px); }
+        .practice h2 { margin:0; }
+        .practice-list { display:grid; grid-template-columns:repeat(2,1fr); border-top:1px solid var(--line); }
+        .practice-list span { padding:14px 0; border-bottom:1px solid var(--line); color:var(--muted); font-size:.78rem; font-weight:700; }
+        .practice-list span:nth-child(even) { padding-left:18px; border-left:1px solid var(--line); }
+        .record-columns { display:grid; grid-template-columns:1fr 1fr; gap:55px; }
+        .record-group h3 { margin:0 0 14px; color:var(--gold); font-size:.67rem; letter-spacing:.13em; text-transform:uppercase; }
+        .record { display:grid; grid-template-columns:110px 1fr; gap:15px; padding:15px 0; border-top:1px solid var(--line); }
+        .record time { color:var(--gold); font-size:.68rem; font-weight:700; }
+        .record h4 { margin:0; font:600 1.35rem/.95 var(--display); }
+        .record p { margin:5px 0 0; color:var(--muted); font-size:.77rem; }
+        .collection-contact { display:grid; grid-template-columns:.9fr 1fr; gap:40px; align-items:end; padding:90px 0; }
+        .collection-contact h2 { margin:0; font:600 clamp(2.8rem,6vw,6.5rem)/.83 var(--display); letter-spacing:-.07em; }
+        .collection-contact p { max-width:470px; margin:0 0 20px; color:var(--muted); }
+        .collection-contact a { display:inline-block; padding:12px 16px; background:var(--ink); color:var(--paper); font-size:.7rem; font-weight:700; text-decoration:none; }
+        .collection-footer { display:flex; justify-content:space-between; gap:20px; padding:24px 0 30px; color:var(--muted); font-size:.68rem; }
+        .collection-footer strong { color:var(--gold); }
+        @media(max-width:760px) {
+            .collection { width:min(100% - 28px,1240px); }
+            .collection-nav nav a:nth-child(n+3) { display:none; }
+            .collection-hero, .practice, .record-columns, .collection-contact { grid-template-columns:1fr; gap:30px; }
+            .collection-hero { padding:65px 0 58px; }
+            .portrait-gallery { min-height:350px; }
+            .collection-stats { grid-template-columns:repeat(2,1fr); }
+            .collection-stat:nth-child(3), .collection-stat:nth-child(4) { border-top:1px solid var(--line); }
+            .collection-stat:nth-child(3) { padding-left:0; }
+            .collection-section { padding:60px 0; }
+            .ledger-row { grid-template-columns:42px 1fr; gap:14px; }
+            .ledger-meta { grid-column:2; text-align:left; }
+            .collection-footer { flex-direction:column; }
+        }
+    </style>
+</head>
+<body class="template-luxury-elegant">
+    <div class="collection">
+        <nav class="collection-nav" aria-label="Portfolio sections">
+            <a class="collection-mark" href="#top"><span>{{ full_name|slice:":1" }}</span>{{ full_name }}</a>
+            <nav><a href="#work">Collection</a><a href="#practice">Practice</a><a href="#record">Record</a>{% if email %}<a href="mailto:{{ email }}">Contact</a>{% endif %}</nav>
+            <span class="collection-number">No. 01</span>
+        </nav>
+        <main id="top">
+            <header class="collection-hero">
+                <div><p class="collection-kicker">Private collection / independent practice</p><h1>{{ full_name }}</h1><p class="collection-role">{{ title }}</p><p class="collection-bio">{{ bio }}</p><div class="collection-links">{% if portfolio_website %}<a href="{{ portfolio_website }}" target="_blank" rel="noopener noreferrer">View the collection ↗</a>{% endif %}{% if email %}<a href="mailto:{{ email }}">Begin a conversation</a>{% endif %}</div></div>
+                <div class="portrait-gallery">{% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="Portrait of {{ full_name }}">{% else %}<div class="portrait-monogram" aria-hidden="true">{{ full_name|slice:":1" }}</div>{% endif %}<span class="portrait-caption">Signature work</span></div>
+            </header>
+            {% if stats %}<section class="collection-stats" aria-label="Portfolio highlights">{% for stat in stats %}<div class="collection-stat"><strong>{{ stat.value }}</strong><span>{{ stat.label }}</span></div>{% endfor %}</section>{% endif %}
+            <section id="work" class="collection-section"><p class="section-label">01 / Selected collection</p><h2>Measured taste. Exacting execution.</h2><p class="collection-intro">A considered body of work shaped by restraint, clarity, and the belief that a lasting digital experience should feel inevitable.</p>{% if projects %}<div class="project-ledger">{% for project in projects %}<article class="ledger-row"><span class="ledger-index">0{{ forloop.counter }}</span><div><h3>{{ project.title }}</h3>{% if project.description %}<p>{{ project.description }}</p>{% endif %}</div><div class="ledger-meta">{{ project.tech_stack|default:"Private commission" }}{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" rel="noopener noreferrer">View project ↗</a>{% endif %}</div></article>{% endfor %}</div>{% endif %}</section>
+            {% if skills %}<section id="practice" class="collection-section practice"><div><p class="section-label">02 / Practice</p><h2>A refined set of disciplines.</h2></div><div class="practice-list">{% for skill in skills %}<span>{{ skill }}</span>{% endfor %}</div></section>{% endif %}
+            {% if experience or education %}<section id="record" class="collection-section"><p class="section-label">03 / Professional record</p><h2>The work behind the work.</h2><div class="record-columns">{% if experience %}<div class="record-group"><h3>Experience</h3>{% for exp in experience %}<article class="record"><time>{{ exp.duration }}</time><div><h4>{{ exp.role }}{% if exp.company %} · {{ exp.company }}{% endif %}</h4>{% if exp.description %}<p>{{ exp.description }}</p>{% endif %}</div></article>{% endfor %}</div>{% endif %}{% if education %}<div class="record-group"><h3>Education</h3>{% for edu in education %}<article class="record"><time>{{ edu.year }}</time><div><h4>{{ edu.degree }}</h4><p>{{ edu.school }}</p></div></article>{% endfor %}</div>{% endif %}</div></section>{% endif %}
+            <section class="collection-contact"><h2>Begin with a conversation.</h2><div><p>{{ bio }}</p>{% if email %}<a href="mailto:{{ email }}">Request an introduction ↗</a>{% endif %}</div></section>
+        </main>
+        <footer class="collection-footer"><span><strong>PRIVATE COLLECTION</strong> / {{ full_name }}</span><span>© {% now "Y" %} · Made to endure</span></footer>
+    </div>
+</body>
+</html>
