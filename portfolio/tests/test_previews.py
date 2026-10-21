@@ -257,6 +257,21 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "LinkedIn ↗")
         self.assertContains(response, "GitHub ↗")
 
+    def test_elegant_classic_fills_the_viewport(self):
+        elegant_classic = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_elegant_classic.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[elegant_classic.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "width:100%")
+        self.assertContains(response, "min-height:100vh")
+        self.assertContains(response, 'class="folio"')
+
     def test_editorial_linen_theme_exposes_its_reference_direction(self):
         editorial_linen = next(
             template
