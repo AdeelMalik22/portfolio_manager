@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 """
 Test script for image processing functionality
-Run with: python manage.py shell < portfolio/test_image_processor.py
+Run with: python manage.py shell < scripts/image_processor_smoke.py
 """
 
-import os
-from django.core.files.storage import default_storage
-from portfolio.models import Portfolio, PublicPortfolio, PortfolioTemplate
 from portfolio.image_processor import ImageProcessor, TEMPLATE_THEMES
+from portfolio.models import Portfolio, PortfolioTemplate, PublicPortfolio
 
 def test_image_processor():
     """Test the image processor with various scenarios"""

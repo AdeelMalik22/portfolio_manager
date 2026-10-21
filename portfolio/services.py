@@ -1,12 +1,10 @@
 """
 Portfolio rendering service - generates downloadable HTML portfolios
 """
-from django.template.loader import render_to_string
-from django.core.files.base import ContentFile
-from io import BytesIO
 import base64
 import mimetypes
-from pathlib import Path
+
+from django.template.loader import render_to_string
 
 
 class PortfolioRenderer:

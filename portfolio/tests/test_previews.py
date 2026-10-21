@@ -4,7 +4,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Portfolio, PortfolioTemplate
+from ..models import Portfolio, PortfolioTemplate
 
 
 class TemplatePreviewTests(TestCase):

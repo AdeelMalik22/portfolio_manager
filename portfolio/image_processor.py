@@ -1,12 +1,14 @@
 """
 Image Processing Service - Background removal and image merging with template themes
 """
-from PIL import Image, ImageFilter
-from io import BytesIO
 import io
-import numpy as np
-from django.core.files.base import ContentFile
 import logging
+from io import BytesIO
+
+import numpy as np
+
+from PIL import Image
+from django.core.files.base import ContentFile
 
 logger = logging.getLogger(__name__)
 

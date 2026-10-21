@@ -3,10 +3,11 @@ Django settings for portfolio_manager project.
 Production-ready for Railway deployment.
 """
 
-from pathlib import Path
 import os
-import dj_database_url
 from datetime import timedelta
+from pathlib import Path
+
+import dj_database_url
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent

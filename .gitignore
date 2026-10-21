@@ -1,2 +1,11 @@
 # Locally generated visual review artifacts
 generated_portfolio_previews/
+
+# Python and local development artifacts
+__pycache__/
+*.py[cod]
+.venv/
+.idea/
+
+# Generated static assets
+staticfiles/

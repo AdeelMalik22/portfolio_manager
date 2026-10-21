@@ -152,7 +152,9 @@ portfolio_manager/
 │   ├── urls.py (API routes)
 │   ├── admin.py (admin interface)
 │   ├── apps.py
-│   ├── tests.py
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   └── test_previews.py
 │   ├── migrations/
 │   │   └── 0001_initial.py
 │   └── management/

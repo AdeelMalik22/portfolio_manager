@@ -5,7 +5,6 @@ Based on comprehensive design specifications
 """
 
 import os
-import json
 
 # Template specifications
 TEMPLATES = {

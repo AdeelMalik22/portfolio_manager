@@ -1,8 +1,6 @@
-from django.db import models
-from django.core.validators import URLValidator
-from django.utils.text import slugify
 from django.contrib.auth.models import User
-import json
+from django.db import models
+from django.utils.text import slugify
 
 class PortfolioTemplate(models.Model):
     """Portfolio template model"""

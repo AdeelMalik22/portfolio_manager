@@ -77,7 +77,7 @@ numpy==1.24.3                    # Numerical computing
 ✨ NEW FILES:
   portfolio/image_processor.py                    # Core service
   portfolio/static/js/image-processor.js         # JavaScript library
-  portfolio/test_image_processor.py               # Test suite
+  scripts/image_processor_smoke.py                # Manual image-processing smoke runner
   IMAGE_PROCESSING_GUIDE.md                      # Detailed guide
   API_IMAGE_PROCESSING.md                        # API docs
   BACKGROUND_REMOVAL_QUICKSTART.md               # Quick start
@@ -313,7 +313,7 @@ Users can now:
 
 Run the test suite:
 ```bash
-python manage.py shell < portfolio/test_image_processor.py
+python manage.py shell < scripts/image_processor_smoke.py
 ```
 
 Or manually test via:
@@ -407,5 +407,5 @@ For questions or issues:
 - 📖 [Quick Start Guide](./BACKGROUND_REMOVAL_QUICKSTART.md)
 - 📚 [User Guide](./IMAGE_PROCESSING_GUIDE.md)
 - 🔌 [API Reference](./API_IMAGE_PROCESSING.md)
-- 🧪 [Test Suite](../portfolio/test_image_processor.py)
+- 🧪 [Image Processing Smoke Runner](../scripts/image_processor_smoke.py)
 

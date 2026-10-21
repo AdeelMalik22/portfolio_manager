@@ -1,18 +1,23 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
-from rest_framework import viewsets, status, filters
-from rest_framework.decorators import action, api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.clickjacking import xframe_options_sameorigin
-from django.views.decorators.http import require_http_methods
-from django.template.loader import render_to_string
 import json
 
-from .models import PortfolioTemplate, Portfolio, UserProfile, PublicPortfolio
+from django.contrib.auth.decorators import login_required
+from django.db.models import F
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.views.decorators.http import require_http_methods
+
+from rest_framework import filters, status, viewsets
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from .forms import PublicPortfolioForm
+from .image_processor import ImageProcessor
+from .models import Portfolio, PortfolioTemplate, PublicPortfolio, UserProfile
 from .serializers import (
     PortfolioTemplateSerializer, PortfolioTemplateDetailSerializer,
     PortfolioSerializer, PortfolioCreateUpdateSerializer,
@@ -20,8 +25,6 @@ from .serializers import (
     PublicPortfolioSerializer, PublicPortfolioEditSerializer
 )
 from .services import PortfolioRenderer, PublicPortfolioRenderer
-from .image_processor import ImageProcessor
-from .forms import PublicPortfolioForm
 from .preview_context import (
     PreviewPayloadError,
     build_draft_preview_context,
