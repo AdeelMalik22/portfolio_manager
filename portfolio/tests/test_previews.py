@@ -125,6 +125,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_tide_glass.html",
         "portfolio_templates/template_heritage_copper.html",
         "portfolio_templates/template_monograph_ink.html",
+        "portfolio_templates/template_signal_grid.html",
     ]
 
     def setUp(self):
@@ -289,3 +290,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-monograph-ink")
         self.assertContains(response, "Notes on making meaningful things.")
         self.assertContains(response, "Write when the question is interesting.")
+
+    def test_signal_grid_theme_exposes_its_reference_direction(self):
+        signal_grid = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_signal_grid.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[signal_grid.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-signal-grid")
+        self.assertContains(response, "Clarity at every layer.")
+        self.assertContains(response, "Let’s build a clearer system.")
