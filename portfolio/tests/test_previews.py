@@ -217,8 +217,10 @@ class ShippedTemplateStructureTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "template-aurora-studio")
+        self.assertContains(response, "aurora-page")
         self.assertContains(response, "Ideas into experiences.")
         self.assertContains(response, "Let’s make something magnetic.")
+        self.assertNotContains(response, "portfolio-page")
 
     def test_boardroom_blue_theme_exposes_its_reference_direction(self):
         boardroom_blue = next(
