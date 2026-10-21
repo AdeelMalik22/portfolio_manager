@@ -15,7 +15,7 @@ class TemplatePreviewTests(TestCase):
             description="Template used to test the no-save preview flow.",
             category="minimalist",
             color_scheme="mono",
-            template_file="portfolio_templates/template_clean_minimal.html",
+            template_file="portfolio_templates/template_base_dark.html",
             is_active=True,
             order=1,
         )
@@ -27,8 +27,28 @@ class TemplatePreviewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Morgan Lee")
         self.assertContains(response, "PortfolioForge Studio")
+        self.assertContains(response, "50+")
+        self.assertContains(response, "Projects delivered")
         self.assertContains(response, "data:image/svg+xml;base64")
         self.assertEqual(response["Cache-Control"], "no-store")
+
+    def test_draft_preview_renders_custom_stats_without_saving(self):
+        response = self.client.post(
+            self.url,
+            {
+                "full_name": "Ayesha Khan",
+                "stats": json.dumps([
+                    {"value": "12", "label": "Products launched", "detail": "Since 2021"},
+                ]),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "12")
+        self.assertContains(response, "Products launched")
+        self.assertContains(response, "Since 2021")
+        self.assertNotContains(response, "50+")
+        self.assertEqual(Portfolio.objects.count(), 0)
 
     def test_draft_preview_uses_unsaved_content_and_uploaded_portrait(self):
         response = self.client.post(
@@ -155,3 +175,5 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-base-dark")
         self.assertContains(response, "Building digital solutions for a better tomorrow.")
         self.assertContains(response, "Selected work with real-world impact.")
+        self.assertContains(response, "50+")
+        self.assertContains(response, "Projects delivered")
