@@ -126,6 +126,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_heritage_copper.html",
         "portfolio_templates/template_monograph_ink.html",
         "portfolio_templates/template_signal_grid.html",
+        "portfolio_templates/template_organic_clay.html",
     ]
 
     def setUp(self):
@@ -305,3 +306,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-signal-grid")
         self.assertContains(response, "Clarity at every layer.")
         self.assertContains(response, "Let’s build a clearer system.")
+
+    def test_organic_clay_theme_exposes_its_reference_direction(self):
+        organic_clay = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_organic_clay.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[organic_clay.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-organic-clay")
+        self.assertContains(response, "A softer way to solve hard problems.")
+        self.assertContains(response, "Want to make something feel right?")
