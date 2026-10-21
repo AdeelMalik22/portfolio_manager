@@ -1,0 +1,93 @@
+{% extends "portfolio_templates/_portfolio_base.html" %}
+
+{% block title %}{{ full_name }} — Summit Narrative Portfolio{% endblock %}
+{% block font %}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">{% endblock %}
+{% block body_class %}template-summit-narrative layout-narrative{% endblock %}
+{% block eyebrow %}Full-stack developer / building in public{% endblock %}
+{% block portrait_label %}Turning ideas into{% endblock %}
+{% block portrait_value %}digital reality{% endblock %}
+{% block about_heading %}Building digital solutions for a better tomorrow.{% endblock %}
+{% block skills_heading %}Tools for the climb.{% endblock %}
+{% block projects_heading %}Selected work from the trail.{% endblock %}
+{% block experience_heading %}The journey so far.{% endblock %}
+{% block education_heading %}Lessons that keep me moving.{% endblock %}
+{% block contact_heading %}Have a project worth the climb?{% endblock %}
+{% block contact_copy %}I build focused digital products for teams who want to move with purpose, from the first rough idea to a durable launch.{% endblock %}
+{% block footer_mark %}SUMMIT — keep moving{% endblock %}
+
+{% block theme %}
+    :root {
+        --page: #070b13;
+        --surface: #0c1421;
+        --surface-alt: #111d2d;
+        --ink: #f2f5f8;
+        --muted: #a4b0bf;
+        --line: rgba(190, 211, 232, .2);
+        --brand: #59b9ef;
+        --brand-strong: #2385bd;
+        --accent: #b0a06d;
+        --accent-ink: #e1d39b;
+        --display: "Barlow Condensed", Impact, sans-serif;
+        --body: Manrope, ui-sans-serif, system-ui, sans-serif;
+        --mono: "SFMono-Regular", Consolas, monospace;
+        --radius: 12px;
+        --shadow: 0 24px 70px rgba(0, 0, 0, .38);
+        --page-width: 1260px;
+    }
+
+    body.template-summit-narrative {
+        background:
+            linear-gradient(180deg, rgba(7, 11, 19, .2), #070b13 42rem),
+            radial-gradient(ellipse at 76% 8%, rgba(48, 92, 129, .45), transparent 33rem),
+            #070b13;
+    }
+
+    body.template-summit-narrative::before { background: linear-gradient(160deg, rgba(255, 255, 255, .03), transparent 42rem); }
+    body.template-summit-narrative::after { top: 18rem; right: -20rem; background: radial-gradient(circle, rgba(89, 185, 239, .14), transparent 68%); }
+
+    .template-summit-narrative .portfolio-nav { border-color: var(--line); border-radius: 4px; background: rgba(7, 11, 19, .72); }
+    .template-summit-narrative .brand { font-family: var(--display); font-size: 1.35rem; letter-spacing: .02em; text-transform: uppercase; }
+    .template-summit-narrative .brand-mark { border-radius: 3px; background: var(--brand); color: #07111a; }
+    .template-summit-narrative .nav-links a { color: #c1cedc; text-transform: uppercase; font-size: .66rem; letter-spacing: .08em; }
+    .template-summit-narrative .hero { min-height: 650px; border-color: var(--line); border-radius: 0 0 0 72px; background: rgba(12, 20, 33, .72); }
+    .template-summit-narrative .hero::before { width: 100%; background: linear-gradient(90deg, transparent 42%, rgba(89, 185, 239, .2) 78%, transparent); }
+    .template-summit-narrative .eyebrow,
+    .template-summit-narrative .section-kicker { color: var(--brand); }
+    .template-summit-narrative .hero h1 { font-size: clamp(4.2rem, 11vw, 10rem); font-weight: 700; letter-spacing: -.045em; line-height: .77; text-transform: uppercase; }
+    .template-summit-narrative .hero-role { color: var(--accent-ink); font-family: var(--display); font-size: clamp(1.3rem, 3vw, 2.2rem); letter-spacing: .02em; text-transform: uppercase; }
+    .template-summit-narrative .hero-intro { color: #b7c3d0; }
+    .template-summit-narrative .button { border-radius: 4px; border-color: var(--line); background: rgba(17, 29, 45, .66); }
+    .template-summit-narrative .button-primary { border-color: var(--brand); background: var(--brand); color: #07111a; }
+    .template-summit-narrative .button:hover,
+    .template-summit-narrative .button:focus-visible { border-color: var(--brand); background: var(--brand); color: #07111a; transform: translateY(-2px); }
+    .template-summit-narrative .portrait-frame::before { border-radius: 4px; background: linear-gradient(150deg, rgba(89, 185, 239, .7), rgba(176, 160, 109, .4)); transform: translate(13%, -10%); }
+    .template-summit-narrative .portrait-frame::after { border-radius: 4px; border-color: var(--accent); transform: translate(-10%, 14%); }
+    .template-summit-narrative .portrait-image,
+    .template-summit-narrative .portrait-monogram { border-radius: 4px; border-color: #101b29; box-shadow: 0 28px 60px rgba(0, 0, 0, .5); }
+    .template-summit-narrative .portrait-note { border-radius: 4px; border-color: var(--line); background: rgba(7, 11, 19, .83); }
+    .template-summit-narrative .portrait-note strong { color: var(--ink); }
+    .template-summit-narrative .stats-strip { margin-top: -28px; }
+    .template-summit-narrative .stat-item { border-color: var(--line); border-radius: 4px; background: rgba(12, 20, 33, .9); }
+    .template-summit-narrative .stat-item strong { color: var(--accent-ink); }
+    .template-summit-narrative .section { border-color: var(--line); border-radius: 0; background: rgba(12, 20, 33, .73); }
+    .template-summit-narrative .section-heading h2 { font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 600; text-transform: uppercase; }
+    .template-summit-narrative .section-number { color: var(--accent); }
+    .template-summit-narrative .contact-facts a,
+    .template-summit-narrative .contact-facts span { border-radius: 4px; background: var(--surface-alt); }
+    .template-summit-narrative .skill { border-radius: 4px; background: var(--surface-alt); }
+    .template-summit-narrative .project-card,
+    .template-summit-narrative .timeline-item { border-color: var(--line); border-radius: 4px; background: rgba(17, 29, 45, .76); }
+    .template-summit-narrative .project-card:hover { border-color: var(--brand); box-shadow: 0 18px 40px rgba(89, 185, 239, .13); }
+    .template-summit-narrative .project-rule { background: var(--brand); }
+    .template-summit-narrative .project-tech,
+    .template-summit-narrative .timeline-date { color: var(--accent-ink); }
+    .template-summit-narrative .timeline-item::before { background: var(--brand); }
+    .template-summit-narrative .contact-section { border-color: var(--line); border-radius: 0 0 0 55px; background: linear-gradient(135deg, rgba(29, 67, 95, .76), rgba(12, 20, 33, .92)); }
+    .template-summit-narrative .footer-mark { color: var(--brand); font-family: var(--display); font-size: 1rem; letter-spacing: .06em; text-transform: uppercase; }
+
+    @media (max-width: 760px) {
+        .template-summit-narrative .hero { border-radius: 0 0 0 32px; }
+        .template-summit-narrative .section { background: rgba(12, 20, 33, .86); }
+        .template-summit-narrative .contact-section { border-radius: 0 0 0 30px; }
+    }
+{% endblock %}

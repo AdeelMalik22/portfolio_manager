@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ full_name }} — {{ title }} portfolio">
+    <title>{{ full_name }} — Boardroom Brief</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --paper:#edf2f7; --white:#fff; --navy:#12243b; --blue:#1d61bf; --pale:#dbe8f6; --ink:#16263b; --muted:#607086; --line:#c8d4e1; --serif:"Libre Baskerville",Georgia,serif; --sans:"DM Sans",sans-serif; }
+        * { box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { min-width:320px; margin:0; background:var(--paper); color:var(--ink); font:15px/1.65 var(--sans); }
+        body::before { position:fixed; z-index:-1; inset:0; background:linear-gradient(120deg,rgba(255,255,255,.8),transparent 48%),linear-gradient(90deg,rgba(29,97,191,.035) 1px,transparent 1px); background-size:auto,34px 34px; content:""; }
+        a { color:inherit; }
+        img { display:block; max-width:100%; }
+        .boardroom-sheet { width:100%; min-height:100vh; }
+        .brief-nav { display:flex; align-items:center; justify-content:space-between; gap:24px; width:min(100% - 64px,1440px); min-height:78px; margin:auto; border-bottom:1px solid var(--ink); }
+        .brief-brand { display:flex; align-items:center; gap:12px; font-size:.69rem; font-weight:700; letter-spacing:.13em; text-decoration:none; text-transform:uppercase; }
+        .brief-brand-mark { display:grid; width:30px; height:30px; place-items:center; background:var(--navy); color:#fff; font-family:var(--serif); font-size:1rem; }
+        .brief-nav-links { display:flex; gap:28px; }
+        .brief-nav-links a { color:var(--muted); font-size:.67rem; font-weight:700; text-decoration:none; text-transform:uppercase; }
+        .brief-nav-links a:hover { color:var(--blue); }
+        .brief-code { color:var(--blue); font:700 .67rem var(--sans); letter-spacing:.1em; }
+        .brief-hero { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr); gap:clamp(40px,8vw,130px); align-items:stretch; width:min(100% - 64px,1440px); margin:auto; padding:clamp(70px,10vw,145px) 0 76px; }
+        .brief-kicker { margin:0 0 20px; color:var(--blue); font-size:.68rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+        .brief-hero h1 { max-width:900px; margin:0; font:700 clamp(4.2rem,10vw,10rem)/.78 var(--serif); letter-spacing:-.09em; }
+        .brief-role { max-width:520px; margin:27px 0 0; color:var(--blue); font:700 clamp(1.2rem,2.5vw,2rem)/1.1 var(--serif); }
+        .brief-intro { max-width:590px; margin:22px 0 0; color:var(--muted); font-size:1rem; }
+        .brief-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:29px; }
+        .brief-actions a { padding:11px 15px; border:1px solid var(--navy); font-size:.7rem; font-weight:700; text-decoration:none; }
+        .brief-actions a:first-child { background:var(--navy); color:#fff; }
+        .brief-actions a:hover { border-color:var(--blue); background:var(--blue); color:#fff; }
+        .executive-card { display:grid; grid-template-rows:auto 1fr auto; min-height:460px; padding:28px; background:var(--navy); color:#fff; }
+        .executive-top { display:flex; justify-content:space-between; gap:20px; color:#a9c7e8; font-size:.65rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+        .executive-portrait { display:grid; align-self:center; justify-self:center; width:min(76%,310px); aspect-ratio:1; place-items:center; overflow:hidden; border:8px solid #fff; background:linear-gradient(145deg,#6f91b0,#223853); color:#fff; font:700 clamp(5rem,10vw,8rem) var(--serif); }
+        .executive-portrait img { width:100%; height:100%; object-fit:cover; }
+        .executive-bottom { display:flex; justify-content:space-between; gap:20px; align-items:end; padding-top:24px; border-top:1px solid rgba(255,255,255,.22); }
+        .executive-bottom strong { display:block; font:400 1.35rem var(--serif); }
+        .executive-bottom span { display:block; margin-top:4px; color:#b8cbe0; font-size:.68rem; }
+        .brief-metrics { display:grid; grid-template-columns:repeat(4,1fr); width:min(100% - 64px,1440px); margin:auto; border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); }
+        .brief-metric { padding:25px 18px 23px 0; border-right:1px solid var(--line); }
+        .brief-metric + .brief-metric { padding-left:18px; }
+        .brief-metric:last-child { border:0; }
+        .brief-metric strong { display:block; color:var(--blue); font:700 2.8rem/1 var(--serif); }
+        .brief-metric span { display:block; margin-top:7px; color:var(--muted); font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+        .brief-section { display:grid; grid-template-columns:220px minmax(0,1fr); gap:clamp(30px,7vw,120px); width:min(100% - 64px,1440px); margin:auto; padding:88px 0; border-bottom:1px solid var(--ink); }
+        .section-label { margin:0; color:var(--blue); font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+        .section-label span { display:block; margin-top:7px; color:var(--muted); font-size:.64rem; letter-spacing:.04em; }
+        .brief-section h2 { max-width:780px; margin:0 0 30px; font:700 clamp(2.4rem,5vw,5.8rem)/.86 var(--serif); letter-spacing:-.07em; }
+        .section-lede { max-width:650px; margin:0 0 40px; color:var(--muted); }
+        .engagement-ledger { border-top:2px solid var(--ink); }
+        .engagement { display:grid; grid-template-columns:64px minmax(0,1fr) 220px; gap:25px; padding:24px 0; border-bottom:1px solid var(--line); }
+        .engagement-index { color:var(--blue); font:700 .8rem var(--sans); }
+        .engagement h3 { margin:0 0 7px; font:700 clamp(1.35rem,2.5vw,2.4rem)/1 var(--serif); letter-spacing:-.04em; }
+        .engagement p { max-width:620px; margin:0; color:var(--muted); font-size:.84rem; }
+        .engagement-meta { color:var(--blue); font-size:.67rem; font-weight:700; text-align:right; }
+        .engagement-meta a { display:block; margin-top:12px; color:var(--ink); text-decoration:none; }
+        .engagement-meta a:hover { color:var(--blue); }
+        .capability-grid { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); }
+        .capability { padding:16px 14px 16px 0; border-bottom:1px solid var(--line); color:var(--muted); font-size:.8rem; font-weight:700; }
+        .capability:nth-child(3n+2), .capability:nth-child(3n+3) { padding-left:14px; border-left:1px solid var(--line); }
+        .record-columns { display:grid; grid-template-columns:1fr 1fr; gap:55px; }
+        .record-group h3 { margin:0 0 14px; color:var(--blue); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; }
+        .record { display:grid; grid-template-columns:115px 1fr; gap:15px; padding:15px 0; border-top:1px solid var(--line); }
+        .record time { color:var(--blue); font-size:.68rem; font-weight:700; }
+        .record h4 { margin:0; font:700 1.15rem/1.05 var(--serif); }
+        .record p { margin:5px 0 0; color:var(--muted); font-size:.78rem; }
+        .brief-contact { display:grid; grid-template-columns:1fr .8fr; gap:40px; align-items:end; width:min(100% - 64px,1440px); margin:auto; padding:90px 0; }
+        .brief-contact h2 { margin:0; color:var(--navy); font:700 clamp(3rem,6vw,6.8rem)/.82 var(--serif); letter-spacing:-.08em; }
+        .brief-contact p { max-width:440px; margin:0 0 20px; color:var(--muted); }
+        .brief-contact a { display:inline-block; padding:12px 16px; background:var(--blue); color:#fff; font-size:.71rem; font-weight:700; text-decoration:none; }
+        .brief-footer { display:flex; justify-content:space-between; width:min(100% - 64px,1440px); margin:auto; padding:25px 0 30px; border-top:1px solid var(--ink); color:var(--muted); font-size:.68rem; }
+        .brief-footer strong { color:var(--blue); }
+        @media(max-width:760px) {
+            .brief-nav, .brief-hero, .brief-metrics, .brief-section, .brief-contact, .brief-footer { width:min(100% - 32px,1440px); }
+            .brief-nav-links a:nth-child(n+3) { display:none; }
+            .brief-code { display:none; }
+            .brief-nav { min-height:68px; }
+            .brief-hero { grid-template-columns:1fr; padding:65px 0 58px; }
+            .brief-hero h1 { font-size:clamp(4rem,17vw,7rem); }
+            .executive-card { min-height:390px; }
+            .brief-metrics { grid-template-columns:repeat(2,1fr); }
+            .brief-metric:nth-child(3), .brief-metric:nth-child(4) { border-top:1px solid var(--line); }
+            .brief-metric:nth-child(3) { padding-left:0; }
+            .brief-section, .brief-contact { grid-template-columns:1fr; gap:28px; padding:60px 0; }
+            .engagement { grid-template-columns:42px 1fr; gap:14px; }
+            .engagement-meta { grid-column:2; text-align:left; }
+            .capability-grid { grid-template-columns:repeat(2,1fr); }
+            .capability:nth-child(3n+2), .capability:nth-child(3n+3) { padding-left:0; border-left:0; }
+            .capability:nth-child(even) { padding-left:14px; border-left:1px solid var(--line); }
+            .record-columns { grid-template-columns:1fr; gap:35px; }
+            .brief-footer { flex-direction:column; gap:8px; }
+        }
+    </style>
+</head>
+<body class="template-boardroom-blue">
+    <div class="boardroom-sheet">
+        <nav class="brief-nav" aria-label="Portfolio sections">
+            <a class="brief-brand" href="#top"><span class="brief-brand-mark">{{ full_name|slice:":1" }}</span>{{ full_name }}</a>
+            <div class="brief-nav-links"><a href="#work">Engagements</a><a href="#practice">Capabilities</a><a href="#record">Record</a>{% if email %}<a href="mailto:{{ email }}">Contact</a>{% endif %}</div>
+            <span class="brief-code">BRIEF / 01</span>
+        </nav>
+        <main id="top">
+            <header class="brief-hero">
+                <div><p class="brief-kicker">Strategy · technology · growth</p><h1>{{ full_name }}</h1><p class="brief-role">{{ title }}</p><p class="brief-intro">{{ bio }}</p><div class="brief-actions">{% if portfolio_website %}<a href="{{ portfolio_website }}" target="_blank" rel="noopener noreferrer">View selected work ↗</a>{% endif %}{% if email %}<a href="mailto:{{ email }}">Request a briefing</a>{% endif %}</div></div>
+                <aside class="executive-card"><div class="executive-top"><span>Executive profile</span><span>Active / 2025</span></div><div class="executive-portrait">{% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="Portrait of {{ full_name }}">{% else %}{{ full_name|slice:":1" }}{% endif %}</div><div class="executive-bottom"><div><strong>{{ full_name }}</strong><span>{{ location|default:"Independent practice" }}</span></div><span>Prepared for useful outcomes</span></div></aside>
+            </header>
+            {% if stats %}<section class="brief-metrics" aria-label="Portfolio highlights">{% for stat in stats %}<div class="brief-metric"><strong>{{ stat.value }}</strong><span>{{ stat.label }}</span></div>{% endfor %}</section>{% endif %}
+            {% if projects %}<section id="work" class="brief-section"><div><p class="section-label">01<span>Selected engagements</span></p></div><div><h2>Practical thinking for ambitious teams.</h2><p class="section-lede">A focused record of products, systems, and decisions that moved important work forward.</p><div class="engagement-ledger">{% for project in projects %}<article class="engagement"><span class="engagement-index">0{{ forloop.counter }}</span><div><h3>{{ project.title }}</h3>{% if project.description %}<p>{{ project.description }}</p>{% endif %}</div><div class="engagement-meta">{{ project.tech_stack|default:"Strategic engagement" }}{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" rel="noopener noreferrer">Review engagement ↗</a>{% endif %}</div></article>{% endfor %}</div></div></section>{% endif %}
+            {% if skills %}<section id="practice" class="brief-section"><div><p class="section-label">02<span>Capabilities</span></p></div><div><h2>Services &amp; expertise.</h2><div class="capability-grid">{% for skill in skills %}<span class="capability">{{ skill }}</span>{% endfor %}</div></div></section>{% endif %}
+            {% if experience or education %}<section id="record" class="brief-section"><div><p class="section-label">03<span>Professional record</span></p></div><div><h2>Experience highlights.</h2><div class="record-columns">{% if experience %}<div class="record-group"><h3>Experience</h3>{% for exp in experience %}<article class="record"><time>{{ exp.duration }}</time><div><h4>{{ exp.role }}{% if exp.company %} · {{ exp.company }}{% endif %}</h4>{% if exp.description %}<p>{{ exp.description }}</p>{% endif %}</div></article>{% endfor %}</div>{% endif %}{% if education %}<div class="record-group"><h3>Education</h3>{% for edu in education %}<article class="record"><time>{{ edu.year }}</time><div><h4>{{ edu.degree }}</h4><p>{{ edu.school }}</p></div></article>{% endfor %}</div>{% endif %}</div></div></section>{% endif %}
+            <section class="brief-contact"><h2>Ready to build something useful?</h2><div><p>I partner with teams at the intersection of business, technology, and product to turn good intentions into measurable progress.</p>{% if email %}<a href="mailto:{{ email }}">Schedule a conversation ↗</a>{% endif %}</div></section>
+        </main>
+        <footer class="brief-footer"><span><strong>BOARDROOM BRIEF</strong> / {{ full_name }}</span><span>© {% now "Y" %} · Clear decisions, useful outcomes</span></footer>
+    </div>
+</body>
+</html>

@@ -49,7 +49,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'full_name', 'title', 'bio', 'email', 'phone', 'location',
             'linkedin', 'github', 'portfolio_website', 'twitter',
-            'profile_image', 'skills', 'template', 'projects', 'experience',
+            'profile_image', 'skills', 'stats', 'template', 'projects', 'experience',
             'education', 'project_list', 'experience_list', 'education_list',
             'created_at', 'updated_at', 'is_published'
         ]
@@ -62,7 +62,7 @@ class PortfolioCreateUpdateSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'full_name', 'title', 'bio', 'email', 'phone', 'location',
             'linkedin', 'github', 'portfolio_website', 'twitter',
-            'profile_image', 'skills', 'template', 'projects',
+            'profile_image', 'skills', 'stats', 'template', 'projects',
             'experience', 'education'
         ]
         read_only_fields = ['id']
@@ -125,7 +125,7 @@ class PublicPortfolioSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'username_slug', 'full_name', 'title', 'bio', 'email', 'phone', 'location',
             'linkedin', 'github', 'portfolio_website', 'twitter', 'profile_image',
-            'skills', 'projects', 'experience', 'education', 'template', 'template_name',
+            'skills', 'stats', 'projects', 'experience', 'education', 'template', 'template_name',
             'template_slug', 'is_published', 'is_featured', 'view_count', 'created_at', 'updated_at'
         ]
         read_only_fields = ['username_slug', 'view_count', 'created_at', 'updated_at']
@@ -139,6 +139,6 @@ class PublicPortfolioEditSerializer(serializers.ModelSerializer):
         fields = [
             'full_name', 'title', 'bio', 'email', 'phone', 'location',
             'linkedin', 'github', 'portfolio_website', 'twitter', 'profile_image',
-            'skills', 'projects', 'experience', 'education', 'template', 'is_published'
+            'skills', 'stats', 'projects', 'experience', 'education', 'template', 'is_published'
         ]
 

@@ -1,0 +1,89 @@
+{% extends "portfolio_templates/_portfolio_base.html" %}
+
+{% block title %}{{ full_name }} — Sunrise Mosaic Portfolio{% endblock %}
+{% block font %}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">{% endblock %}
+{% block body_class %}template-sunrise-mosaic layout-sunrise{% endblock %}
+{% block eyebrow %}Brand designer / stories with momentum{% endblock %}
+{% block portrait_label %}Finding the bright{% endblock %}
+{% block portrait_value %}side of the idea{% endblock %}
+{% block about_heading %}Every good brand has a pulse.{% endblock %}
+{% block skills_heading %}What I bring to the table.{% endblock %}
+{% block projects_heading %}A bright selection of work.{% endblock %}
+{% block experience_heading %}Where the practice has taken me.{% endblock %}
+{% block education_heading %}References, rituals, and curiosity.{% endblock %}
+{% block contact_heading %}Let’s make the next chapter vivid.{% endblock %}
+{% block contact_copy %}I work with people who want their brand to feel as alive, specific, and memorable as the work behind it.{% endblock %}
+{% block footer_mark %}SUNRISE — make it memorable{% endblock %}
+
+{% block theme %}
+    :root {
+        --page: #fff4ed;
+        --surface: #fffaf6;
+        --surface-alt: #ffe6d5;
+        --ink: #321c27;
+        --muted: #886c6b;
+        --line: rgba(50, 28, 39, .14);
+        --brand: #e95745;
+        --brand-strong: #b93240;
+        --accent: #ffc15e;
+        --accent-ink: #a9393d;
+        --display: "Playfair Display", Georgia, serif;
+        --body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --mono: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --radius: 20px;
+        --shadow: 0 20px 50px rgba(143, 63, 50, .1);
+        --page-width: 1220px;
+    }
+
+    body.template-sunrise-mosaic {
+        background:
+            radial-gradient(circle at 88% 2%, rgba(255, 193, 94, .58), transparent 25rem),
+            linear-gradient(145deg, #fffaf6, var(--page));
+    }
+
+    body.template-sunrise-mosaic::before { background: linear-gradient(135deg, rgba(255, 255, 255, .55), transparent 38rem); }
+    body.template-sunrise-mosaic::after { top: 28rem; right: -15rem; background: radial-gradient(circle, rgba(233, 87, 69, .16), transparent 68%); }
+    .template-sunrise-mosaic .portfolio-nav { border-radius: 999px; background: rgba(255, 250, 246, .78); }
+    .template-sunrise-mosaic .brand { font-family: var(--display); font-size: 1.15rem; }
+    .template-sunrise-mosaic .brand-mark { background: linear-gradient(135deg, var(--brand), var(--brand-strong)); }
+    .template-sunrise-mosaic .hero { min-height: 560px; border-radius: 30px; background: rgba(255, 250, 246, .84); }
+    .template-sunrise-mosaic .hero::before { width: 54%; border-radius: 50%; background: linear-gradient(145deg, rgba(255, 193, 94, .75), rgba(233, 87, 69, .35)); }
+    .template-sunrise-mosaic .eyebrow,
+    .template-sunrise-mosaic .section-kicker { color: var(--brand-strong); }
+    .template-sunrise-mosaic .hero h1 { font-size: clamp(3.5rem, 8vw, 7.5rem); font-weight: 600; letter-spacing: -.09em; }
+    .template-sunrise-mosaic .hero-role { color: var(--accent-ink); font-family: var(--display); font-size: clamp(1.2rem, 2.3vw, 1.65rem); }
+    .template-sunrise-mosaic .hero-intro { color: var(--muted); }
+    .template-sunrise-mosaic .button { border-radius: 999px; background: rgba(255, 250, 246, .5); }
+    .template-sunrise-mosaic .button-primary { background: var(--brand); }
+    .template-sunrise-mosaic .button:hover,
+    .template-sunrise-mosaic .button:focus-visible { border-color: var(--brand); background: var(--brand); color: #fffaf6; transform: translateY(-2px); }
+    .template-sunrise-mosaic .portrait-frame::before { background: var(--accent); transform: translate(10%, -10%); }
+    .template-sunrise-mosaic .portrait-frame::after { border-color: var(--brand); transform: translate(-12%, 14%); }
+    .template-sunrise-mosaic .portrait-image,
+    .template-sunrise-mosaic .portrait-monogram { border-color: #fffaf6; border-radius: 48% 52% 40% 60% / 52% 44% 56% 48%; box-shadow: 0 24px 48px rgba(143, 63, 50, .2); }
+    .template-sunrise-mosaic .portrait-note { border-radius: 14px; background: rgba(255, 250, 246, .9); }
+    .template-sunrise-mosaic .stats-strip { margin-top: -20px; }
+    .template-sunrise-mosaic .stat-item { border-radius: 14px; background: rgba(255, 250, 246, .88); }
+    .template-sunrise-mosaic .stat-item strong { color: var(--brand-strong); }
+    .template-sunrise-mosaic .section { border-radius: 20px; background: rgba(255, 250, 246, .8); }
+    .template-sunrise-mosaic .section-heading h2 { font-size: clamp(1.7rem, 3vw, 2.7rem); font-weight: 600; }
+    .template-sunrise-mosaic .section-number { color: var(--brand); }
+    .template-sunrise-mosaic .contact-facts a,
+    .template-sunrise-mosaic .contact-facts span { border-radius: 12px; background: var(--surface-alt); }
+    .template-sunrise-mosaic .skill { border-radius: 999px; background: var(--surface-alt); }
+    .template-sunrise-mosaic .project-card,
+    .template-sunrise-mosaic .timeline-item { border-color: rgba(50, 28, 39, .12); border-radius: 16px; background: var(--surface-alt); }
+    .template-sunrise-mosaic .project-card:hover { border-color: var(--brand); box-shadow: 0 16px 34px rgba(233, 87, 69, .14); }
+    .template-sunrise-mosaic .project-rule { background: linear-gradient(90deg, var(--brand), var(--accent)); }
+    .template-sunrise-mosaic .project-tech,
+    .template-sunrise-mosaic .timeline-date { color: var(--brand-strong); }
+    .template-sunrise-mosaic .timeline-item::before { background: var(--brand); }
+    .template-sunrise-mosaic .contact-section { border-radius: 24px 24px 72px 24px; background: linear-gradient(135deg, rgba(255, 193, 94, .66), rgba(255, 250, 246, .84)); }
+    .template-sunrise-mosaic .footer-mark { color: var(--brand-strong); font-family: var(--display); }
+
+    @media (max-width: 760px) {
+        .template-sunrise-mosaic .hero { border-radius: 24px; }
+        .template-sunrise-mosaic .section { border-radius: 16px; }
+        .template-sunrise-mosaic .contact-section { border-radius: 20px 20px 48px 20px; }
+    }
+{% endblock %}

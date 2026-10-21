@@ -37,8 +37,23 @@
     .template-sidebar-layout .portrait-frame { width: min(100%, 274px); }
     .template-sidebar-layout .portrait-image,
     .template-sidebar-layout .portrait-monogram { width: 91%; border-width: 5px; }
+    .template-sidebar-layout .portfolio-page { display: block; width: 100%; max-width: none; padding: 24px clamp(24px, 4vw, 64px) 48px; }
+    .template-sidebar-layout .portfolio-nav { position: static; display: flex; flex-direction: row; align-items: center; min-height: 62px; margin-bottom: 28px; padding: 12px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; box-shadow: none; backdrop-filter: none; }
+    .template-sidebar-layout .brand { margin: 0; }
+    .template-sidebar-layout .nav-links { flex-direction: row; align-items: center; gap: 18px; }
+    .template-sidebar-layout .hero,
+    .template-sidebar-layout .portfolio-content,
+    .template-sidebar-layout .portfolio-footer { width: auto; }
+    .template-sidebar-layout .hero { grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr); }
+    .template-sidebar-layout .hero h1 { white-space: nowrap; font-size: clamp(3.2rem, 7vw, 6.4rem); }
     @media (max-width: 980px) {
         .template-sidebar-layout .hero { grid-template-columns: 1fr; }
         .template-sidebar-layout .hero-visual { display: grid; justify-items: start; }
+    }
+    @media (max-width: 760px) {
+        .template-sidebar-layout .portfolio-nav { min-height: 0; margin-bottom: 24px; padding: 12px 0; }
+        .template-sidebar-layout .nav-links { flex-direction: row; align-items: center; gap: 12px; }
+        .template-sidebar-layout .hero { grid-template-columns: 1fr; }
+        .template-sidebar-layout .hero h1 { white-space: normal; font-size: clamp(3.2rem, 15vw, 5.2rem); }
     }
 {% endblock %}

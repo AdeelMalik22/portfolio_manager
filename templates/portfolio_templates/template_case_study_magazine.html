@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ full_name }} — {{ title }} portfolio">
+    <title>{{ full_name }} — Case Study Magazine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #f7f5f0;
+            --ink: #20211e;
+            --muted: #76766e;
+            --line: #d8d8d0;
+            --accent: #e15d3d;
+            --dark: #252d2a;
+            --display: "Instrument Serif", Georgia, serif;
+            --body: "DM Sans", sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { min-width: 320px; margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.65 var(--body); }
+        a { color: inherit; }
+        img { display: block; max-width: 100%; }
+        .magazine-shell { width: min(1240px, calc(100% - 48px)); margin: auto; }
+        .masthead { display: flex; align-items: center; justify-content: space-between; min-height: 78px; border-bottom: 1px solid var(--ink); }
+        .masthead-brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.03em; }
+        .masthead-mark { display: grid; width: 34px; height: 34px; place-items: center; background: var(--ink); color: var(--paper); font-family: var(--display); font-size: 1.3rem; }
+        .masthead-nav { display: flex; gap: clamp(13px, 3vw, 34px); }
+        .masthead-nav a { color: var(--muted); font-size: .7rem; font-weight: 700; text-decoration: none; text-transform: uppercase; }
+        .masthead-nav a:hover { color: var(--accent); }
+        .hero-spread { display: grid; grid-template-columns: minmax(0, 1fr) minmax(310px, .72fr); gap: clamp(34px, 8vw, 110px); align-items: end; padding: clamp(70px, 11vw, 145px) 0 85px; border-bottom: 1px solid var(--ink); }
+        .issue-label { margin: 0 0 17px; color: var(--accent); font-size: .68rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+        .hero-spread h1 { max-width: 840px; margin: 0; font-family: var(--display); font-size: clamp(4.3rem, 11vw, 10rem); font-weight: 400; letter-spacing: -.08em; line-height: .78; }
+        .hero-role { max-width: 430px; margin: 25px 0 0; color: var(--accent); font-family: var(--display); font-size: clamp(1.35rem, 2.8vw, 2.2rem); line-height: 1; }
+        .hero-copy { max-width: 520px; margin: 22px 0 0; color: var(--muted); }
+        .hero-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+        .hero-links a { padding: 10px 15px; border: 1px solid var(--ink); font-size: .72rem; font-weight: 700; text-decoration: none; }
+        .hero-links a:first-child { background: var(--ink); color: var(--paper); }
+        .hero-links a:hover { border-color: var(--accent); background: var(--accent); color: #fff; }
+        .portrait-stage { position: relative; min-height: 430px; background: var(--dark); overflow: hidden; }
+        .portrait-stage::before { position: absolute; inset: 13% 14% auto auto; width: 63%; aspect-ratio: 1; border: 1px solid rgba(255, 255, 255, .34); border-radius: 50%; content: ""; }
+        .portrait-stage::after { position: absolute; right: 14px; bottom: 16px; width: 52%; height: 38%; background: linear-gradient(135deg, transparent, rgba(225, 93, 61, .8)); content: ""; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+        .portrait-stage img,
+        .portrait-fallback { position: absolute; right: 8%; bottom: 0; width: 82%; height: 90%; object-fit: cover; object-position: center top; mix-blend-mode: screen; opacity: .88; }
+        .portrait-fallback { display: grid; place-items: center; background: linear-gradient(145deg, #617b76, #202b29); color: var(--paper); font-family: var(--display); font-size: clamp(5rem, 12vw, 10rem); }
+        .portrait-caption { position: absolute; left: 18px; bottom: 18px; z-index: 1; color: #fff; font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+        .metric-line { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--ink); }
+        .metric { padding: 25px 18px 24px 0; border-right: 1px solid var(--line); }
+        .metric + .metric { padding-left: 18px; }
+        .metric:last-child { border-right: 0; }
+        .metric strong { display: block; font-family: var(--display); font-size: 2.45rem; font-weight: 400; line-height: 1; }
+        .metric span { display: block; margin-top: 6px; color: var(--muted); font-size: .67rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+        .section-intro { display: grid; grid-template-columns: .75fr 1fr; gap: 40px; align-items: end; padding: 84px 0 35px; }
+        .section-intro p { margin: 0; color: var(--accent); font-size: .67rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+        .section-intro h2 { max-width: 650px; margin: 0; font-family: var(--display); font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 400; letter-spacing: -.06em; line-height: .86; }
+        .section-intro .intro-copy { max-width: 430px; color: var(--muted); font-size: .9rem; }
+        .case-list { border-top: 1px solid var(--ink); }
+        .case-study { display: grid; grid-template-columns: 1.06fr 1fr; gap: clamp(26px, 6vw, 80px); align-items: center; padding: 28px 0; border-bottom: 1px solid var(--line); }
+        .case-study:nth-child(even) { grid-template-columns: 1fr 1.06fr; }
+        .case-study:nth-child(even) .case-art { order: 2; }
+        .case-art { position: relative; display: grid; min-height: 270px; place-items: end start; padding: 22px; overflow: hidden; background: var(--dark); color: #fff; }
+        .case-art::before { position: absolute; top: 12%; right: 13%; width: 58%; aspect-ratio: 1; border: 1px solid rgba(255, 255, 255, .4); border-radius: 50%; content: ""; }
+        .case-art::after { position: absolute; right: -12%; bottom: -38%; width: 88%; aspect-ratio: 1; border-radius: 50%; background: var(--accent); content: ""; opacity: .86; }
+        .case-study:nth-child(2) .case-art { background: #c6d7d0; }
+        .case-study:nth-child(2) .case-art::after { background: #e3a348; }
+        .case-study:nth-child(3) .case-art { background: #38385d; }
+        .case-study:nth-child(3) .case-art::after { background: #b9a9df; }
+        .case-study:nth-child(4) .case-art { background: #e8c6ae; }
+        .case-study:nth-child(4) .case-art::after { background: #35473e; }
+        .case-index { position: relative; z-index: 1; font-size: .7rem; font-weight: 800; letter-spacing: .1em; }
+        .case-copy .kicker { margin: 0 0 11px; color: var(--accent); font-size: .67rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        .case-copy h3 { margin: 0 0 8px; font-family: var(--display); font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 400; letter-spacing: -.05em; line-height: .94; }
+        .case-copy p { max-width: 490px; margin: 0; color: var(--muted); }
+        .case-copy a { display: inline-block; margin-top: 20px; color: var(--ink); font-size: .73rem; font-weight: 800; text-decoration: none; }
+        .practice-band { display: grid; grid-template-columns: .75fr 1fr; gap: 40px; padding: 80px 0; border-bottom: 1px solid var(--ink); }
+        .practice-band h2 { margin: 0; font-family: var(--display); font-size: clamp(2.5rem, 5vw, 4.8rem); font-weight: 400; letter-spacing: -.06em; line-height: .86; }
+        .practice-list { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
+        .practice-list span { padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .78rem; font-weight: 700; }
+        .practice-list span:nth-child(even) { padding-left: 18px; border-left: 1px solid var(--line); }
+        .career { display: grid; grid-template-columns: .75fr 1fr; gap: 40px; padding: 80px 0; border-bottom: 1px solid var(--ink); }
+        .career h2 { margin: 0; font-family: var(--display); font-size: clamp(2.5rem, 5vw, 4.8rem); font-weight: 400; letter-spacing: -.06em; line-height: .86; }
+        .record-group + .record-group { margin-top: 36px; }
+        .record-label { margin: 0 0 8px; color: var(--accent); font-size: .67rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        .record { display: grid; grid-template-columns: 125px 1fr; gap: 18px; padding: 15px 0; border-top: 1px solid var(--line); }
+        .record time { color: var(--accent); font-size: .7rem; font-weight: 700; }
+        .record h3 { margin: 0; font-family: var(--display); font-size: 1.32rem; font-weight: 400; }
+        .record p { margin: 4px 0 0; color: var(--muted); font-size: .8rem; }
+        .closing-note { display: grid; grid-template-columns: .75fr 1fr; gap: 40px; padding: 82px 0; }
+        .closing-note h2 { margin: 0; font-family: var(--display); font-size: clamp(2.6rem, 6vw, 6rem); font-weight: 400; letter-spacing: -.07em; line-height: .83; }
+        .closing-copy { max-width: 450px; color: var(--muted); }
+        .closing-copy p { margin-top: 0; }
+        .closing-copy a { display: inline-block; padding: 12px 16px; background: var(--ink); color: var(--paper); font-size: .72rem; font-weight: 700; text-decoration: none; }
+        .magazine-footer { display: flex; justify-content: space-between; gap: 20px; padding: 22px 0 28px; border-top: 1px solid var(--ink); color: var(--muted); font-size: .7rem; }
+        .magazine-footer strong { color: var(--accent); }
+        @media (max-width: 760px) {
+            .magazine-shell { width: min(100% - 28px, 1240px); }
+            .masthead-nav a:nth-child(n+3) { display: none; }
+            .hero-spread, .case-study, .case-study:nth-child(even), .section-intro, .practice-band, .career, .closing-note { grid-template-columns: 1fr; gap: 30px; }
+            .case-study:nth-child(even) .case-art { order: initial; }
+            .hero-spread { padding: 68px 0 55px; }
+            .portrait-stage { min-height: 330px; }
+            .metric-line { grid-template-columns: repeat(2, 1fr); }
+            .metric:nth-child(3) { border-top: 1px solid var(--line); padding-left: 0; }
+            .metric:nth-child(4) { border-top: 1px solid var(--line); }
+            .section-intro, .practice-band, .career, .closing-note { padding: 58px 0 28px; }
+            .case-art { min-height: 220px; }
+            .magazine-footer { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="magazine-shell">
+        <header class="masthead">
+            <a class="masthead-brand" href="#top"><span class="masthead-mark">{{ full_name|slice:":1" }}</span><span>{{ full_name }}</span></a>
+            <nav class="masthead-nav" aria-label="Portfolio sections">
+                <a href="#work">Work</a><a href="#practice">Practice</a><a href="#career">Career</a>{% if email %}<a href="mailto:{{ email }}">Contact</a>{% endif %}
+            </nav>
+        </header>
+
+        <main id="top">
+            <section class="hero-spread">
+                <div>
+                    <p class="issue-label">Independent portfolio / issue 01</p>
+                    <h1>{{ full_name }}</h1>
+                    <p class="hero-role">{{ title }}</p>
+                    <p class="hero-copy">{{ bio }}</p>
+                    <div class="hero-links">{% if portfolio_website %}<a href="{{ portfolio_website }}" target="_blank" rel="noopener noreferrer">Visit website ↗</a>{% endif %}{% if email %}<a href="mailto:{{ email }}">Start a conversation</a>{% endif %}</div>
+                </div>
+                <div class="portrait-stage">
+                    {% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="Portrait of {{ full_name }}">{% else %}<div class="portrait-fallback" aria-hidden="true">{{ full_name|slice:":1" }}</div>{% endif %}
+                    <span class="portrait-caption">A working portrait</span>
+                </div>
+            </section>
+
+            {% if stats %}<section class="metric-line" aria-label="Portfolio highlights">{% for stat in stats %}<div class="metric"><strong>{{ stat.value }}</strong><span>{{ stat.label }}</span></div>{% endfor %}</section>{% endif %}
+
+            {% if projects %}<section id="work">
+                <div class="section-intro"><div><p>Selected work</p><h2>Case studies with a point of view.</h2></div><p class="intro-copy">A collection of projects shaped by clear questions, close collaboration, and a belief that details carry the story.</p></div>
+                <div class="case-list">{% for project in projects %}<article class="case-study"><div class="case-art"><span class="case-index">0{{ forloop.counter }} / CASE STUDY</span></div><div class="case-copy"><p class="kicker">{{ project.tech_stack|default:"Independent project" }}</p><h3>{{ project.title }}</h3>{% if project.description %}<p>{{ project.description }}</p>{% endif %}{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" rel="noopener noreferrer">Read the case study ↗</a>{% endif %}</div></article>{% endfor %}</div>
+            </section>{% endif %}
+
+            {% if skills %}<section id="practice" class="practice-band"><h2>A practice made of many small disciplines.</h2><div class="practice-list">{% for skill in skills %}<span>{{ skill }}</span>{% endfor %}</div></section>{% endif %}
+
+            {% if experience or education %}<section id="career" class="career"><h2>The record behind the work.</h2><div>{% if experience %}<div class="record-group"><p class="record-label">Experience</p>{% for exp in experience %}<article class="record"><time>{{ exp.duration }}</time><div><h3>{{ exp.role }}{% if exp.company %} · {{ exp.company }}{% endif %}</h3>{% if exp.description %}<p>{{ exp.description }}</p>{% endif %}</div></article>{% endfor %}</div>{% endif %}{% if education %}<div class="record-group"><p class="record-label">Education</p>{% for edu in education %}<article class="record"><time>{{ edu.year }}</time><div><h3>{{ edu.degree }}</h3><p>{{ edu.school }}</p></div></article>{% endfor %}</div>{% endif %}</div></section>{% endif %}
+
+            <section class="closing-note"><h2>Make room for the good idea.</h2><div class="closing-copy"><p>{{ bio }}</p>{% if email %}<a href="mailto:{{ email }}">Let’s talk ↗</a>{% endif %}</div></section>
+        </main>
+
+        <footer class="magazine-footer"><span><strong>CASE STUDY MAGAZINE</strong> / {{ full_name }}</span><span>© {% now "Y" %} · Built with intention</span></footer>
+    </div>
+</body>
+</html>

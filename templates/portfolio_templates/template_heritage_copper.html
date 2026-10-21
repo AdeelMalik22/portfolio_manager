@@ -1,0 +1,93 @@
+{% extends "portfolio_templates/_portfolio_base.html" %}
+
+{% block title %}{{ full_name }} — Heritage Copper Portfolio{% endblock %}
+{% block font %}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">{% endblock %}
+{% block body_class %}template-heritage-copper layout-heritage{% endblock %}
+{% block eyebrow %}Independent consultant / thoughtful delivery{% endblock %}
+{% block portrait_label %}A considered{% endblock %}
+{% block portrait_value %}point of view{% endblock %}
+{% block about_heading %}Experience, shaped with intention.{% endblock %}
+{% block skills_heading %}Areas of practice.{% endblock %}
+{% block projects_heading %}Selected commissions.{% endblock %}
+{% block experience_heading %}Professional history.{% endblock %}
+{% block education_heading %}A lifelong education.{% endblock %}
+{% block contact_heading %}Let’s begin a conversation.{% endblock %}
+{% block contact_copy %}The best work begins with attention: to the question, to the people involved, and to the details that make an outcome endure.{% endblock %}
+{% block footer_mark %}HERITAGE — considered work{% endblock %}
+
+{% block theme %}
+    :root {
+        --page: #eee8dc;
+        --surface: #f7f3eb;
+        --surface-alt: #e7ded0;
+        --ink: #2b2421;
+        --muted: #756860;
+        --line: rgba(43, 36, 33, .2);
+        --brand: #8b4b36;
+        --brand-strong: #6c3527;
+        --accent: #c59a6a;
+        --accent-ink: #7a402f;
+        --display: "Playfair Display", Georgia, serif;
+        --body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --mono: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --radius: 0;
+        --shadow: 0 16px 38px rgba(71, 47, 33, .08);
+        --page-width: 1120px;
+    }
+
+    body.template-heritage-copper {
+        background:
+            linear-gradient(90deg, rgba(83, 57, 39, .025) 1px, transparent 1px),
+            var(--page);
+        background-size: 9px 9px;
+    }
+
+    body.template-heritage-copper::before,
+    body.template-heritage-copper::after { display: none; }
+    .template-heritage-copper .portfolio-page { padding-top: 10px; }
+    .template-heritage-copper .portfolio-nav { min-height: 72px; padding: 12px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; box-shadow: none; }
+    .template-heritage-copper .brand { font-family: var(--display); font-size: 1.3rem; }
+    .template-heritage-copper .brand-mark { width: auto; height: auto; border-radius: 0; background: transparent; color: var(--brand); font-family: var(--display); font-size: 1.4rem; }
+    .template-heritage-copper .nav-links { gap: 25px; }
+    .template-heritage-copper .nav-links a { color: var(--ink); font-size: .69rem; letter-spacing: .07em; text-transform: uppercase; }
+    .template-heritage-copper .hero { min-height: 560px; padding: 70px 0; border-width: 1px 0; border-radius: 0; background: transparent; box-shadow: none; }
+    .template-heritage-copper .hero::before { display: none; }
+    .template-heritage-copper .eyebrow,
+    .template-heritage-copper .section-kicker { color: var(--brand); font-family: var(--body); }
+    .template-heritage-copper .hero h1 { font-size: clamp(3.8rem, 9vw, 8.2rem); font-weight: 600; letter-spacing: -.09em; line-height: .84; }
+    .template-heritage-copper .hero-role { color: var(--brand); font-family: var(--display); font-size: clamp(1.2rem, 2.4vw, 1.65rem); }
+    .template-heritage-copper .hero-intro { color: var(--muted); }
+    .template-heritage-copper .button { border-radius: 0; background: transparent; }
+    .template-heritage-copper .button-primary { background: var(--brand); }
+    .template-heritage-copper .button:hover,
+    .template-heritage-copper .button:focus-visible { border-color: var(--brand); background: var(--brand); color: #fff; transform: none; }
+    .template-heritage-copper .portrait-frame::before { border-radius: 0; background: var(--accent); transform: translate(10%, -9%); }
+    .template-heritage-copper .portrait-frame::after { border-radius: 0; border-style: solid; border-color: var(--brand); transform: translate(-11%, 11%); }
+    .template-heritage-copper .portrait-image,
+    .template-heritage-copper .portrait-monogram { border-radius: 0; border-color: var(--surface); box-shadow: 11px 12px 0 var(--accent); }
+    .template-heritage-copper .portrait-note { display: none; }
+    .template-heritage-copper .stats-strip { margin: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .template-heritage-copper .stat-item { border-color: var(--line); border-radius: 0; background: transparent; }
+    .template-heritage-copper .stat-item strong { color: var(--brand); }
+    .template-heritage-copper .section { padding: 64px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; box-shadow: none; }
+    .template-heritage-copper .section-heading h2 { font-size: clamp(1.65rem, 3vw, 2.65rem); font-weight: 600; }
+    .template-heritage-copper .section-number { color: var(--brand); }
+    .template-heritage-copper .contact-facts a,
+    .template-heritage-copper .contact-facts span { border-radius: 0; background: transparent; }
+    .template-heritage-copper .skill { border-width: 0 0 1px; border-radius: 0; background: transparent; }
+    .template-heritage-copper .skill::before { display: none; }
+    .template-heritage-copper .project-card,
+    .template-heritage-copper .timeline-item { border-radius: 0; border-color: var(--line); background: transparent; }
+    .template-heritage-copper .project-card:hover { border-color: var(--brand); background: rgba(197, 154, 106, .08); box-shadow: none; transform: none; }
+    .template-heritage-copper .project-rule { background: var(--brand); }
+    .template-heritage-copper .project-tech,
+    .template-heritage-copper .timeline-date { color: var(--brand); }
+    .template-heritage-copper .timeline-item::before { background: var(--brand); }
+    .template-heritage-copper .contact-section { margin-top: 62px; border-width: 1px 0; border-radius: 0; background: transparent; box-shadow: none; }
+    .template-heritage-copper .contact-section h2 { font-family: var(--display); font-weight: 600; }
+    .template-heritage-copper .contact-section .social-links { justify-content: flex-start; }
+    .template-heritage-copper .social-link { border-radius: 0; background: transparent; }
+    .template-heritage-copper .social-link:hover,
+    .template-heritage-copper .social-link:focus-visible { background: var(--brand); color: #fff; transform: none; }
+    .template-heritage-copper .footer-mark { color: var(--brand); font-family: var(--display); font-size: 1rem; }
+{% endblock %}

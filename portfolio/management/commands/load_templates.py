@@ -3,10 +3,19 @@ from portfolio.models import PortfolioTemplate
 
 
 class Command(BaseCommand):
-    help = 'Load 21 professional portfolio templates into the database'
+    help = 'Load 34 professional portfolio templates into the database'
 
     def handle(self, *args, **options):
         templates = [
+            {
+                'name': 'Base Dark Portfolio',
+                'slug': 'base-dark',
+                'description': 'Reusable dark-blue portfolio foundation with luminous accents and glass surfaces.',
+                'category': 'developer',
+                'color_scheme': 'dark-blue',
+                'template_file': 'portfolio_templates/template_base_dark.html',
+                'order': 0,
+            },
             {
                 'name': 'Modern Corporate',
                 'slug': 'modern-corporate',
@@ -196,6 +205,114 @@ class Command(BaseCommand):
                 'template_file': 'portfolio_templates/template_two_column.html',
                 'order': 21,
             },
+            {
+                'name': 'Editorial Linen',
+                'slug': 'editorial-linen',
+                'description': 'Warm editorial portfolio with oversized serif typography, quiet rules, and a considered case-study layout.',
+                'category': 'creative',
+                'color_scheme': 'linen-olive',
+                'template_file': 'portfolio_templates/template_editorial_linen.html',
+                'order': 22,
+            },
+            {
+                'name': 'Aurora Studio',
+                'slug': 'aurora-studio',
+                'description': 'Expressive dark creative portfolio with luminous gradients, glass surfaces, and energetic studio details.',
+                'category': 'creative',
+                'color_scheme': 'aurora',
+                'template_file': 'portfolio_templates/template_aurora_studio.html',
+                'order': 23,
+            },
+            {
+                'name': 'Boardroom Blue',
+                'slug': 'boardroom-blue',
+                'description': 'Restrained consultancy portfolio with clear service framing, credibility metrics, and ruled experience rows.',
+                'category': 'corporate',
+                'color_scheme': 'boardroom-blue',
+                'template_file': 'portfolio_templates/template_boardroom_blue.html',
+                'order': 24,
+            },
+            {
+                'name': 'Summit Narrative',
+                'slug': 'summit-narrative',
+                'description': 'Immersive dark narrative portfolio with mountain-inspired gradients, bold condensed type, and a purposeful rhythm.',
+                'category': 'developer',
+                'color_scheme': 'summit-blue',
+                'template_file': 'portfolio_templates/template_summit_narrative.html',
+                'order': 25,
+            },
+            {
+                'name': 'Tide Glass',
+                'slug': 'tide-glass',
+                'description': 'Fluid light portfolio with aqua gradients, translucent surfaces, and soft rounded details for product creatives.',
+                'category': 'creative',
+                'color_scheme': 'tide-aqua',
+                'template_file': 'portfolio_templates/template_tide_glass.html',
+                'order': 26,
+            },
+            {
+                'name': 'Heritage Copper',
+                'slug': 'heritage-copper',
+                'description': 'Timeless print-friendly portfolio with cream paper, burgundy structure, and restrained copper details.',
+                'category': 'corporate',
+                'color_scheme': 'heritage-copper',
+                'template_file': 'portfolio_templates/template_heritage_copper.html',
+                'order': 27,
+            },
+            {
+                'name': 'Monograph Ink',
+                'slug': 'monograph-ink',
+                'description': 'Spare typography-first portfolio with strict black-and-white structure and a focused editorial rhythm.',
+                'category': 'minimalist',
+                'color_scheme': 'ink-paper',
+                'template_file': 'portfolio_templates/template_monograph_ink.html',
+                'order': 28,
+            },
+            {
+                'name': 'Signal Grid',
+                'slug': 'signal-grid',
+                'description': 'High-contrast systems portfolio with luminous grid lines, compact data rows, and an engineering-first rhythm.',
+                'category': 'developer',
+                'color_scheme': 'signal-green',
+                'template_file': 'portfolio_templates/template_signal_grid.html',
+                'order': 29,
+            },
+            {
+                'name': 'Organic Clay',
+                'slug': 'organic-clay',
+                'description': 'Warm studio portfolio with playful organic geometry, tactile cards, and an approachable creative voice.',
+                'category': 'creative',
+                'color_scheme': 'clay-coral',
+                'template_file': 'portfolio_templates/template_organic_clay.html',
+                'order': 30,
+            },
+            {
+                'name': 'Product Bento',
+                'slug': 'product-bento',
+                'description': 'Compact product portfolio with dashboard-like hierarchy, dense metrics, and practical bento structure.',
+                'category': 'developer',
+                'color_scheme': 'product-indigo',
+                'template_file': 'portfolio_templates/template_product_bento.html',
+                'order': 31,
+            },
+            {
+                'name': 'Sunrise Mosaic',
+                'slug': 'sunrise-mosaic',
+                'description': 'Warm creative portfolio with orange-pink color fields, luminous accents, and intentionally offset project cards.',
+                'category': 'creative',
+                'color_scheme': 'sunrise-coral',
+                'template_file': 'portfolio_templates/template_sunrise_mosaic.html',
+                'order': 32,
+            },
+            {
+                'name': 'Case Study Magazine',
+                'slug': 'case-study-magazine',
+                'description': 'Custom editorial portfolio with a magazine masthead, alternating case studies, practice grid, and career record.',
+                'category': 'creative',
+                'color_scheme': 'paper-coral',
+                'template_file': 'portfolio_templates/template_case_study_magazine.html',
+                'order': 33,
+            },
         ]
 
         # Deactivate old deprecated templates (don't delete - they may be referenced by portfolios)
@@ -271,5 +388,5 @@ class Command(BaseCommand):
                     )
 
         self.stdout.write(
-            self.style.SUCCESS('\n✅ Successfully loaded all 21 professional portfolio templates!')
+            self.style.SUCCESS('\n✅ Successfully loaded all 34 professional portfolio templates!')
         )
