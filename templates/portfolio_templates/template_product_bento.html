@@ -1,0 +1,88 @@
+{% extends "portfolio_templates/_portfolio_base.html" %}
+
+{% block title %}{{ full_name }} — Product Bento Portfolio{% endblock %}
+{% block font %}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">{% endblock %}
+{% block body_class %}template-product-bento layout-product{% endblock %}
+{% block eyebrow %}Product lead / strategy, systems, shipping{% endblock %}
+{% block portrait_label %}Currently building{% endblock %}
+{% block portrait_value %}useful momentum{% endblock %}
+{% block about_heading %}From fuzzy problems to focused products.{% endblock %}
+{% block skills_heading %}Capabilities at a glance.{% endblock %}
+{% block projects_heading %}Work that moved a metric.{% endblock %}
+{% block experience_heading %}A career in useful outcomes.{% endblock %}
+{% block education_heading %}Principles I keep close.{% endblock %}
+{% block contact_heading %}Have a product problem to solve?{% endblock %}
+{% block contact_copy %}I help teams find the smallest useful move, align around it, and turn momentum into a product people want to use.{% endblock %}
+{% block footer_mark %}BENTO — product in motion{% endblock %}
+
+{% block theme %}
+<style>
+    :root {
+        --page: #eef2f6;
+        --surface: #ffffff;
+        --surface-alt: #e6edf4;
+        --ink: #152235;
+        --muted: #647286;
+        --line: rgba(21, 34, 53, .13);
+        --brand: #405fe8;
+        --brand-strong: #2940b4;
+        --accent: #b7c8ff;
+        --accent-ink: #3149b8;
+        --display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+        --body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --mono: "SFMono-Regular", Consolas, monospace;
+        --radius: 14px;
+        --shadow: 0 14px 38px rgba(21, 34, 53, .07);
+        --page-width: 1240px;
+    }
+
+    body.template-product-bento { background: linear-gradient(145deg, #f8fafc 0, var(--page) 52rem); }
+    body.template-product-bento::after { top: -16rem; right: -18rem; background: radial-gradient(circle, rgba(183, 200, 255, .68), transparent 68%); }
+    .template-product-bento .portfolio-nav { border-radius: 12px; background: rgba(255, 255, 255, .82); }
+    .template-product-bento .brand-mark { border-radius: 8px; background: var(--brand); }
+    .template-product-bento .nav-links a { font-size: .72rem; }
+    .template-product-bento .hero { min-height: 500px; border-radius: 14px; background: #fff; }
+    .template-product-bento .hero::before { width: 100%; background-image: linear-gradient(90deg, rgba(64, 95, 232, .08) 1px, transparent 1px), linear-gradient(rgba(64, 95, 232, .08) 1px, transparent 1px); background-size: 34px 34px; }
+    .template-product-bento .eyebrow,
+    .template-product-bento .section-kicker,
+    .template-product-bento .section-number { color: var(--brand); }
+    .template-product-bento .hero h1 { font-size: clamp(3.2rem, 7.5vw, 7rem); letter-spacing: -.09em; }
+    .template-product-bento .hero-role { color: var(--accent-ink); font-size: clamp(1.05rem, 2vw, 1.4rem); }
+    .template-product-bento .hero-intro { color: var(--muted); }
+    .template-product-bento .button { border-radius: 8px; background: rgba(255, 255, 255, .75); }
+    .template-product-bento .button-primary { background: var(--brand); }
+    .template-product-bento .button:hover,
+    .template-product-bento .button:focus-visible { border-color: var(--brand); background: var(--brand); color: #fff; transform: translateY(-1px); }
+    .template-product-bento .portrait-frame::before { border-radius: 14px; background: var(--accent); transform: translate(9%, -9%); }
+    .template-product-bento .portrait-frame::after { border-radius: 14px; border-style: solid; border-color: var(--brand); transform: translate(-12%, 12%); }
+    .template-product-bento .portrait-image,
+    .template-product-bento .portrait-monogram { border-radius: 14px; border-color: #fff; box-shadow: 0 22px 44px rgba(21, 34, 53, .18); }
+    .template-product-bento .portrait-note { border-radius: 8px; background: #fff; }
+    .template-product-bento .stats-strip { margin-top: -25px; }
+    .template-product-bento .stat-item { border-radius: 10px; background: #fff; }
+    .template-product-bento .stat-item strong { color: var(--brand); }
+    .template-product-bento .portfolio-content { gap: 16px; }
+    .template-product-bento .section { border-radius: 12px; background: rgba(255, 255, 255, .88); }
+    .template-product-bento .section-heading h2 { font-size: clamp(1.35rem, 2.5vw, 2.1rem); }
+    .template-product-bento .contact-facts a,
+    .template-product-bento .contact-facts span { border-radius: 8px; background: var(--surface-alt); }
+    .template-product-bento .skill { border-radius: 8px; background: var(--surface-alt); }
+    .template-product-bento .project-card,
+    .template-product-bento .timeline-item { border-radius: 10px; border-color: var(--line); background: var(--surface-alt); }
+    .template-product-bento .project-card:hover { border-color: var(--brand); box-shadow: 0 12px 28px rgba(64, 95, 232, .12); }
+    .template-product-bento .project-rule { background: var(--brand); }
+    .template-product-bento .project-tech,
+    .template-product-bento .timeline-date { color: var(--accent-ink); }
+    .template-product-bento .timeline-item::before { background: var(--brand); }
+    .template-product-bento .contact-section { border-radius: 12px; background: linear-gradient(135deg, var(--ink), #26395c); }
+    .template-product-bento .contact-section h2 { color: #fff; }
+    .template-product-bento .contact-section p { color: #c4d0e3; }
+    .template-product-bento .footer-mark { color: var(--brand); }
+
+    @media (max-width: 760px) {
+        .template-product-bento .hero { border-radius: 10px; }
+        .template-product-bento .section { border-radius: 10px; }
+        .template-product-bento .contact-section { border-radius: 10px; }
+    }
+</style>
+{% endblock %}
