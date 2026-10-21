@@ -271,6 +271,9 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "width:100%")
         self.assertContains(response, "min-height:100vh")
         self.assertContains(response, 'class="folio"')
+        self.assertContains(response, "Have an idea?")
+        self.assertContains(response, "Let’s discuss.")
+        self.assertContains(response, "Start a conversation ↗")
 
     def test_editorial_linen_theme_exposes_its_reference_direction(self):
         editorial_linen = next(
