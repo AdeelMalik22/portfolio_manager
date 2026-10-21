@@ -274,6 +274,7 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Have an idea?")
         self.assertContains(response, "Let’s discuss.")
         self.assertContains(response, "Start a conversation ↗")
+        self.assertNotContains(response, "Correspondence")
 
     def test_editorial_linen_theme_exposes_its_reference_direction(self):
         editorial_linen = next(
