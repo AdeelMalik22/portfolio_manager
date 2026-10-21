@@ -1,10 +1,11 @@
 import json
 
+from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
-from ..models import Portfolio, PortfolioTemplate
+from ..models import Portfolio, PortfolioTemplate, PublicPortfolio
 
 
 class TemplatePreviewTests(TestCase):
@@ -92,6 +93,143 @@ class TemplatePreviewTests(TestCase):
         self.assertEqual(Portfolio.objects.count(), 0)
 
 
+class ArchitectRenderingFlowTests(TestCase):
+    def setUp(self):
+        self.template = PortfolioTemplate.objects.create(
+            name="The Architect",
+            slug="architect_portfolio",
+            description="Editorial portfolio for technical architects.",
+            category="developer",
+            color_scheme="ink-bone-copper",
+            template_file="portfolio_templates/template_architect_portfolio.html",
+            is_active=True,
+            order=34,
+        )
+        self.preview_url = reverse("portfolio:template_preview", args=[self.template.id])
+
+    def test_draft_preview_handles_missing_optional_content(self):
+        response = self.client.post(
+            self.preview_url,
+            {
+                "full_name": "Priya N.",
+                "title": "Senior Backend Engineer",
+                "bio": "I build dependable systems for teams doing consequential work.",
+                "email": "priya@example.com",
+                "skills": json.dumps(["Python", "PostgreSQL"]),
+                "stats": json.dumps([]),
+                "projects": json.dumps([]),
+                "experience": json.dumps([]),
+                "education": json.dumps([]),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Priya N.")
+        self.assertContains(response, "Senior Backend Engineer")
+        self.assertNotContains(response, "Morgan Lee")
+        self.assertNotContains(response, "Evidence, not volume.")
+        self.assertContains(response, "No selected work has been added yet.")
+
+    def test_architect_sample_uses_abstract_fallback_portraits(self):
+        response = self.client.get(self.preview_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "figure-fallback")
+        self.assertContains(response, "fallback-frame")
+        self.assertContains(response, "about-fallback")
+        self.assertNotContains(response, "data:image/svg+xml;base64")
+
+    def test_saved_preview_and_download_handle_multiple_projects_without_images(self):
+        portfolio = Portfolio.objects.create(
+            full_name="Ravi Sharma",
+            title="Principal Software Engineer",
+            bio="A long-form introduction about designing reliable platforms and useful abstractions for teams with complex constraints.",
+            email="ravi@example.com",
+            template=self.template,
+            skills=["Python", "Distributed systems"],
+            stats=[],
+            projects=[
+                {
+                    "title": "Lattice <script>",
+                    "description": "A long project description that should remain escaped and readable in the case-study layout.",
+                    "tech_stack": "Python · PostgreSQL",
+                    "live_link": "https://example.com/lattice",
+                },
+                {
+                    "title": "Second System",
+                    "description": "A second project without an image asset.",
+                    "tech_stack": "Django · APIs",
+                },
+            ],
+            experience=[],
+            education=[],
+        )
+
+        preview = self.client.get(f"/api/portfolios/{portfolio.id}/preview/")
+        download = self.client.get(f"/api/portfolios/{portfolio.id}/download/")
+
+        self.assertEqual(preview.status_code, 200)
+        self.assertContains(preview, "Lattice &lt;script&gt;")
+        self.assertContains(preview, "Second System")
+        self.assertContains(preview, "project-visual")
+        self.assertNotContains(preview, "<script>")
+        self.assertEqual(download.status_code, 200)
+        self.assertIn("attachment; filename=\"ravi_sharma_portfolio.html\"", download["Content-Disposition"])
+        self.assertContains(download, "Second System")
+
+    def test_architect_project_gallery_uses_distinct_visual_compositions(self):
+        response = self.client.post(
+            self.preview_url,
+            {
+                "full_name": "Ravi Sharma",
+                "projects": json.dumps([
+                    {"title": "Signal Dashboard"},
+                    {"title": "Field Notes Mobile"},
+                    {"title": "Signal Commerce"},
+                    {"title": "Ledger AI"},
+                    {"title": "Operations Platform"},
+                ]),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        for visual_variant in (
+            "project-visual--dashboard",
+            "project-visual--mobile",
+            "project-visual--commerce",
+            "project-visual--ai",
+            "project-visual--operations",
+        ):
+            self.assertContains(response, visual_variant)
+        self.assertContains(response, "architect-project--feature")
+        self.assertContains(response, "architect-project--editorial")
+
+    def test_public_render_uses_the_architect_template(self):
+        user = User.objects.create_user(username="architect-public")
+        PublicPortfolio.objects.create(
+            user=user,
+            username_slug="architect-public",
+            full_name="Nadia Chen",
+            title="Technical Architect",
+            bio="I make complex systems easier to understand and operate.",
+            email="nadia@example.com",
+            template=self.template,
+            is_published=True,
+            skills=["System design"],
+            stats=[],
+            projects=[],
+            experience=[],
+            education=[],
+        )
+
+        response = self.client.get("/portfolio/architect-public/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Nadia Chen")
+        self.assertContains(response, "Technical Architect")
+        self.assertContains(response, "Start a conversation")
+
+
 class ShippedTemplateStructureTests(TestCase):
     """Guard the content structure that every public template promises."""
 
@@ -108,6 +246,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_product_bento.html",
         "portfolio_templates/template_sunrise_mosaic.html",
         "portfolio_templates/template_case_study_magazine.html",
+        "portfolio_templates/template_architect_portfolio.html",
     ]
 
     TEMPLATE_FILES = [
@@ -145,6 +284,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_product_bento.html",
         "portfolio_templates/template_sunrise_mosaic.html",
         "portfolio_templates/template_case_study_magazine.html",
+        "portfolio_templates/template_architect_portfolio.html",
     ]
 
     def setUp(self):
@@ -535,4 +675,25 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "CASE STUDY MAGAZINE")
         self.assertContains(response, "Case studies with a point of view.")
         self.assertContains(response, "A practice made of many small disciplines.")
+        self.assertNotContains(response, "portfolio-page")
+
+    def test_architect_portfolio_has_an_independent_editorial_structure(self):
+        architect = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_architect_portfolio.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[architect.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "The Architect")
+        self.assertContains(response, "Systems")
+        self.assertContains(response, "clarity.")
+        self.assertContains(response, "Selected work")
+        self.assertContains(response, "Make the complex feel inevitable.")
+        self.assertContains(response, "Have a system worth building?")
+        self.assertContains(response, "PortfolioForge Studio")
+        self.assertContains(response, "project-visual")
         self.assertNotContains(response, "portfolio-page")

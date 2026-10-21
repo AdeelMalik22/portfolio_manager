@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ full_name }} — {{ title }} portfolio">
+    <title>{{ full_name }} — The Architect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #10151c;
+            --bone: #f3f0e9;
+            --paper: #faf8f3;
+            --copper: #d6a774;
+            --slate: #778a95;
+            --slate-dark: #52636d;
+            --rule: rgba(16, 21, 28, .18);
+            --rule-light: rgba(243, 240, 233, .22);
+            --display: "DM Serif Display", Georgia, serif;
+            --sans: "Manrope", Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            background: var(--bone);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-size: 15px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; }
+        img { display: block; max-width: 100%; }
+        ::selection { background: var(--copper); color: var(--ink); }
+
+        .architect-page { min-width: 0; }
+        .architect-wrap { width: min(1440px, calc(100% - 64px)); margin: 0 auto; }
+        .architect-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            min-height: 82px;
+            border-bottom: 1px solid var(--rule);
+        }
+        .architect-mark {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--ink);
+            font-size: .77rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .architect-mark::before {
+            width: 27px;
+            height: 27px;
+            border: 1px solid var(--ink);
+            background: linear-gradient(135deg, transparent 48%, var(--copper) 49% 51%, transparent 52%);
+            content: "";
+        }
+        .architect-nav-links { display: flex; align-items: center; gap: clamp(16px, 3vw, 44px); }
+        .architect-nav-links a {
+            position: relative;
+            color: var(--slate-dark);
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .architect-nav-links a::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 1px;
+            background: var(--copper);
+            content: "";
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform .25s ease;
+        }
+        .architect-nav-links a:hover::after,
+        .architect-nav-links a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+        .architect-nav-links a:focus-visible,
+        .architect-link:focus-visible,
+        .architect-contact-link:focus-visible,
+        .architect-footer a:focus-visible { outline: 2px solid var(--copper); outline-offset: 5px; }
+
+        .architect-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.18fr) minmax(360px, .82fr);
+            gap: clamp(42px, 6vw, 92px);
+            align-items: center;
+            min-height: 0;
+            padding: clamp(68px, 8vw, 116px) 0 clamp(76px, 9vw, 128px);
+        }
+        .architect-kicker,
+        .architect-section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 26px;
+            color: var(--slate-dark);
+            font-size: .66rem;
+            font-weight: 800;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+        .architect-kicker::before,
+        .architect-section-label::before { width: 28px; height: 1px; background: var(--copper); content: ""; }
+        .architect-hero h1 {
+            max-width: 100%;
+            margin: 0;
+            color: var(--ink);
+            font-family: var(--display);
+            font-size: clamp(4.8rem, 8vw, 9rem);
+            font-weight: 400;
+            letter-spacing: -.075em;
+            line-height: .81;
+            text-wrap: balance;
+        }
+        .hero-title-desktop > span,
+        .hero-title-mobile > span { display: block; white-space: nowrap; }
+        .hero-title-mobile { display: none; }
+        .architect-hero h1 em { color: var(--copper); font-weight: 400; }
+        .architect-hero-intro {
+            max-width: 560px;
+            margin: 34px 0 0;
+            color: var(--slate-dark);
+            font-size: clamp(1.04rem, 1.4vw, 1.24rem);
+            line-height: 1.75;
+        }
+        .architect-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 34px; }
+        .architect-contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 18px;
+            background: var(--ink);
+            color: var(--bone);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: background .25s ease, transform .25s ease;
+        }
+        .architect-contact-link::after { color: var(--copper); content: "↗"; font-size: 1rem; }
+        .architect-contact-link:hover { background: var(--slate-dark); transform: translateY(-2px); }
+        .architect-availability { color: var(--slate-dark); font-size: .75rem; }
+        .architect-availability::before { display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--copper); content: ""; }
+
+        .architect-hero-figure {
+            position: relative;
+            min-height: 548px;
+            padding: 36px;
+            background: var(--ink);
+            color: var(--bone);
+            isolation: isolate;
+        }
+        .architect-hero-figure::before,
+        .architect-hero-figure::after {
+            position: absolute;
+            z-index: -1;
+            content: "";
+            pointer-events: none;
+        }
+        .architect-hero-figure::before {
+            inset: 20px;
+            border: 1px solid var(--rule-light);
+            background-image: linear-gradient(rgba(243,240,233,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(243,240,233,.09) 1px, transparent 1px);
+            background-size: 42px 42px;
+        }
+        .architect-hero-figure::after {
+            top: -22px;
+            right: 0;
+            width: 112px;
+            height: 112px;
+            border-top: 1px solid var(--copper);
+            border-right: 1px solid var(--copper);
+        }
+        .figure-topline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; color: var(--copper); font-size: .62rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+        .figure-portrait {
+            position: absolute;
+            right: clamp(22px, 6vw, 86px);
+            bottom: 64px;
+            width: min(72%, 350px);
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            border: 10px solid var(--bone);
+            background: var(--slate-dark);
+        }
+        .figure-portrait img { width: 100%; height: 100%; object-fit: cover; }
+        .figure-portrait::after { position: absolute; inset: 12px; border: 1px solid rgba(214,167,116,.72); content: ""; pointer-events: none; }
+        .figure-fallback { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; background: var(--ink); color: var(--bone); }
+        .figure-fallback::before { position: absolute; top: 17%; right: 14%; width: 49%; height: 58%; border: 1px solid var(--copper); content: ""; transform: skewY(-11deg); }
+        .figure-fallback::after { position: absolute; right: 7%; bottom: 13%; width: 72%; height: 1px; background: var(--copper); box-shadow: 0 -34px 0 rgba(214,167,116,.34), 0 -68px 0 rgba(214,167,116,.18); content: ""; transform: rotate(-11deg); transform-origin: right; }
+        .fallback-monogram { position: absolute; top: 21%; left: 12%; color: var(--copper); font-family: var(--display); font-size: clamp(6rem, 12vw, 10rem); line-height: .8; }
+        .fallback-axis { position: absolute; top: 10%; bottom: 10%; left: 25%; width: 1px; background: rgba(243,240,233,.5); }
+        .fallback-frame { position: absolute; border: 1px solid rgba(243,240,233,.46); }
+        .fallback-frame--one { top: 12%; right: 9%; width: 66%; height: 72%; }
+        .fallback-frame--two { top: 18%; right: 16%; width: 52%; height: 58%; border-color: rgba(214,167,116,.45); }
+        .fallback-label,
+        .fallback-coordinate { position: absolute; color: var(--slate); font-size: .56rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+        .fallback-label { right: 10%; bottom: 10%; }
+        .fallback-coordinate { left: 12%; bottom: 10%; color: var(--copper); }
+        .figure-coordinate { position: absolute; bottom: 20px; left: 36px; color: var(--slate); font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; }
+        .figure-axis { position: absolute; top: 78px; bottom: 48px; left: 36px; width: 1px; background: var(--copper); opacity: .7; }
+        .figure-axis::after { position: absolute; bottom: 0; left: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--copper); content: ""; }
+        .figure-note { position: absolute; right: 28px; bottom: 35px; width: 116px; color: var(--bone); font-family: var(--display); font-size: 1.05rem; line-height: 1.05; }
+
+        .architect-dark { background: var(--ink); color: var(--bone); }
+        .architect-section { padding: clamp(68px, 8vw, 120px) 0; }
+        .architect-dark .architect-section-label { color: var(--slate); }
+        .architect-section-heading { display: grid; grid-template-columns: minmax(220px, .5fr) minmax(0, 1fr); gap: 40px; align-items: end; margin-bottom: 50px; }
+        .architect-section-heading h2 { max-width: 760px; margin: 0; font-family: var(--display); font-size: clamp(3rem, 6.7vw, 7rem); font-weight: 400; letter-spacing: -.065em; line-height: .86; text-wrap: balance; }
+        .architect-section-heading p { max-width: 350px; margin: 0 0 5px; color: var(--slate); font-size: 1rem; line-height: 1.72; }
+
+        .architect-projects { display: grid; gap: 1px; border-top: 1px solid var(--rule-light); }
+        .architect-project {
+            display: grid;
+            grid-template-columns: minmax(0, .95fr) minmax(320px, 1.05fr);
+            gap: clamp(30px, 7vw, 110px);
+            align-items: center;
+            padding: clamp(42px, 5vw, 76px) 0;
+            border-bottom: 1px solid var(--rule-light);
+        }
+        .architect-project:nth-child(even) { grid-template-columns: minmax(320px, 1.05fr) minmax(0, .95fr); }
+        .architect-project:nth-child(even) .project-copy { order: 2; }
+        .architect-project:nth-child(even) .project-visual { order: 1; }
+        .project-number { display: block; margin-bottom: 20px; color: var(--copper); font-size: .72rem; font-weight: 800; letter-spacing: .18em; }
+        .project-copy h3 { max-width: 600px; margin: 0; color: var(--bone); font-family: var(--display); font-size: clamp(2.4rem, 5vw, 5.3rem); font-weight: 400; letter-spacing: -.06em; line-height: .9; text-wrap: balance; }
+        .project-copy p { max-width: 560px; margin: 22px 0 0; color: #c4cccd; font-size: 1.06rem; line-height: 1.72; }
+        .project-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; color: var(--slate); font-size: .74rem; font-weight: 800; letter-spacing: .08em; line-height: 1.55; text-transform: uppercase; }
+        .project-actions { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 28px; }
+        .architect-link { color: var(--bone); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; }
+        .architect-link::after { margin-left: 7px; color: var(--copper); content: "↗"; font-size: 1rem; }
+        .architect-link:hover { color: var(--copper); }
+
+        .architect-project--feature { grid-template-columns: 1fr; gap: 30px; }
+        .architect-project--feature .project-copy { display: grid; grid-template-columns: minmax(180px, .36fr) minmax(0, 1fr); column-gap: 34px; align-items: start; }
+        .architect-project--feature .project-number { grid-row: span 3; }
+        .architect-project--feature .project-copy h3,
+        .architect-project--feature .project-copy p,
+        .architect-project--feature .project-copy .project-meta,
+        .architect-project--feature .project-copy .project-actions { grid-column: 2; }
+        .architect-project--feature .project-visual { min-height: 420px; }
+        .architect-project--editorial { grid-template-columns: minmax(250px, .68fr) minmax(0, 1.32fr); }
+        .architect-project--editorial .project-copy { padding: 28px; border: 1px solid rgba(243,240,233,.18); background: var(--bone); }
+        .architect-project--editorial .project-copy h3 { color: var(--ink); }
+        .architect-project--editorial .project-copy p { color: var(--slate-dark); }
+        .architect-project--editorial .project-meta { color: var(--slate-dark); }
+        .architect-project--editorial .architect-link { color: var(--ink); }
+        .architect-project--wide .project-visual { min-height: 440px; }
+        .project-visual { position: relative; min-height: 350px; padding: 22px; overflow: hidden; background: #1b2730; }
+        .project-visual::before { position: absolute; inset: 0; background-image: linear-gradient(rgba(214,167,116,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(214,167,116,.1) 1px, transparent 1px); background-size: 34px 34px; content: ""; }
+        .project-visual--mobile { background: #28323a; }
+        .project-visual--commerce { background: #d7d1c5; }
+        .project-visual--commerce::before { background-image: linear-gradient(rgba(16,21,28,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(16,21,28,.1) 1px, transparent 1px); }
+        .project-visual--ai { background: #202b32; }
+        .project-visual--operations { background: #172128; }
+        .mockup { position: relative; z-index: 1; min-height: 306px; border: 1px solid rgba(243,240,233,.32); background: rgba(16,21,28,.88); box-shadow: 16px 16px 0 rgba(214,167,116,.72); }
+        .mockup-label { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border-bottom: 1px solid rgba(243,240,233,.18); color: var(--slate); font-size: .56rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+        .mockup-label strong { color: var(--copper); font-weight: 800; }
+        .mockup-dashboard { display: grid; grid-template-columns: 104px minmax(0, 1fr); }
+        .mockup-dashboard .mockup-label { grid-column: 1 / -1; }
+        .dashboard-rail { padding: 20px 14px; border-right: 1px solid rgba(243,240,233,.18); }
+        .dashboard-rail::before { display: block; width: 33px; height: 33px; margin-bottom: 25px; border: 1px solid var(--copper); content: ""; }
+        .dashboard-rail span { display: block; width: 70%; height: 5px; margin: 0 0 13px; background: var(--slate); opacity: .68; }
+        .dashboard-rail span:nth-child(3) { width: 48%; background: var(--copper); }
+        .dashboard-main { padding: 20px; }
+        .dashboard-heading { display: flex; justify-content: space-between; margin-bottom: 16px; color: var(--slate); font-size: .56rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        .dashboard-heading b { color: var(--copper); font-size: .85rem; }
+        .dashboard-main h4 { margin: 0; color: var(--bone); font-family: var(--display); font-size: clamp(1.6rem, 3vw, 2.8rem); font-weight: 400; line-height: .9; }
+        .dashboard-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 22px; }
+        .dashboard-metric { min-height: 56px; padding: 10px; border: 1px solid rgba(243,240,233,.16); }
+        .dashboard-metric span { display: block; color: var(--slate); font-size: .5rem; letter-spacing: .1em; text-transform: uppercase; }
+        .dashboard-metric i { display: block; width: 65%; height: 7px; margin-top: 13px; background: var(--copper); }
+        .dashboard-chart { position: relative; height: 100px; margin-top: 18px; border-bottom: 1px solid rgba(243,240,233,.28); background: repeating-linear-gradient(to bottom, transparent 0 24px, rgba(243,240,233,.1) 25px); }
+        .dashboard-chart::after { position: absolute; right: 7%; bottom: 18px; left: 5%; height: 58px; border-top: 2px solid var(--copper); border-radius: 50%; content: ""; transform: skewY(-12deg); }
+        .dashboard-activity { display: flex; justify-content: space-between; margin-top: 12px; color: var(--slate); font-size: .54rem; letter-spacing: .08em; text-transform: uppercase; }
+        .dashboard-activity b { color: var(--copper); font-weight: 800; }
+        .mockup-mobile { max-width: 300px; margin: 0 auto; padding: 9px; border: 1px solid rgba(243,240,233,.4); border-radius: 22px; background: var(--bone); box-shadow: 16px 16px 0 rgba(214,167,116,.72); }
+        .phone-screen { min-height: 288px; padding: 17px; background: var(--ink); }
+        .phone-status { display: flex; justify-content: space-between; color: var(--slate); font-size: .5rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .phone-screen h4 { max-width: 170px; margin: 30px 0 19px; color: var(--bone); font-family: var(--display); font-size: 2.25rem; font-weight: 400; line-height: .85; }
+        .phone-card { display: flex; justify-content: space-between; gap: 10px; padding: 13px; border: 1px solid rgba(243,240,233,.2); color: var(--bone); font-size: .6rem; }
+        .phone-card strong { color: var(--copper); font-weight: 700; }
+        .phone-orbit { width: 88px; height: 88px; margin: 18px 0 12px auto; border: 8px solid var(--copper); border-left-color: rgba(214,167,116,.2); border-radius: 50%; }
+        .phone-list { display: grid; grid-template-columns: 1fr auto; gap: 7px 10px; margin-bottom: 17px; color: var(--slate); font-size: .52rem; }
+        .phone-list i { width: 42px; height: 4px; margin-top: 4px; background: var(--copper); }
+        .phone-nav { display: flex; justify-content: space-between; padding-top: 14px; border-top: 1px solid rgba(243,240,233,.18); color: var(--slate); font-size: .52rem; text-transform: uppercase; }
+        .mockup-commerce { border-color: rgba(16,21,28,.25); background: rgba(250,248,243,.9); box-shadow: 16px 16px 0 var(--copper); }
+        .mockup-commerce .mockup-label { border-color: rgba(16,21,28,.16); color: var(--slate-dark); }
+        .commerce-body { display: grid; grid-template-columns: 1.2fr .8fr; gap: 15px; padding: 20px; color: var(--ink); }
+        .commerce-body h4 { max-width: 210px; margin: 0; font-family: var(--display); font-size: clamp(1.8rem, 3.4vw, 3.2rem); font-weight: 400; letter-spacing: -.06em; line-height: .86; }
+        .commerce-breadcrumb { display: block; margin-bottom: 14px; color: var(--slate-dark); font-size: .55rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .commerce-product { position: relative; min-height: 135px; margin-top: 20px; border: 1px solid rgba(16,21,28,.22); background: linear-gradient(135deg, #b8c0c1 0 48%, #778a95 49% 100%); }
+        .commerce-product span { position: absolute; right: 10px; bottom: 9px; color: var(--bone); font-size: .52rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .commerce-product-meta { display: flex; justify-content: space-between; margin-top: 10px; color: var(--slate-dark); font-size: .56rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .commerce-product-meta b { color: var(--ink); font-size: .9rem; }
+        .commerce-side { padding-left: 15px; border-left: 1px solid rgba(16,21,28,.18); }
+        .commerce-side span { display: block; width: 75%; height: 6px; margin-bottom: 14px; background: var(--slate); }
+        .commerce-side span:nth-child(2) { width: 55%; background: var(--copper); }
+        .commerce-side::after { display: block; width: 100%; height: 1px; margin-top: 55px; background: rgba(16,21,28,.2); content: ""; }
+        .commerce-side b { display: block; margin-top: 14px; color: var(--slate-dark); font-size: .54rem; letter-spacing: .1em; text-transform: uppercase; }
+        .mockup-ai { display: grid; grid-template-rows: auto 1fr auto; }
+        .ai-thread { display: flex; flex-direction: column; gap: 12px; padding: 22px; }
+        .ai-thread-heading { display: flex; justify-content: space-between; margin-bottom: 3px; color: var(--slate); font-size: .54rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .ai-thread-heading b { color: var(--copper); }
+        .ai-message { max-width: 75%; padding: 11px 13px; border: 1px solid rgba(243,240,233,.18); color: #c4cccd; font-size: .68rem; line-height: 1.5; }
+        .ai-message b { display: block; margin-bottom: 5px; color: var(--copper); font-size: .5rem; letter-spacing: .12em; }
+        .ai-message--user { align-self: end; border-color: rgba(214,167,116,.6); color: var(--bone); }
+        .ai-command { margin: 0 22px 20px; padding: 12px 14px; border: 1px solid var(--copper); color: var(--copper); font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; }
+        .mockup-operations { padding-bottom: 20px; }
+        .operations-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px; }
+        .operations-column { min-height: 220px; padding: 10px; border-top: 2px solid var(--copper); background: rgba(243,240,233,.06); }
+        .operations-column > span { display: flex; justify-content: space-between; margin-bottom: 14px; color: var(--slate); font-size: .54rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .operations-column > span b { color: var(--copper); }
+        .operation-row { min-height: 58px; margin-top: 8px; padding: 10px; border: 1px solid rgba(243,240,233,.16); color: var(--bone); font-size: .58rem; }
+        .operation-row b { display: block; font-weight: 700; }
+        .operation-row small { display: block; margin-top: 4px; color: var(--slate); font-size: .47rem; }
+        .operation-row::after { display: block; width: 45%; height: 4px; margin-top: 9px; background: var(--copper); content: ""; }
+        .visual-stamp { position: absolute; right: 16px; bottom: 16px; color: var(--copper); font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; writing-mode: vertical-rl; }
+
+        .architect-light { background: var(--paper); }
+        .about-grid { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(0, 1.2fr); gap: clamp(45px, 10vw, 160px); align-items: start; }
+        .about-portrait { position: relative; max-width: 360px; padding: 34px 34px 58px 14px; background: var(--ink); }
+        .about-portrait::before { position: absolute; top: 14px; right: 14px; bottom: 44px; left: 38px; border: 1px solid rgba(214,167,116,.72); content: ""; pointer-events: none; }
+        .about-portrait::after { position: absolute; right: 0; bottom: 24px; width: 76px; height: 76px; border: 1px solid var(--copper); content: ""; }
+        .about-portrait img { position: relative; z-index: 1; width: 100%; aspect-ratio: 5 / 6; object-fit: cover; filter: grayscale(1) sepia(.18) contrast(1.08); }
+        .about-fallback { position: relative; display: block; width: 100%; aspect-ratio: 5 / 6; overflow: hidden; background: #202b32; color: var(--bone); }
+        .about-fallback::before { position: absolute; top: 13%; right: 11%; width: 62%; height: 70%; border: 1px solid var(--copper); content: ""; transform: skewY(12deg); }
+        .about-fallback::after { position: absolute; right: 0; bottom: 18%; width: 76%; height: 1px; background: rgba(243,240,233,.7); box-shadow: 0 -22px 0 rgba(243,240,233,.2), 0 -44px 0 rgba(243,240,233,.12); content: ""; transform: rotate(12deg); transform-origin: right; }
+        .about-fallback span { position: absolute; top: 25%; left: 12%; color: var(--copper); font-family: var(--display); font-size: clamp(5.5rem, 10vw, 8rem); line-height: .8; }
+        .about-fallback i { position: absolute; top: 9%; bottom: 10%; left: 26%; width: 1px; background: rgba(243,240,233,.5); }
+        .about-fallback b { position: absolute; bottom: 9%; left: 12%; color: var(--slate); font-size: .56rem; font-weight: 800; letter-spacing: .15em; }
+        .about-portrait figcaption { position: absolute; bottom: 18px; left: 14px; color: var(--bone); font-size: .62rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        .about-copy h2 { max-width: 720px; margin: 0; font-family: var(--display); font-size: clamp(3rem, 6.5vw, 6.9rem); font-weight: 400; letter-spacing: -.065em; line-height: .88; }
+        .about-copy > p { max-width: 620px; margin: 28px 0 0; color: var(--slate-dark); font-size: 1.05rem; line-height: 1.8; }
+        .about-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 42px; padding-top: 20px; border-top: 1px solid var(--rule); }
+        .about-detail span { display: block; margin-bottom: 5px; color: var(--slate); font-size: .62rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+        .about-detail strong { color: var(--ink); font-size: .82rem; font-weight: 700; overflow-wrap: anywhere; }
+
+        .expertise-grid { display: grid; grid-template-columns: minmax(210px, .65fr) minmax(0, 1.35fr); gap: clamp(40px, 10vw, 150px); align-items: start; }
+        .expertise-grid h2 { max-width: 430px; margin: 0; color: var(--bone); font-family: var(--display); font-size: clamp(3.3rem, 6.3vw, 6.5rem); font-weight: 400; letter-spacing: -.065em; line-height: .88; }
+        .expertise-intro { max-width: 300px; margin-top: 28px; color: var(--slate); font-size: .9rem; line-height: 1.8; }
+        .skill-ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--rule-light); }
+        .skill-item { display: flex; align-items: baseline; gap: 18px; min-width: 0; padding: 18px 0; border-bottom: 1px solid var(--rule-light); color: var(--bone); font-family: var(--display); font-size: clamp(1.35rem, 2.5vw, 2.45rem); line-height: 1; }
+        .skill-item:nth-child(odd) { margin-right: 28px; }
+        .skill-item:nth-child(even) { margin-left: 28px; }
+        .skill-index { color: var(--copper); font-family: var(--sans); font-size: .6rem; font-weight: 800; letter-spacing: .1em; }
+        .skill-item span:last-child { overflow-wrap: anywhere; }
+
+        .impact-section { padding: 0 0 clamp(86px, 10vw, 150px); }
+        .impact-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+        .impact-stat { min-height: 150px; padding: 26px 22px 22px 0; border-right: 1px solid var(--rule); }
+        .impact-stat + .impact-stat { padding-left: 22px; }
+        .impact-stat:last-child { border-right: 0; }
+        .impact-stat strong { display: block; color: var(--ink); font-family: var(--display); font-size: clamp(2.8rem, 5vw, 5.8rem); font-weight: 400; letter-spacing: -.06em; line-height: .9; }
+        .impact-stat span { display: block; max-width: 140px; margin-top: 18px; color: var(--slate-dark); font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+
+        .record-grid { display: grid; grid-template-columns: minmax(190px, .55fr) minmax(0, 1.45fr); gap: clamp(36px, 9vw, 145px); }
+        .record-grid h2 { max-width: 350px; margin: 0; font-family: var(--display); font-size: clamp(3rem, 6vw, 6rem); font-weight: 400; letter-spacing: -.065em; line-height: .87; }
+        .record-list { border-top: 1px solid var(--rule); }
+        .record-subheading { margin: 0; padding: 16px 0 0; color: var(--slate-dark); font-size: .66rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+        .record-item { display: grid; grid-template-columns: 145px minmax(0, 1fr); gap: 25px; padding: 26px 0; border-bottom: 1px solid var(--rule); }
+        .record-date { color: var(--slate-dark); font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+        .record-item h3 { margin: 0; color: var(--ink); font-size: 1rem; font-weight: 800; line-height: 1.3; }
+        .record-item h3 span { color: var(--slate-dark); font-weight: 500; }
+        .record-item p { max-width: 570px; margin: 10px 0 0; color: var(--slate-dark); font-size: .85rem; line-height: 1.75; }
+        .education-block { margin-top: 72px; }
+        .education-block h3 { margin: 0 0 15px; color: var(--slate-dark); font-size: .66rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+        .education-item { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 18px; padding: 16px 0; border-top: 1px solid var(--rule); }
+        .education-item strong { font-size: .82rem; line-height: 1.4; }
+        .education-item span { display: block; margin-top: 4px; color: var(--slate-dark); font-size: .75rem; }
+        .education-year { color: var(--copper); font-size: .7rem; font-weight: 800; }
+
+        .architect-contact { background: var(--copper); color: var(--ink); }
+        .contact-inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(240px, .9fr); gap: 50px; align-items: end; padding: clamp(62px, 8vw, 118px) 0; }
+        .contact-inner h2 { max-width: 800px; margin: 0; font-family: var(--display); font-size: clamp(3.6rem, 8vw, 8rem); font-weight: 400; letter-spacing: -.075em; line-height: .82; }
+        .contact-side { justify-self: end; max-width: 310px; }
+        .contact-side p { margin: 0 0 22px; font-size: .9rem; line-height: 1.7; }
+        .contact-side a { display: inline-flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--ink); padding-bottom: 7px; font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; }
+        .contact-side a::after { content: "↗"; font-size: 1rem; }
+        .architect-footer { display: flex; justify-content: space-between; gap: 22px; padding: 26px 0; background: var(--ink); color: var(--bone); font-size: .68rem; }
+        .architect-footer .architect-wrap { display: flex; justify-content: space-between; gap: 22px; }
+        .architect-footer a { color: var(--bone); text-decoration: none; }
+        .footer-links { display: flex; gap: 20px; }
+
+        @media (max-width: 1100px) {
+            .architect-wrap { width: min(100% - 48px, 1440px); }
+            .architect-hero { gap: 55px; grid-template-columns: minmax(0, 1fr) minmax(300px, .78fr); }
+            .architect-hero-figure { min-height: 500px; }
+            .figure-portrait { width: 68%; }
+        }
+        @media (max-width: 820px) {
+            .architect-wrap { width: min(100% - 40px, 1440px); }
+            .architect-nav { min-height: 72px; }
+            .architect-nav-links { gap: 15px; }
+            .architect-nav-links a { font-size: .61rem; }
+            .architect-hero { display: block; min-height: 0; padding: 68px 0 78px; }
+            .architect-hero-copy { max-width: 760px; }
+            .architect-hero-figure { max-width: 560px; min-height: 450px; margin: 56px 0 0 auto; }
+            .architect-section-heading,
+            .about-grid,
+            .expertise-grid,
+            .record-grid,
+            .contact-inner { grid-template-columns: 1fr; gap: 32px; }
+            .architect-section-heading { margin-bottom: 52px; }
+            .architect-section-heading p { max-width: 500px; }
+            .architect-project,
+            .architect-project:nth-child(even) { grid-template-columns: 1fr; gap: 38px; }
+            .architect-project--feature .project-copy { display: block; }
+            .architect-project:nth-child(even) .project-copy,
+            .architect-project:nth-child(even) .project-visual { order: initial; }
+            .project-visual { min-height: 340px; }
+            .about-portrait { max-width: 330px; }
+            .contact-side { justify-self: start; }
+        }
+        @media (max-width: 520px) {
+            .architect-wrap { width: calc(100vw - 32px); max-width: calc(100vw - 32px); }
+            .architect-nav { align-items: flex-start; flex-direction: column; gap: 13px; padding: 18px 0; }
+            .architect-nav-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: calc(100vw - 32px); min-width: 0; gap: 4px; }
+            .architect-nav-links a { font-size: .5rem; letter-spacing: .055em; }
+            .architect-hero { padding: 58px 0 66px; }
+            .architect-kicker { margin-bottom: 20px; }
+            .architect-hero { width: calc(100vw - 32px); min-width: 0; max-width: calc(100vw - 32px); }
+            .architect-hero-copy, .architect-hero-figure { width: 100%; min-width: 0; max-width: 100%; }
+            .architect-hero h1 { max-width: 100%; width: 100%; font-size: clamp(3rem, 13vw, 4.5rem); overflow-wrap: normal; word-break: normal; }
+            .hero-title-desktop { display: none; }
+            .hero-title-mobile { display: inline; }
+            .architect-hero-intro { width: calc(100vw - 32px); max-width: calc(100vw - 32px); margin-top: 25px; font-size: .93rem; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+            .architect-hero-actions { align-items: flex-start; flex-direction: column; gap: 13px; }
+            .architect-availability { display: block; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+            .architect-hero-figure { min-height: 360px; margin-top: 44px; padding: 24px; }
+            .architect-hero-figure::before { inset: 14px; background-size: 28px 28px; }
+            .figure-axis { top: 66px; bottom: 38px; left: 24px; }
+            .figure-portrait { right: 30px; bottom: 48px; width: 65%; border-width: 5px; }
+            .figure-coordinate { bottom: 18px; left: 24px; font-size: .52rem; }
+            .figure-note { right: 17px; bottom: 25px; width: 80px; font-size: .8rem; }
+            .architect-section { padding: 62px 0; }
+            .architect-section-heading h2,
+            .about-copy h2,
+            .expertise-grid h2,
+            .record-grid h2 { font-size: clamp(3rem, 15vw, 4.8rem); }
+            .architect-section-heading { margin-bottom: 38px; }
+            .project-copy h3 { font-size: clamp(2.5rem, 13vw, 4.5rem); }
+            .architect-project--editorial .project-copy { padding: 20px; }
+            .project-visual { min-height: 290px; padding: 12px; }
+            .mockup { min-height: 260px; box-shadow: 10px 10px 0 rgba(214,167,116,.72); }
+            .mockup-dashboard { grid-template-columns: 72px minmax(0, 1fr); }
+            .dashboard-rail { padding: 15px 10px; }
+            .dashboard-main { padding: 15px; }
+            .dashboard-main h4 { font-size: 1.45rem; }
+            .dashboard-heading { margin-bottom: 11px; }
+            .dashboard-metrics { gap: 5px; margin-top: 14px; }
+            .dashboard-metric { min-height: 45px; padding: 7px; }
+            .dashboard-metric i { margin-top: 8px; }
+            .dashboard-chart { height: 70px; margin-top: 12px; }
+            .mockup-mobile { max-width: 220px; padding: 6px; }
+            .phone-screen { min-height: 246px; padding: 13px; }
+            .phone-screen h4 { margin: 21px 0 14px; font-size: 1.7rem; }
+            .phone-orbit { width: 62px; height: 62px; margin-top: 12px; }
+            .commerce-body { gap: 10px; padding: 14px; }
+            .commerce-product { min-height: 100px; margin-top: 14px; }
+            .commerce-product-meta { margin-top: 7px; }
+            .commerce-side { padding-left: 10px; }
+            .commerce-side::after { margin-top: 36px; }
+            .ai-thread { gap: 8px; padding: 14px; }
+            .ai-message { max-width: 86%; font-size: .6rem; }
+            .ai-command { margin: 0 14px 14px; }
+            .operations-board { gap: 5px; padding: 13px; }
+            .operations-column { min-height: 184px; padding: 7px; }
+            .operation-row { min-height: 42px; padding: 7px; }
+            .visual-stamp { right: 14px; bottom: 12px; }
+            .skill-ledger { grid-template-columns: 1fr; }
+            .skill-item:nth-child(odd), .skill-item:nth-child(even) { margin-right: 0; margin-left: 0; }
+            .skill-item { font-size: 1.55rem; }
+            .impact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .impact-stat:nth-child(2) { border-right: 0; }
+            .impact-stat:nth-child(n+3) { border-top: 1px solid var(--rule); }
+            .impact-stat:nth-child(3) { padding-left: 0; }
+            .impact-stat { min-height: 125px; padding-top: 20px; }
+            .impact-stat strong { font-size: 3rem; }
+            .record-item { grid-template-columns: 1fr; gap: 8px; }
+            .education-item { grid-template-columns: 55px minmax(0, 1fr); }
+            .contact-inner h2 { font-size: clamp(3.4rem, 17vw, 5.5rem); }
+            .architect-footer .architect-wrap { align-items: flex-start; flex-direction: column; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+        }
+    </style>
+</head>
+<body class="architect-page">
+    <header class="architect-wrap architect-nav" id="top">
+        <a class="architect-mark" href="#top">{{ full_name }}</a>
+        <nav class="architect-nav-links" aria-label="Primary navigation">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="architect-wrap architect-hero" aria-labelledby="architect-hero-title">
+            <div class="architect-hero-copy">
+                <p class="architect-kicker">01 / The Architect</p>
+                <h1 id="architect-hero-title"><span class="hero-title-desktop"><span>Systems built</span><span>with <em>clarity.</em></span></span><span class="hero-title-mobile"><span>Systems built</span><span>with <em>clarity.</em></span></span></h1>
+                <p class="architect-hero-intro">{{ bio }}</p>
+                <div class="architect-hero-actions">
+                    {% if email %}<a class="architect-contact-link" href="mailto:{{ email }}">Start a conversation</a>{% endif %}
+                    {% if location %}<span class="architect-availability">Based in {{ location }}</span>{% endif %}
+                </div>
+            </div>
+            <div class="architect-hero-figure" aria-label="Profile portrait and architectural reference composition">
+                <div class="figure-topline"><span>{{ title }}</span><span>Portfolio / 2026</span></div>
+                <span class="figure-axis" aria-hidden="true"></span>
+                <div class="figure-portrait">
+                    {% if profile_image_base64 and not profile_image_is_sample %}<img src="{{ profile_image_base64 }}" alt="Portrait of {{ full_name }}">{% else %}<div class="figure-fallback" aria-hidden="true"><span class="fallback-monogram">{{ full_name|slice:":1" }}</span><span class="fallback-axis"></span><span class="fallback-frame fallback-frame--one"></span><span class="fallback-frame fallback-frame--two"></span><span class="fallback-coordinate">ARCH / 01</span><span class="fallback-label">Structure study</span></div>{% endif %}
+                </div>
+                <span class="figure-coordinate">40° 42' N / 74° 00' W</span>
+                <span class="figure-note">Structure before surface.</span>
+            </div>
+        </section>
+
+        <section class="architect-dark" id="work" aria-labelledby="work-title">
+            <div class="architect-wrap architect-section">
+                <header class="architect-section-heading">
+                    <p class="architect-section-label">02 / Selected work</p>
+                    <div>
+                        <h2 id="work-title">Built for the hard parts.</h2>
+                        <p>Selected systems, products, and platforms shaped from an understanding of both the brief and the people who use it.</p>
+                    </div>
+                </header>
+                {% if projects %}
+                <div class="architect-projects">
+                    {% for project in projects %}
+                    <article class="architect-project{% if forloop.counter == 1 %} architect-project--feature{% elif forloop.counter == 4 %} architect-project--editorial{% elif forloop.counter == 5 %} architect-project--wide{% endif %}">
+                        <div class="project-copy">
+                            <span class="project-number">0{{ forloop.counter }} / Case study</span>
+                            <h3>{{ project.title }}</h3>
+                            {% if project.description %}<p>{{ project.description }}</p>{% endif %}
+                            {% if project.tech_stack or project.technologies %}<div class="project-meta"><span>{% if project.tech_stack %}{{ project.tech_stack }}{% elif project.technologies %}{{ project.technologies }}{% endif %}</span></div>{% endif %}
+                            <div class="project-actions">
+                                {% if project.live_link %}<a class="architect-link" href="{{ project.live_link }}" target="_blank" rel="noopener noreferrer">View project</a>{% elif project.project_url %}<a class="architect-link" href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer">View project</a>{% endif %}
+                                {% if project.github_link %}<a class="architect-link" href="{{ project.github_link }}" target="_blank" rel="noopener noreferrer">Source</a>{% endif %}
+                            </div>
+                        </div>
+                        {% if forloop.counter == 1 %}
+                        <div class="project-visual project-visual--dashboard" aria-label="Dashboard interface study for {{ project.title }}">
+                            <div class="mockup mockup-dashboard">
+                                <div class="mockup-label"><span>System study / 01</span><strong>Dashboard</strong></div>
+                                <div class="dashboard-rail" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+                                <div class="dashboard-main"><div class="dashboard-heading"><span>Overview</span><b>↗</b></div><h4>{{ project.title|slice:":28" }}</h4><div class="dashboard-metrics"><div class="dashboard-metric"><span>Signal</span><i></i></div><div class="dashboard-metric"><span>Flow</span><i></i></div><div class="dashboard-metric"><span>Reach</span><i></i></div></div><div class="dashboard-chart" aria-hidden="true"></div><div class="dashboard-activity"><span>Activity</span><b>View all</b></div></div>
+                            </div>
+                            <span class="visual-stamp">01 / Observe</span>
+                        </div>
+                        {% elif forloop.counter == 2 %}
+                        <div class="project-visual project-visual--mobile" aria-label="Mobile product interface study for {{ project.title }}">
+                            <div class="mockup-mobile">
+                                <div class="phone-screen"><div class="phone-status"><span>Product / 02</span><span>09:41</span></div><h4>{{ project.title|slice:":22" }}</h4><div class="phone-card"><span>Today’s signal</span><strong>In focus</strong></div><div class="phone-orbit" aria-hidden="true"></div><div class="phone-list"><span>Next handoff</span><i></i><span>Saved for later</span><i></i></div><div class="phone-nav"><span>Home</span><span>Library</span><span>Profile</span></div></div>
+                            </div>
+                            <span class="visual-stamp">02 / Carry</span>
+                        </div>
+                        {% elif forloop.counter == 3 %}
+                        <div class="project-visual project-visual--commerce" aria-label="E-commerce interface study for {{ project.title }}">
+                            <div class="mockup mockup-commerce">
+                                <div class="mockup-label"><span>System study / 03</span><strong>Commerce</strong></div>
+                                <div class="commerce-body"><div><span class="commerce-breadcrumb">Collection / Featured</span><h4>{{ project.title|slice:":25" }}</h4><div class="commerce-product" aria-hidden="true"><span>Object / 01</span></div><div class="commerce-product-meta"><span>View object</span><b>↗</b></div></div><div class="commerce-side" aria-hidden="true"><span></span><span></span><span></span><span></span><b>Cart / 0</b></div></div>
+                            </div>
+                            <span class="visual-stamp">03 / Select</span>
+                        </div>
+                        {% elif forloop.counter == 4 %}
+                        <div class="project-visual project-visual--ai" aria-label="AI interface study for {{ project.title }}">
+                            <div class="mockup mockup-ai">
+                                <div class="mockup-label"><span>System study / 04</span><strong>AI interface</strong></div>
+                                <div class="ai-thread"><div class="ai-thread-heading"><span>Thread / New session</span><b>•••</b></div><div class="ai-message"><b>ASSISTANT</b>Map the next decision clearly.</div><div class="ai-message ai-message--user"><b>YOU</b>A concise answer, with the reasoning visible.</div><div class="ai-message"><b>ASSISTANT</b>Context arranged around the work.</div></div>
+                                <div class="ai-command">Ask the system ↗</div>
+                            </div>
+                            <span class="visual-stamp">04 / Assist</span>
+                        </div>
+                        {% else %}
+                        <div class="project-visual project-visual--operations" aria-label="Operations platform study for {{ project.title }}">
+                            <div class="mockup mockup-operations">
+                                <div class="mockup-label"><span>System study / 0{{ forloop.counter }}</span><strong>Operations</strong></div>
+                                <div class="operations-board"><div class="operations-column"><span>Queued <b>02</b></span><div class="operation-row"><b>Review brief</b><small>Product / Today</small></div><div class="operation-row"><b>Trace signal</b><small>Research / Later</small></div></div><div class="operations-column"><span>In motion <b>02</b></span><div class="operation-row"><b>Shape system</b><small>Design / Active</small></div><div class="operation-row"><b>Test pathway</b><small>Quality / Active</small></div></div><div class="operations-column"><span>Resolved <b>01</b></span><div class="operation-row"><b>Ship clearly</b><small>Release / Done</small></div></div></div>
+                            </div>
+                            <span class="visual-stamp">0{{ forloop.counter }} / Resolve</span>
+                        </div>
+                        {% endif %}
+                    </article>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>No selected work has been added yet.</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="architect-light" id="about" aria-labelledby="about-title">
+            <div class="architect-wrap architect-section about-grid">
+                <figure class="about-portrait">
+                    {% if profile_image_base64 and not profile_image_is_sample %}<img src="{{ profile_image_base64 }}" alt="Portrait of {{ full_name }}">{% else %}<div class="about-fallback" aria-hidden="true"><span>{{ full_name|slice:":1" }}</span><i></i><b>INDEX / 03</b></div>{% endif %}
+                    <figcaption>03 / Personal index</figcaption>
+                </figure>
+                <div class="about-copy">
+                    <p class="architect-section-label">About the practice</p>
+                    <h2 id="about-title">Make the complex feel inevitable.</h2>
+                    {% if bio %}<p>{{ bio }}</p>{% endif %}
+                    <div class="about-details">
+                        {% if title %}<div class="about-detail"><span>Current focus</span><strong>{{ title }}</strong></div>{% endif %}
+                        {% if location %}<div class="about-detail"><span>Working from</span><strong>{{ location }}</strong></div>{% endif %}
+                        {% if email %}<div class="about-detail"><span>Email</span><strong>{{ email }}</strong></div>{% endif %}
+                        {% if portfolio_website %}<div class="about-detail"><span>Web</span><strong>{{ portfolio_website }}</strong></div>{% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {% if skills %}
+        <section class="architect-dark" id="expertise" aria-labelledby="expertise-title">
+            <div class="architect-wrap architect-section expertise-grid">
+                <div>
+                    <p class="architect-section-label">04 / Expertise</p>
+                    <h2 id="expertise-title">A technical practice with edges.</h2>
+                    <p class="expertise-intro">The tools and disciplines brought together to move from uncertain problems to dependable systems.</p>
+                </div>
+                <div class="skill-ledger">
+                    {% for skill in skills %}<div class="skill-item"><span class="skill-index">0{{ forloop.counter }}</span><span>{{ skill }}</span></div>{% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if stats %}
+        <section class="architect-light impact-section" aria-labelledby="impact-title">
+            <div class="architect-wrap">
+                <div class="architect-section-heading" style="margin-bottom:42px; padding-top:72px;">
+                    <p class="architect-section-label">05 / Impact</p>
+                    <div><h2 id="impact-title">Evidence, not volume.</h2></div>
+                </div>
+                <div class="impact-grid">
+                    {% for stat in stats %}{% if stat.value and stat.label %}<div class="impact-stat"><strong>{{ stat.value }}</strong><span>{{ stat.label }}</span></div>{% endif %}{% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if experience or education %}
+        <section class="architect-light" id="record" aria-labelledby="record-title">
+            <div class="architect-wrap architect-section record-grid">
+                <div>
+                    <p class="architect-section-label">06 / The record</p>
+                    <h2 id="record-title">Work that compounds.</h2>
+                </div>
+                <div>
+                    {% if experience %}<div class="record-list"><h3 class="record-subheading">Experience</h3>{% for exp in experience %}<article class="record-item"><time class="record-date">{{ exp.duration|default:exp.start_date }}</time><div><h3>{{ exp.role|default:exp.title }}{% if exp.company %} <span> / {{ exp.company }}</span>{% endif %}</h3>{% if exp.description %}<p>{{ exp.description }}</p>{% endif %}</div></article>{% endfor %}</div>{% endif %}
+                    {% if education %}<div class="education-block"><h3>Education / qualifications</h3>{% for edu in education %}<div class="education-item"><span class="education-year">{{ edu.year|default:edu.end_date }}</span><div><strong>{{ edu.degree }}</strong><span>{{ edu.school|default:edu.institution }}{% if edu.field %} / {{ edu.field }}{% endif %}</span></div></div>{% endfor %}</div>{% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <section class="architect-contact" id="contact" aria-labelledby="contact-title">
+            <div class="architect-wrap contact-inner">
+                <div><p class="architect-section-label">07 / Contact</p><h2 id="contact-title">Have a system worth building?</h2></div>
+                <div class="contact-side">
+                    <p>For thoughtful products, difficult systems, and teams looking for a clear technical partner.</p>
+                    {% if email %}<a href="mailto:{{ email }}">{{ email }}</a>{% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="architect-footer">
+        <div class="architect-wrap">
+            <span>© {% now "Y" %} {{ full_name }} / The Architect</span>
+            <div class="footer-links">
+                {% if linkedin %}<a href="{{ linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>{% endif %}
+                {% if github %}<a href="{{ github }}" target="_blank" rel="noopener noreferrer">GitHub</a>{% endif %}
+                <a href="#top">Back to top ↑</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

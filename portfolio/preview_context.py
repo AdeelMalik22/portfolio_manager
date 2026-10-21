@@ -218,7 +218,17 @@ SAMPLE_PROFILE = {
 }
 
 
-def _portfolio_context(template, profile, image_data_uri, skills, stats, projects, experience, education):
+def _portfolio_context(
+    template,
+    profile,
+    image_data_uri,
+    skills,
+    stats,
+    projects,
+    experience,
+    education,
+    profile_image_is_sample=False,
+):
     """Create the aliases used across the independent template families."""
     portfolio = SimpleNamespace(
         **profile,
@@ -242,6 +252,7 @@ def _portfolio_context(template, profile, image_data_uri, skills, stats, project
         "profile_image": image_data_uri,
         "profile_image_url": image_data_uri,
         "profile_image_base64": image_data_uri,
+        "profile_image_is_sample": profile_image_is_sample,
         "skills": skills,
         "stats": stats,
         "projects": projects,
@@ -262,6 +273,7 @@ def build_sample_preview_context(template, profile_image_base64=None):
         projects=deepcopy(SAMPLE_PROJECTS),
         experience=deepcopy(SAMPLE_EXPERIENCE),
         education=deepcopy(SAMPLE_EDUCATION),
+        profile_image_is_sample=not bool(profile_image_base64),
     )
 
 
@@ -430,4 +442,5 @@ def build_draft_preview_context(template, payload, image_file=None):
         projects=projects,
         experience=experience,
         education=education,
+        profile_image_is_sample=False,
     )

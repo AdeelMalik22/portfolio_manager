@@ -35,6 +35,7 @@ class PortfolioRenderer:
 
     def get_context_data(self):
         """Build context data for template rendering"""
+        profile_image_base64 = self.encode_image_to_base64()
         context = {
             'portfolio': self.portfolio,
             'full_name': self.portfolio.full_name,
@@ -52,7 +53,8 @@ class PortfolioRenderer:
             'projects': self.portfolio.projects,
             'experience': self.portfolio.experience,
             'education': self.portfolio.education,
-            'profile_image_base64': self.encode_image_to_base64(),
+            'profile_image_base64': profile_image_base64,
+            'profile_image_is_sample': False,
             'template_color': self.portfolio.template.color_scheme,
         }
         return context
@@ -105,6 +107,7 @@ class PublicPortfolioRenderer:
 
     def get_context_data(self):
         """Build context data for template rendering"""
+        profile_image_base64 = self.encode_image_to_base64()
         context = {
             'portfolio': self.portfolio,
             'full_name': self.portfolio.full_name,
@@ -122,7 +125,8 @@ class PublicPortfolioRenderer:
             'projects': self.portfolio.projects,
             'experience': self.portfolio.experience,
             'education': self.portfolio.education,
-            'profile_image_base64': self.encode_image_to_base64(),
+            'profile_image_base64': profile_image_base64,
+            'profile_image_is_sample': False,
             'template_color': self.portfolio.template.color_scheme,
         }
         return context
