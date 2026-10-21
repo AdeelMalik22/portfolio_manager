@@ -1,0 +1,93 @@
+{% extends "portfolio_templates/_portfolio_base.html" %}
+
+{% block title %}{{ full_name }} — Boardroom Blue Portfolio{% endblock %}
+{% block font %}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">{% endblock %}
+{% block body_class %}template-boardroom-blue layout-boardroom{% endblock %}
+{% block eyebrow %}Strategy · technology · growth{% endblock %}
+{% block portrait_label %}Open to new{% endblock %}
+{% block portrait_value %}advisory roles{% endblock %}
+{% block about_heading %}Practical thinking for ambitious teams.{% endblock %}
+{% block skills_heading %}Services &amp; expertise.{% endblock %}
+{% block projects_heading %}Featured engagements.{% endblock %}
+{% block experience_heading %}Experience highlights.{% endblock %}
+{% block education_heading %}The foundations behind the work.{% endblock %}
+{% block contact_heading %}Ready to build something useful?{% endblock %}
+{% block contact_copy %}I partner with teams at the intersection of business, technology, and product to turn good intentions into measurable progress.{% endblock %}
+{% block footer_mark %}BOARDROOM — blue brief{% endblock %}
+
+{% block theme %}
+<style>
+    :root {
+        --page: #f5f8fc;
+        --surface: #ffffff;
+        --surface-alt: #edf3f9;
+        --ink: #14243a;
+        --muted: #5d6d80;
+        --line: rgba(20, 36, 58, .16);
+        --brand: #1b5fd1;
+        --brand-strong: #12459f;
+        --accent: #c9ddf8;
+        --accent-ink: #16458f;
+        --display: "Libre Baskerville", Georgia, serif;
+        --body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --mono: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --radius: 8px;
+        --shadow: 0 18px 45px rgba(20, 36, 58, .08);
+        --page-width: 1220px;
+    }
+
+    body.template-boardroom-blue { background: #f5f8fc; }
+    body.template-boardroom-blue::before { background: linear-gradient(180deg, #fff 0, var(--page) 48rem); }
+    body.template-boardroom-blue::after { top: -24rem; right: -20rem; background: radial-gradient(circle, rgba(201, 221, 248, .82), transparent 68%); }
+
+    .template-boardroom-blue .portfolio-nav { border-radius: 8px; background: rgba(255, 255, 255, .9); box-shadow: 0 6px 18px rgba(20, 36, 58, .05); }
+    .template-boardroom-blue .brand { font-family: var(--display); font-size: 1.05rem; }
+    .template-boardroom-blue .brand-mark { border-radius: 5px; background: var(--ink); }
+    .template-boardroom-blue .nav-links a { font-size: .72rem; text-transform: uppercase; }
+    .template-boardroom-blue .hero { min-height: 550px; border-radius: 8px; background: rgba(255, 255, 255, .94); }
+    .template-boardroom-blue .hero::before { width: 53%; background: linear-gradient(145deg, rgba(201, 221, 248, .82), transparent 68%); }
+    .template-boardroom-blue .hero h1 { font-size: clamp(3.4rem, 7vw, 6.8rem); font-weight: 700; letter-spacing: -.075em; }
+    .template-boardroom-blue .hero-role { color: var(--accent-ink); font-family: var(--display); font-size: clamp(1rem, 2vw, 1.35rem); }
+    .template-boardroom-blue .eyebrow,
+    .template-boardroom-blue .section-kicker { color: var(--brand); }
+    .template-boardroom-blue .button { border-radius: 6px; background: transparent; }
+    .template-boardroom-blue .button-primary { background: var(--brand); }
+    .template-boardroom-blue .button:hover,
+    .template-boardroom-blue .button:focus-visible { background: var(--brand-strong); color: #fff; transform: translateY(-1px); }
+    .template-boardroom-blue .portrait-frame::before { border-radius: 8px; background: var(--accent); transform: translate(9%, -8%); }
+    .template-boardroom-blue .portrait-frame::after { border-radius: 8px; border-style: solid; border-color: var(--brand); transform: translate(-12%, 13%); }
+    .template-boardroom-blue .portrait-image,
+    .template-boardroom-blue .portrait-monogram { border-radius: 8px; border-color: #fff; box-shadow: 0 20px 38px rgba(20, 36, 58, .18); }
+    .template-boardroom-blue .portrait-note { border-radius: 6px; background: #fff; }
+
+    .template-boardroom-blue .stats-strip { margin-top: -18px; }
+    .template-boardroom-blue .stat-item { border-color: rgba(27, 95, 209, .18); background: #fff; border-radius: 8px; }
+    .template-boardroom-blue .stat-item strong { color: var(--brand); }
+    .template-boardroom-blue .section { border-radius: 8px; background: rgba(255, 255, 255, .92); }
+    .template-boardroom-blue .section-heading { border-right: 1px solid var(--line); }
+    .template-boardroom-blue .section-heading h2 { font-family: var(--display); font-size: clamp(1.45rem, 2.5vw, 2.25rem); font-weight: 700; }
+    .template-boardroom-blue .section-number { color: var(--brand); }
+    .template-boardroom-blue .contact-facts a,
+    .template-boardroom-blue .contact-facts span { border-radius: 6px; background: var(--surface-alt); }
+    .template-boardroom-blue .skill { border-radius: 6px; background: var(--surface-alt); }
+    .template-boardroom-blue .project-card,
+    .template-boardroom-blue .timeline-item { border-radius: 8px; border-color: var(--line); background: var(--surface-alt); }
+    .template-boardroom-blue .project-card:hover { border-color: var(--brand); box-shadow: 0 12px 28px rgba(27, 95, 209, .1); }
+    .template-boardroom-blue .project-rule { background: var(--brand); }
+    .template-boardroom-blue .project-tech,
+    .template-boardroom-blue .timeline-date { color: var(--brand); }
+    .template-boardroom-blue .timeline-item::before { background: var(--brand); }
+    .template-boardroom-blue .contact-section { border-radius: 8px; background: var(--ink); }
+    .template-boardroom-blue .contact-section h2 { color: #fff; font-family: var(--display); }
+    .template-boardroom-blue .contact-section p { color: #bdcbe0; }
+    .template-boardroom-blue .contact-section .button { border-color: #8eb8f0; color: #fff; }
+    .template-boardroom-blue .contact-section .button-primary { border-color: #fff; background: #fff; color: var(--ink); }
+    .template-boardroom-blue .social-link { border-radius: 6px; }
+    .template-boardroom-blue .footer-mark { color: var(--brand); }
+
+    @media (max-width: 760px) {
+        .template-boardroom-blue .section-heading { padding-right: 0; border-right: 0; }
+        .template-boardroom-blue .hero { border-radius: 6px; }
+    }
+</style>
+{% endblock %}
