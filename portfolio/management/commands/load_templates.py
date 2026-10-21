@@ -331,6 +331,15 @@ class Command(BaseCommand):
                 'template_file': 'portfolio_templates/template_brutalist_index.html',
                 'order': 35,
             },
+            {
+                'name': 'Field Manual',
+                'slug': 'field-manual',
+                'description': 'A paper-and-forest working dossier with archive-style projects, field notes, and a practical career record.',
+                'category': 'creative',
+                'color_scheme': 'paper-forest-orange',
+                'template_file': 'portfolio_templates/template_field_manual.html',
+                'order': 36,
+            },
         ]
 
         # Deactivate old deprecated templates (don't delete - they may be referenced by portfolios)
@@ -406,5 +415,5 @@ class Command(BaseCommand):
                     )
 
         self.stdout.write(
-            self.style.SUCCESS('\n✅ Successfully loaded all 36 professional portfolio templates!')
+            self.style.SUCCESS('\n✅ Successfully loaded all 37 professional portfolio templates!')
         )

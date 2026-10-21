@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ full_name }} — {{ title }} portfolio">
+    <title>{{ full_name }} — Field Manual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Libre+Franklin:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #e8e5da;
+            --paper-light: #f2f0e8;
+            --ink: #1d2b25;
+            --forest: #28483b;
+            --orange: #d96e45;
+            --muted: #6d736b;
+            --rule: rgba(29, 43, 37, .26);
+            --serif: "Newsreader", Georgia, serif;
+            --sans: "Libre Franklin", Inter, ui-sans-serif, system-ui, sans-serif;
+            --mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
+            --page-width: 1260px;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { min-width: 320px; margin: 0; overflow-x: hidden; color: var(--ink); background: var(--paper); font: 15px/1.65 var(--sans); }
+        a { color: inherit; }
+        img { display: block; max-width: 100%; }
+        .manual { width: min(var(--page-width), calc(100% - 56px)); margin: 0 auto; }
+        .topline { display: flex; align-items: center; justify-content: space-between; min-height: 67px; border-bottom: 1px solid var(--ink); color: var(--muted); font: .63rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+        .topline a { text-decoration: none; }
+        .topline a:hover, .topline a:focus-visible { color: var(--orange); }
+        .topline strong { color: var(--ink); font-weight: 500; }
+        .cover { display: grid; grid-template-columns: 84px minmax(0, 1fr) minmax(250px, .6fr); min-height: 670px; border-bottom: 1px solid var(--ink); }
+        .cover-rail { display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 32px 0; border-right: 1px solid var(--rule); writing-mode: vertical-rl; transform: rotate(180deg); color: var(--muted); font: .62rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+        .cover-rail strong { color: var(--orange); font-weight: 500; }
+        .cover-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(65px, 9vw, 130px) clamp(35px, 7vw, 100px); }
+        .label { margin: 0 0 18px; color: var(--orange); font: .64rem var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+        .cover h1 { max-width: 760px; margin: 0; font-family: var(--serif); font-size: clamp(4.5rem, 10vw, 10.5rem); font-weight: 400; letter-spacing: -.09em; line-height: .78; }
+        .cover h1 em { color: var(--orange); font-style: italic; }
+        .cover-role { max-width: 450px; margin: 32px 0 0; color: var(--forest); font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 600; letter-spacing: -.035em; line-height: 1.25; }
+        .cover-bio { max-width: 510px; margin: 15px 0 0; color: var(--muted); font-size: 1rem; }
+        .cover-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 27px; }
+        .cover-actions a { padding: 10px 14px; border: 1px solid var(--ink); font: .63rem var(--mono); letter-spacing: .04em; text-decoration: none; text-transform: uppercase; transition: background .2s ease, color .2s ease; }
+        .cover-actions a:first-child { background: var(--forest); color: var(--paper-light); }
+        .cover-actions a:hover, .cover-actions a:focus-visible { background: var(--orange); color: #fff; }
+        .cover-portrait { position: relative; display: grid; min-height: 440px; place-items: center; align-self: end; margin: 0 0 48px; background: var(--forest); }
+        .cover-portrait::before { position: absolute; inset: 17px; border: 1px solid rgba(242, 240, 232, .55); content: ""; }
+        .cover-portrait::after { position: absolute; top: 50%; right: -1px; width: 42%; height: 1px; background: var(--orange); content: ""; }
+        .cover-portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .84; }
+        .portrait-initials { position: relative; color: var(--paper-light); font: clamp(6rem, 12vw, 10rem) var(--serif); letter-spacing: -.15em; line-height: .8; }
+        .portrait-note { position: absolute; right: 24px; bottom: 22px; color: var(--paper-light); font: .59rem/1.45 var(--mono); text-align: right; text-transform: uppercase; }
+        .index-strip { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 2px solid var(--ink); }
+        .index-strip a { min-height: 82px; padding: 18px 17px 15px 0; border-right: 1px solid var(--rule); text-decoration: none; }
+        .index-strip a + a { padding-left: 17px; }
+        .index-strip a:last-child { border-right: 0; }
+        .index-strip span { display: block; color: var(--orange); font: .6rem var(--mono); }
+        .index-strip strong { display: block; margin-top: 9px; font-size: .85rem; font-weight: 600; }
+        .section { padding: clamp(70px, 9vw, 125px) 0; border-bottom: 1px solid var(--ink); }
+        .section-heading { display: grid; grid-template-columns: .55fr 1fr; gap: 32px; align-items: end; margin-bottom: 30px; }
+        .section-heading h2 { max-width: 680px; margin: 0; font-family: var(--serif); font-size: clamp(3rem, 6.5vw, 7rem); font-weight: 400; letter-spacing: -.09em; line-height: .8; }
+        .section-intro { max-width: 430px; margin: 0 0 4px; color: var(--muted); }
+        .manifesto { display: grid; grid-template-columns: .55fr 1fr; gap: 32px; }
+        .manifesto blockquote { max-width: 850px; margin: 0; font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 5.7rem); letter-spacing: -.08em; line-height: .9; }
+        .manifesto blockquote::before { color: var(--orange); content: "“"; }
+        .manifesto-side { max-width: 400px; margin-left: auto; color: var(--muted); }
+        .manifesto-side p { margin: 0 0 22px; }
+        .manual-list { border-top: 2px solid var(--ink); }
+        .entry { display: grid; grid-template-columns: 70px minmax(200px, .75fr) minmax(250px, 1fr) 125px; gap: 20px; align-items: start; padding: 24px 0; border-bottom: 1px solid var(--rule); transition: padding .22s ease, background .22s ease; }
+        .entry:hover { padding-right: 12px; padding-left: 12px; background: var(--paper-light); }
+        .entry-number { color: var(--orange); font: .66rem var(--mono); }
+        .entry h3 { margin: 0; font-family: var(--serif); font-size: clamp(1.65rem, 3vw, 3rem); font-weight: 500; letter-spacing: -.06em; line-height: .9; }
+        .entry-copy { margin: 0; color: var(--muted); font-size: .9rem; }
+        .entry-meta { color: var(--forest); font: .6rem/1.6 var(--mono); text-transform: uppercase; }
+        .entry-links { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; font: .61rem var(--mono); text-transform: uppercase; }
+        .entry-links a { text-underline-offset: 4px; }
+        .entry-links a:hover, .entry-links a:focus-visible { color: var(--orange); }
+        .entry-art { grid-column: 2 / -1; position: relative; min-height: 205px; overflow: hidden; background: var(--paper-light); }
+        .entry-art img { width: 100%; height: 100%; min-height: 205px; object-fit: cover; }
+        .art-type { display: flex; align-items: flex-end; justify-content: space-between; min-height: 205px; padding: 22px; background: var(--forest); color: var(--paper-light); }
+        .art-type::before { position: absolute; top: 28px; left: 28px; width: 72px; height: 72px; border: 1px solid var(--orange); border-radius: 50%; content: ""; }
+        .art-type::after { position: absolute; right: 0; bottom: 0; width: 35%; height: 60%; background: var(--orange); clip-path: polygon(100% 0, 100% 100%, 0 100%); content: ""; }
+        .art-type strong { position: relative; z-index: 1; max-width: 58%; font-family: var(--serif); font-size: clamp(2rem, 5vw, 5rem); font-weight: 400; letter-spacing: -.08em; line-height: .8; }
+        .art-type small { position: relative; z-index: 1; align-self: flex-start; color: var(--paper-light); font: .59rem var(--mono); text-transform: uppercase; }
+        .entry-empty { grid-column: 1 / -1; padding: 29px 0; color: var(--muted); }
+        .entry-empty strong { display: block; color: var(--ink); font-family: var(--serif); font-size: 1.6rem; font-weight: 400; }
+        .entry-empty span { font: .6rem var(--mono); text-transform: uppercase; }
+        .skills-layout { display: grid; grid-template-columns: .55fr 1fr; gap: 32px; }
+        .skills-layout h2 { max-width: 390px; margin: 0; font-family: var(--serif); font-size: clamp(3rem, 6vw, 6.6rem); font-weight: 400; letter-spacing: -.09em; line-height: .8; }
+        .skill-notes { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--ink); }
+        .skill-note { padding: 16px 12px 16px 0; border-bottom: 1px solid var(--rule); font-size: .92rem; }
+        .skill-note:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--rule); }
+        .skill-note::before { margin-right: 8px; color: var(--orange); content: "+"; font-family: var(--mono); }
+        .career-layout { display: grid; grid-template-columns: .55fr 1fr; gap: 32px; }
+        .career-layout h2 { max-width: 390px; margin: 0; font-family: var(--serif); font-size: clamp(3rem, 6vw, 6.6rem); font-weight: 400; letter-spacing: -.09em; line-height: .8; }
+        .record-group + .record-group { margin-top: 56px; }
+        .record-label { margin: 0 0 11px; color: var(--orange); font: .62rem var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+        .record { display: grid; grid-template-columns: 140px 1fr; gap: 25px; padding: 15px 0; border-top: 1px solid var(--rule); }
+        .record-time { color: var(--muted); font: .61rem/1.55 var(--mono); text-transform: uppercase; }
+        .record h3 { margin: 0; font-family: var(--serif); font-size: 1.45rem; font-weight: 500; letter-spacing: -.05em; line-height: 1; }
+        .record p { max-width: 560px; margin: 6px 0 0; color: var(--muted); font-size: .87rem; }
+        .contact { display: grid; grid-template-columns: .55fr 1fr; gap: 32px; padding: clamp(75px, 10vw, 140px) 0 105px; }
+        .contact h2 { max-width: 500px; margin: 0; font-family: var(--serif); font-size: clamp(3.4rem, 8vw, 9rem); font-weight: 400; letter-spacing: -.1em; line-height: .77; }
+        .contact-copy { max-width: 500px; margin-left: auto; color: var(--muted); }
+        .contact-copy p { margin: 0 0 26px; font-size: 1rem; }
+        .contact-email { color: var(--forest); font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.5rem); letter-spacing: -.06em; text-underline-offset: 6px; }
+        .contact-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 25px; font: .61rem var(--mono); text-transform: uppercase; }
+        .contact-links a:hover, .contact-links a:focus-visible { color: var(--orange); }
+        .footer { display: flex; justify-content: space-between; gap: 20px; padding: 20px 0 28px; border-top: 2px solid var(--ink); color: var(--muted); font: .6rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+        .footer strong { color: var(--orange); font-weight: 500; }
+        @media (max-width: 900px) {
+            .cover { grid-template-columns: 60px 1fr; }
+            .cover-portrait { grid-column: 2; grid-row: 1; min-height: 310px; margin: 30px 0 0; }
+            .cover-copy { grid-column: 2; grid-row: 2; padding: 65px 0 80px; }
+            .entry { grid-template-columns: 55px 1fr 125px; }
+            .entry-copy { grid-column: 2 / -1; }
+            .entry-art { grid-column: 2 / -1; }
+            .section-heading, .manifesto, .skills-layout, .career-layout, .contact { grid-template-columns: 1fr; gap: 28px; }
+            .manifesto-side, .contact-copy { margin-left: 0; }
+        }
+        @media (max-width: 580px) {
+            .manual { width: min(100% - 30px, var(--page-width)); }
+            .topline { min-height: 59px; font-size: .55rem; }
+            .topline span:last-child { display: none; }
+            .cover { grid-template-columns: 38px 1fr; min-height: 0; }
+            .cover-rail { padding: 22px 0; font-size: .53rem; }
+            .cover-portrait { min-height: 260px; margin-top: 20px; }
+            .cover-copy { padding: 55px 0 60px; }
+            .cover h1 { font-size: clamp(4.2rem, 20vw, 7rem); }
+            .cover-portrait::before { inset: 12px; }
+            .index-strip { grid-template-columns: repeat(2, 1fr); }
+            .index-strip a { min-height: 74px; padding: 14px 10px 13px 0; }
+            .index-strip a + a { padding-left: 10px; }
+            .index-strip a:nth-child(2) { border-right: 0; }
+            .index-strip a:nth-child(n+3) { border-top: 1px solid var(--rule); }
+            .section { padding: 64px 0; }
+            .section-heading h2, .skills-layout h2, .career-layout h2 { font-size: clamp(3.5rem, 17vw, 6rem); }
+            .entry { grid-template-columns: 42px 1fr; gap: 12px; padding: 21px 0; }
+            .entry-links { grid-column: 2; align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+            .entry-copy, .entry-art { grid-column: 2; }
+            .entry-art, .art-type { min-height: 175px; }
+            .entry-art img { min-height: 175px; }
+            .art-type strong { font-size: 2.7rem; }
+            .skill-notes { grid-template-columns: 1fr; }
+            .skill-note:nth-child(even) { padding-left: 0; border-left: 0; }
+            .record { grid-template-columns: 1fr; gap: 5px; }
+            .footer { flex-direction: column; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+        }
+    </style>
+</head>
+<body class="template-field-manual">
+    <div class="manual">
+        <header class="topline"><a href="#top"><strong>{{ full_name }}</strong> / Field Manual</a><span>Personal working dossier / 01</span>{% if email %}<a href="mailto:{{ email }}">Contact ↗</a>{% endif %}</header>
+
+        <main id="top">
+            <section class="cover">
+                <aside class="cover-rail"><strong>Field notes</strong><span>{{ location|default:"Independent practice" }}</span><span>01 — 2026</span></aside>
+                <div class="cover-copy"><p class="label">A record of useful work</p><h1>{{ full_name|slice:":1" }}<br><em>{{ full_name }}</em></h1><p class="cover-role">{{ title }}</p><p class="cover-bio">{{ bio }}</p><div class="cover-actions">{% if email %}<a href="mailto:{{ email }}">Start a conversation ↗</a>{% endif %}{% if portfolio_website %}<a href="{{ portfolio_website }}" target="_blank" rel="noopener noreferrer">Visit site ↗</a>{% endif %}</div></div>
+                <figure class="cover-portrait">{% if profile_image_base64 %}<img src="{{ profile_image_base64 }}" alt="Portrait of {{ full_name }}">{% else %}<span class="portrait-initials" aria-hidden="true">{{ full_name|slice:":2"|upper }}</span>{% endif %}<figcaption class="portrait-note">Observe closely.<br>Build deliberately.</figcaption></figure>
+            </section>
+
+            <nav class="index-strip" aria-label="Portfolio sections"><a href="#work"><span>01</span><strong>Selected work</strong></a><a href="#approach"><span>02</span><strong>Approach</strong></a><a href="#record"><span>03</span><strong>Experience</strong></a><a href="#contact"><span>04</span><strong>Contact</strong></a></nav>
+
+            <section id="work" class="section"><div class="section-heading"><div><p class="label">01 / Archive</p><h2>Work worth keeping notes on.</h2></div><p class="section-intro">A small field record of products, systems, and collaborations. Each entry keeps the problem and the practical outcome in view.</p></div><div class="manual-list">{% if projects %}{% for project in projects %}<article class="entry"><div class="entry-number">{% if forloop.counter < 10 %}0{% endif %}{{ forloop.counter }}</div><h3>{{ project.title }}</h3><div class="entry-copy">{% if project.description %}{{ project.description }}{% else %}A project record without a description yet.{% endif %}<div class="entry-meta">{{ project.tech_stack|default:project.technologies|default:"Project record" }}</div></div><div class="entry-links">{% if project.live_link %}<a href="{{ project.live_link }}" target="_blank" rel="noopener noreferrer">Live ↗</a>{% endif %}{% if project.project_url and not project.live_link %}<a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer">Project ↗</a>{% endif %}{% if project.github_link %}<a href="{{ project.github_link }}" target="_blank" rel="noopener noreferrer">Source ↗</a>{% endif %}</div>{% if project.image_url %}<div class="entry-art"><img src="{{ project.image_url }}" alt="{{ project.title }} project image"></div>{% elif project.image %}<div class="entry-art"><img src="{{ project.image }}" alt="{{ project.title }} project image"></div>{% else %}<div class="entry-art art-type"><small>Field note {{ forloop.counter|stringformat:'02d' }}</small><strong>{{ project.title }}</strong></div>{% endif %}</article>{% endfor %}{% else %}<div class="entry-empty"><strong>No selected work has been added yet.</strong><span>Project records will appear here.</span></div>{% endif %}</div></section>
+
+            <section id="approach" class="section"><div class="section-heading"><div><p class="label">02 / Approach</p><h2>Pay attention to the real problem.</h2></div><p class="section-intro">Good work starts with a close reading of the situation: the people, constraints, incentives, and small details that make a solution hold up.</p></div><div class="manifesto"><blockquote>{{ bio }}</blockquote><div class="manifesto-side"><p>The practice is deliberately cross-functional: strategy where it clarifies, design where it helps people move, and engineering where the idea needs to become dependable.</p>{% if location %}<p class="entry-meta">Working from {{ location }}{% if phone %}<br>{{ phone }}{% endif %}</p>{% endif %}</div></div>{% if skills %}<div class="skill-notes">{% for skill in skills %}<span class="skill-note">{{ skill }}</span>{% endfor %}</div>{% endif %}</section>
+
+            <section id="record" class="section"><div class="section-heading"><div><p class="label">03 / Record</p><h2>The work in context.</h2></div><p class="section-intro">A timeline of roles, places, and the learning that came with them.</p></div><div class="career-layout"><div><p class="entry-meta">Career files / chronological</p></div><div>{% if experience %}<div class="record-group"><p class="record-label">Experience</p>{% for exp in experience %}<article class="record"><time class="record-time">{{ exp.duration|default:exp.start_date }}</time><div><h3>{{ exp.role|default:exp.title }}{% if exp.company %} / {{ exp.company }}{% endif %}</h3>{% if exp.description %}<p>{{ exp.description }}</p>{% endif %}</div></article>{% endfor %}</div>{% else %}<div class="record-group"><p class="record-label">Experience</p><p class="entry-meta">No experience has been added yet.</p></div>{% endif %}{% if education %}<div class="record-group"><p class="record-label">Education</p>{% for edu in education %}<article class="record"><time class="record-time">{{ edu.year|default:edu.end_date }}</time><div><h3>{{ edu.degree }}</h3><p>{{ edu.school|default:edu.institution }}{% if edu.field %} / {{ edu.field }}{% endif %}</p></div></article>{% endfor %}</div>{% else %}<div class="record-group"><p class="record-label">Education</p><p class="entry-meta">No education has been added yet.</p></div>{% endif %}</div></div></section>
+
+            <section id="contact" class="contact"><div><p class="label">04 / Contact</p><h2>Leave the door open.</h2></div><div class="contact-copy"><p>For a thoughtful project, a useful question, or a collaboration with room to do the work properly, I’d be glad to hear from you.</p>{% if email %}<a class="contact-email" href="mailto:{{ email }}">{{ email }}</a>{% endif %}<div class="contact-links">{% if linkedin %}<a href="{{ linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>{% endif %}{% if github %}<a href="{{ github }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>{% endif %}{% if twitter %}<a href="{{ twitter }}" target="_blank" rel="noopener noreferrer">Twitter ↗</a>{% endif %}</div></div></section>
+        </main>
+
+        <footer class="footer"><span><strong>FIELD MANUAL</strong> / {{ full_name }}</span><span>© {% now "Y" %} / Keep looking</span></footer>
+    </div>
+</body>
+</html>

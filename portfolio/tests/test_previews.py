@@ -248,6 +248,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_case_study_magazine.html",
         "portfolio_templates/template_architect_portfolio.html",
         "portfolio_templates/template_brutalist_index.html",
+        "portfolio_templates/template_field_manual.html",
     ]
 
     TEMPLATE_FILES = [
@@ -287,6 +288,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_case_study_magazine.html",
         "portfolio_templates/template_architect_portfolio.html",
         "portfolio_templates/template_brutalist_index.html",
+        "portfolio_templates/template_field_manual.html",
     ]
 
     def setUp(self):
@@ -719,4 +721,25 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Education")
         self.assertContains(response, "Let’s make a useful dent.")
         self.assertContains(response, "project-visual--type")
+        self.assertNotContains(response, "portfolio-page")
+
+    def test_field_manual_has_a_dossier_archive_and_career_record(self):
+        field_manual = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_field_manual.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[field_manual.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-field-manual")
+        self.assertContains(response, "Field Manual")
+        self.assertContains(response, "Work worth keeping notes on.")
+        self.assertContains(response, "PortfolioForge Studio")
+        self.assertContains(response, "Experience")
+        self.assertContains(response, "Education")
+        self.assertContains(response, "Leave the door open.")
+        self.assertContains(response, "art-type")
         self.assertNotContains(response, "portfolio-page")
