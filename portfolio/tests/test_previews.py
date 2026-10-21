@@ -248,6 +248,7 @@ class ShippedTemplateStructureTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "width:100%")
         self.assertContains(response, "height:100vh")
         self.assertContains(response, "overflow-y:auto")
         self.assertContains(response, "Contact / base")
