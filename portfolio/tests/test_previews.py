@@ -95,6 +95,21 @@ class TemplatePreviewTests(TestCase):
 class ShippedTemplateStructureTests(TestCase):
     """Guard the content structure that every public template promises."""
 
+    NEW_TEMPLATE_FILES = [
+        "portfolio_templates/template_editorial_linen.html",
+        "portfolio_templates/template_aurora_studio.html",
+        "portfolio_templates/template_boardroom_blue.html",
+        "portfolio_templates/template_summit_narrative.html",
+        "portfolio_templates/template_tide_glass.html",
+        "portfolio_templates/template_heritage_copper.html",
+        "portfolio_templates/template_monograph_ink.html",
+        "portfolio_templates/template_signal_grid.html",
+        "portfolio_templates/template_organic_clay.html",
+        "portfolio_templates/template_product_bento.html",
+        "portfolio_templates/template_sunrise_mosaic.html",
+        "portfolio_templates/template_case_study_magazine.html",
+    ]
+
     TEMPLATE_FILES = [
         "portfolio_templates/template_base_dark.html",
         "portfolio_templates/template_modern_corporate.html",
@@ -157,6 +172,21 @@ class ShippedTemplateStructureTests(TestCase):
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, "Experience")
                 self.assertContains(response, "Education")
+
+    def test_new_templates_keep_theme_css_in_the_outer_stylesheet(self):
+        for template in self.templates:
+            if template.template_file not in self.NEW_TEMPLATE_FILES:
+                continue
+
+            with self.subTest(template=template.template_file):
+                response = self.client.get(
+                    reverse("portfolio:template_preview", args=[template.id])
+                )
+
+                self.assertEqual(response.status_code, 200)
+                html = response.content.decode()
+                self.assertEqual(html.count("<style>"), 1)
+                self.assertEqual(html.count("</style>"), 1)
 
     def test_nature_green_keeps_each_project_number_before_the_project_content(self):
         nature_green = next(
