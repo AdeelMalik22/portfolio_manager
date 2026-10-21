@@ -124,6 +124,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_summit_narrative.html",
         "portfolio_templates/template_tide_glass.html",
         "portfolio_templates/template_heritage_copper.html",
+        "portfolio_templates/template_monograph_ink.html",
     ]
 
     def setUp(self):
@@ -273,3 +274,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-heritage-copper")
         self.assertContains(response, "Experience, shaped with intention.")
         self.assertContains(response, "Let’s begin a conversation.")
+
+    def test_monograph_ink_theme_exposes_its_reference_direction(self):
+        monograph_ink = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_monograph_ink.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[monograph_ink.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-monograph-ink")
+        self.assertContains(response, "Notes on making meaningful things.")
+        self.assertContains(response, "Write when the question is interesting.")
