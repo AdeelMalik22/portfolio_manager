@@ -76,6 +76,7 @@ class ShippedTemplateStructureTests(TestCase):
     """Guard the content structure that every public template promises."""
 
     TEMPLATE_FILES = [
+        "portfolio_templates/template_base_dark.html",
         "portfolio_templates/template_modern_corporate.html",
         "portfolio_templates/template_clean_minimal.html",
         "portfolio_templates/template_luxury_elegant.html",
@@ -139,3 +140,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertGreaterEqual(len(cards), 3)
         second_project = cards[2]
         self.assertLess(second_project.index(">02<"), second_project.index("<h3>"))
+
+    def test_base_dark_theme_exposes_its_reference_direction(self):
+        base_dark = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_base_dark.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[base_dark.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-base-dark")
+        self.assertContains(response, "Building digital solutions for a better tomorrow.")
+        self.assertContains(response, "Selected work with real-world impact.")
