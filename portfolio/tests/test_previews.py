@@ -120,6 +120,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_two_column.html",
         "portfolio_templates/template_editorial_linen.html",
         "portfolio_templates/template_aurora_studio.html",
+        "portfolio_templates/template_boardroom_blue.html",
     ]
 
     def setUp(self):
@@ -209,3 +210,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-aurora-studio")
         self.assertContains(response, "Ideas into experiences.")
         self.assertContains(response, "Let’s make something magnetic.")
+
+    def test_boardroom_blue_theme_exposes_its_reference_direction(self):
+        boardroom_blue = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_boardroom_blue.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[boardroom_blue.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-boardroom-blue")
+        self.assertContains(response, "Practical thinking for ambitious teams.")
+        self.assertContains(response, "Ready to build something useful?")
