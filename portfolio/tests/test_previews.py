@@ -237,6 +237,25 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Measured taste. Exacting execution.")
         self.assertNotContains(response, "portfolio-page")
 
+    def test_slate_professional_keeps_profile_fixed_and_exposes_contact_details(self):
+        slate_professional = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_slate_professional.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[slate_professional.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "height:100vh")
+        self.assertContains(response, "overflow-y:auto")
+        self.assertContains(response, "Contact / base")
+        self.assertContains(response, "San Francisco, California")
+        self.assertContains(response, "morgan@example.com")
+        self.assertContains(response, "LinkedIn ↗")
+        self.assertContains(response, "GitHub ↗")
+
     def test_editorial_linen_theme_exposes_its_reference_direction(self):
         editorial_linen = next(
             template
