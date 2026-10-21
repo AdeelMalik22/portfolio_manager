@@ -127,6 +127,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_monograph_ink.html",
         "portfolio_templates/template_signal_grid.html",
         "portfolio_templates/template_organic_clay.html",
+        "portfolio_templates/template_product_bento.html",
     ]
 
     def setUp(self):
@@ -321,3 +322,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-organic-clay")
         self.assertContains(response, "A softer way to solve hard problems.")
         self.assertContains(response, "Want to make something feel right?")
+
+    def test_product_bento_theme_exposes_its_reference_direction(self):
+        product_bento = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_product_bento.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[product_bento.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-product-bento")
+        self.assertContains(response, "From fuzzy problems to focused products.")
+        self.assertContains(response, "Have a product problem to solve?")
