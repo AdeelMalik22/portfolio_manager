@@ -232,7 +232,7 @@ class ShippedTemplateStructureTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "template-sidebar-layout")
-        self.assertContains(response, "display: block; max-width: 1320px")
+        self.assertContains(response, "width: 100%; max-width: none")
         self.assertContains(response, "border-radius: 0; background: transparent")
         self.assertContains(response, "white-space: nowrap")
         self.assertContains(response, "Profile")
