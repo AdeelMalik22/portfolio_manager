@@ -3,7 +3,7 @@ from portfolio.models import PortfolioTemplate
 
 
 class Command(BaseCommand):
-    help = 'Load 22 professional portfolio templates into the database'
+    help = 'Load 23 professional portfolio templates into the database'
 
     def handle(self, *args, **options):
         templates = [
@@ -205,6 +205,15 @@ class Command(BaseCommand):
                 'template_file': 'portfolio_templates/template_two_column.html',
                 'order': 21,
             },
+            {
+                'name': 'Editorial Linen',
+                'slug': 'editorial-linen',
+                'description': 'Warm editorial portfolio with oversized serif typography, quiet rules, and a considered case-study layout.',
+                'category': 'creative',
+                'color_scheme': 'linen-olive',
+                'template_file': 'portfolio_templates/template_editorial_linen.html',
+                'order': 22,
+            },
         ]
 
         # Deactivate old deprecated templates (don't delete - they may be referenced by portfolios)
@@ -280,5 +289,5 @@ class Command(BaseCommand):
                     )
 
         self.stdout.write(
-            self.style.SUCCESS('\n✅ Successfully loaded all 22 professional portfolio templates!')
+            self.style.SUCCESS('\n✅ Successfully loaded all 23 professional portfolio templates!')
         )
