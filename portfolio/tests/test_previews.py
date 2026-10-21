@@ -247,6 +247,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_sunrise_mosaic.html",
         "portfolio_templates/template_case_study_magazine.html",
         "portfolio_templates/template_architect_portfolio.html",
+        "portfolio_templates/template_brutalist_index.html",
     ]
 
     TEMPLATE_FILES = [
@@ -285,6 +286,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_sunrise_mosaic.html",
         "portfolio_templates/template_case_study_magazine.html",
         "portfolio_templates/template_architect_portfolio.html",
+        "portfolio_templates/template_brutalist_index.html",
     ]
 
     def setUp(self):
@@ -696,4 +698,25 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "Have a system worth building?")
         self.assertContains(response, "PortfolioForge Studio")
         self.assertContains(response, "project-visual")
+        self.assertNotContains(response, "portfolio-page")
+
+    def test_brutalist_index_has_an_index_led_project_and_record_structure(self):
+        brutalist = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_brutalist_index.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[brutalist.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-brutalist-index")
+        self.assertContains(response, "Brutalist Index")
+        self.assertContains(response, "An index of useful things.")
+        self.assertContains(response, "PortfolioForge Studio")
+        self.assertContains(response, "Experience")
+        self.assertContains(response, "Education")
+        self.assertContains(response, "Let’s make a useful dent.")
+        self.assertContains(response, "project-visual--type")
         self.assertNotContains(response, "portfolio-page")
