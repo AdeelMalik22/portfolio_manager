@@ -8,6 +8,8 @@ import mimetypes
 from copy import deepcopy
 from types import SimpleNamespace
 
+from .content_adapter import add_content_context
+
 
 MAX_PREVIEW_IMAGE_BYTES = 5 * 1024 * 1024
 ALLOWED_PREVIEW_IMAGE_TYPES = {
@@ -228,6 +230,8 @@ def _portfolio_context(
     experience,
     education,
     profile_image_is_sample=False,
+    structured_content=None,
+    content_schema_version=1,
 ):
     """Create the aliases used across the independent template families."""
     portfolio = SimpleNamespace(
@@ -239,9 +243,11 @@ def _portfolio_context(
         projects=projects,
         experience=experience,
         education=education,
+        structured_content=structured_content or {},
+        content_schema_version=content_schema_version,
         template=template,
     )
-    return {
+    context = {
         **profile,
         "portfolio": portfolio,
         "website": profile["portfolio_website"],
@@ -260,6 +266,12 @@ def _portfolio_context(
         "education": education,
         "template_color": template.color_scheme,
     }
+    return add_content_context(
+        context,
+        template=template,
+        source=portfolio,
+        structured_content=structured_content,
+    )
 
 
 def build_sample_preview_context(template, profile_image_base64=None):

@@ -6,6 +6,8 @@ import mimetypes
 
 from django.template.loader import render_to_string
 
+from .content_adapter import add_content_context
+
 
 class PortfolioRenderer:
     """Service to render portfolio templates with user data"""
@@ -57,7 +59,11 @@ class PortfolioRenderer:
             'profile_image_is_sample': False,
             'template_color': self.portfolio.template.color_scheme,
         }
-        return context
+        return add_content_context(
+            context,
+            template=self.portfolio.template,
+            source=self.portfolio,
+        )
 
     def render_html(self):
         """Render the portfolio template to HTML string"""
@@ -129,7 +135,11 @@ class PublicPortfolioRenderer:
             'profile_image_is_sample': False,
             'template_color': self.portfolio.template.color_scheme,
         }
-        return context
+        return add_content_context(
+            context,
+            template=self.portfolio.template,
+            source=self.portfolio,
+        )
 
     def render_html(self):
         """Render the portfolio template to HTML string"""

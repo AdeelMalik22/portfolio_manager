@@ -6,13 +6,18 @@ from .models import (
     PortfolioTemplate, Portfolio, PortfolioProject,
     PortfolioExperience, PortfolioEducation, UserProfile, PublicPortfolio
 )
+from .schema_validation import (
+    StructuredContentValidationError,
+    validate_structured_content,
+)
 
 
 class PortfolioTemplateSerializer(serializers.ModelSerializer):
     class Meta:
         model = PortfolioTemplate
         fields = ['id', 'name', 'slug', 'description', 'category',
-                  'color_scheme', 'template_file', 'preview_image', 'is_active']
+                  'color_scheme', 'template_file', 'preview_image', 'is_active',
+                  'schema_key', 'schema_version']
 
 
 class PortfolioTemplateDetailSerializer(serializers.ModelSerializer):
@@ -51,21 +56,44 @@ class PortfolioSerializer(serializers.ModelSerializer):
             'linkedin', 'github', 'portfolio_website', 'twitter',
             'profile_image', 'skills', 'stats', 'template', 'projects', 'experience',
             'education', 'project_list', 'experience_list', 'education_list',
+            'structured_content', 'content_schema_version',
             'created_at', 'updated_at', 'is_published'
         ]
         read_only_fields = ['created_at', 'updated_at']
 
 
-class PortfolioCreateUpdateSerializer(serializers.ModelSerializer):
+class StructuredContentValidationMixin:
+    """Validate new structured payloads without changing legacy-only writes."""
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        if "structured_content" not in attrs:
+            return attrs
+
+        template = attrs.get("template") or getattr(self.instance, "template", None)
+        try:
+            attrs["structured_content"] = validate_structured_content(
+                template,
+                attrs["structured_content"],
+            )
+        except StructuredContentValidationError as exc:
+            raise serializers.ValidationError(exc.errors) from exc
+
+        if template is not None:
+            attrs["content_schema_version"] = template.schema_version
+        return attrs
+
+
+class PortfolioCreateUpdateSerializer(StructuredContentValidationMixin, serializers.ModelSerializer):
     class Meta:
         model = Portfolio
         fields = [
             'id', 'full_name', 'title', 'bio', 'email', 'phone', 'location',
             'linkedin', 'github', 'portfolio_website', 'twitter',
             'profile_image', 'skills', 'stats', 'template', 'projects',
-            'experience', 'education'
+            'experience', 'education', 'structured_content', 'content_schema_version'
         ]
-        read_only_fields = ['id']
+        read_only_fields = ['id', 'content_schema_version']
 
 
 # Authentication Serializers
@@ -126,12 +154,13 @@ class PublicPortfolioSerializer(serializers.ModelSerializer):
             'id', 'username_slug', 'full_name', 'title', 'bio', 'email', 'phone', 'location',
             'linkedin', 'github', 'portfolio_website', 'twitter', 'profile_image',
             'skills', 'stats', 'projects', 'experience', 'education', 'template', 'template_name',
-            'template_slug', 'is_published', 'is_featured', 'view_count', 'created_at', 'updated_at'
+            'template_slug', 'structured_content', 'content_schema_version',
+            'is_published', 'is_featured', 'view_count', 'created_at', 'updated_at'
         ]
         read_only_fields = ['username_slug', 'view_count', 'created_at', 'updated_at']
 
 
-class PublicPortfolioEditSerializer(serializers.ModelSerializer):
+class PublicPortfolioEditSerializer(StructuredContentValidationMixin, serializers.ModelSerializer):
     """Serializer for editing own public portfolio (authenticated users)"""
 
     class Meta:
@@ -139,6 +168,8 @@ class PublicPortfolioEditSerializer(serializers.ModelSerializer):
         fields = [
             'full_name', 'title', 'bio', 'email', 'phone', 'location',
             'linkedin', 'github', 'portfolio_website', 'twitter', 'profile_image',
-            'skills', 'stats', 'projects', 'experience', 'education', 'template', 'is_published'
+            'skills', 'stats', 'projects', 'experience', 'education', 'template',
+            'structured_content', 'content_schema_version', 'is_published'
         ]
+        read_only_fields = ['content_schema_version']
 

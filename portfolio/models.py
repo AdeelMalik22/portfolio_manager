@@ -20,6 +20,8 @@ class PortfolioTemplate(models.Model):
     color_scheme = models.CharField(max_length=50, default='blue')
     template_file = models.CharField(max_length=200)  # Path to template HTML
     preview_image = models.CharField(max_length=200, null=True, blank=True)
+    schema_key = models.CharField(max_length=100, default='portfolio')
+    schema_version = models.PositiveIntegerField(default=1)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     order = models.IntegerField(default=0)
@@ -70,6 +72,11 @@ class Portfolio(models.Model):
     projects = models.JSONField(default=list)  # List of project objects
     experience = models.JSONField(default=list)  # List of experience objects
     education = models.JSONField(default=list)  # List of education objects
+
+    # Versioned template-specific content. Legacy JSON fields remain the
+    # canonical compatibility surface for existing templates and records.
+    structured_content = models.JSONField(default=dict, blank=True)
+    content_schema_version = models.PositiveIntegerField(default=1)
 
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -181,6 +188,10 @@ class PublicPortfolio(models.Model):
     projects = models.JSONField(default=list)
     experience = models.JSONField(default=list)
     education = models.JSONField(default=list)
+
+    # Versioned template-specific content. Legacy JSON fields are preserved.
+    structured_content = models.JSONField(default=dict, blank=True)
+    content_schema_version = models.PositiveIntegerField(default=1)
 
     # Template selection
     template = models.ForeignKey(PortfolioTemplate, on_delete=models.SET_NULL, null=True)
