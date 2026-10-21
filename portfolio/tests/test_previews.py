@@ -123,6 +123,7 @@ class ShippedTemplateStructureTests(TestCase):
         "portfolio_templates/template_boardroom_blue.html",
         "portfolio_templates/template_summit_narrative.html",
         "portfolio_templates/template_tide_glass.html",
+        "portfolio_templates/template_heritage_copper.html",
     ]
 
     def setUp(self):
@@ -257,3 +258,18 @@ class ShippedTemplateStructureTests(TestCase):
         self.assertContains(response, "template-tide-glass")
         self.assertContains(response, "Useful design for real people.")
         self.assertContains(response, "Let’s find the right current.")
+
+    def test_heritage_copper_theme_exposes_its_reference_direction(self):
+        heritage_copper = next(
+            template
+            for template in self.templates
+            if template.template_file.endswith("template_heritage_copper.html")
+        )
+        response = self.client.get(
+            reverse("portfolio:template_preview", args=[heritage_copper.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "template-heritage-copper")
+        self.assertContains(response, "Experience, shaped with intention.")
+        self.assertContains(response, "Let’s begin a conversation.")
