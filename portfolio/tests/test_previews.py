@@ -340,8 +340,12 @@ class ShippedTemplateStructureTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "template-boardroom-blue")
+        self.assertContains(response, "boardroom-sheet")
+        self.assertContains(response, "brief-nav")
+        self.assertContains(response, "width:100%")
         self.assertContains(response, "Practical thinking for ambitious teams.")
         self.assertContains(response, "Ready to build something useful?")
+        self.assertNotContains(response, "portfolio-page")
 
     def test_summit_narrative_theme_exposes_its_reference_direction(self):
         summit_narrative = next(
