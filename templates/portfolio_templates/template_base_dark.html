@@ -1,0 +1,100 @@
+{% extends "portfolio_templates/_portfolio_base.html" %}
+
+{% block title %}{{ full_name }} — Base Dark Portfolio{% endblock %}
+{% block font %}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">{% endblock %}
+{% block body_class %}template-base-dark layout-orbit{% endblock %}
+{% block eyebrow %}Full-stack developer / available for new work{% endblock %}
+{% block portrait_label %}Turning ideas into{% endblock %}
+{% block portrait_value %}Useful products{% endblock %}
+{% block about_heading %}Building digital solutions for a better tomorrow.{% endblock %}
+{% block skills_heading %}Tools I use to build reliable products.{% endblock %}
+{% block projects_heading %}Selected work with real-world impact.{% endblock %}
+{% block experience_heading %}The journey so far.{% endblock %}
+{% block education_heading %}Foundations that keep the work moving.{% endblock %}
+{% block contact_heading %}Have a project in mind?{% endblock %}
+{% block contact_copy %}I’m always open to thoughtful opportunities, useful products, and interesting problems worth solving together.{% endblock %}
+{% block footer_mark %}BASE — dark systems{% endblock %}
+
+{% block theme %}
+<style>
+    :root {
+        --page: #030914;
+        --surface: #071525;
+        --surface-alt: #0b2034;
+        --ink: #f4f8ff;
+        --muted: #9aafc5;
+        --line: rgba(75, 166, 255, .22);
+        --brand: #12a8ff;
+        --brand-strong: #1769ff;
+        --accent: #8157ff;
+        --accent-ink: #b9d9ff;
+        --display: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
+        --body: Inter, ui-sans-serif, system-ui, sans-serif;
+        --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        --radius: 18px;
+        --shadow: 0 24px 70px rgba(0, 0, 0, .32);
+        --page-width: 1240px;
+    }
+
+    body.template-base-dark {
+        background:
+            radial-gradient(circle at 82% 8%, rgba(18, 168, 255, .13), transparent 28rem),
+            radial-gradient(circle at 12% 84%, rgba(129, 87, 255, .12), transparent 32rem),
+            var(--page);
+    }
+
+    .template-base-dark .portfolio-nav {
+        border-color: rgba(75, 166, 255, .28);
+        background: rgba(7, 21, 37, .76);
+    }
+
+    .template-base-dark .brand-mark,
+    .template-base-dark .button-primary {
+        background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+    }
+
+    .template-base-dark .hero,
+    .template-base-dark .section,
+    .template-base-dark .contact-section {
+        border-color: rgba(75, 166, 255, .24);
+        background: rgba(7, 21, 37, .78);
+    }
+
+    .template-base-dark .hero {
+        min-height: 560px;
+    }
+
+    .template-base-dark .hero::before {
+        opacity: .9;
+    }
+
+    .template-base-dark .portrait-frame::before {
+        border-color: rgba(18, 168, 255, .7);
+        box-shadow: 0 0 34px rgba(18, 168, 255, .3);
+    }
+
+    .template-base-dark .portrait-frame::after {
+        border-color: rgba(129, 87, 255, .55);
+    }
+
+    .template-base-dark .project-card,
+    .template-base-dark .timeline-item,
+    .template-base-dark .skill,
+    .template-base-dark .social-link {
+        border-color: rgba(75, 166, 255, .22);
+        background: rgba(11, 32, 52, .72);
+    }
+
+    .template-base-dark .project-card:hover,
+    .template-base-dark .social-link:hover {
+        border-color: rgba(18, 168, 255, .72);
+        box-shadow: 0 18px 40px rgba(0, 113, 255, .18);
+    }
+
+    .template-base-dark .contact-section {
+        background:
+            linear-gradient(135deg, rgba(18, 168, 255, .13), transparent 48%),
+            rgba(7, 21, 37, .88);
+    }
+</style>
+{% endblock %}
